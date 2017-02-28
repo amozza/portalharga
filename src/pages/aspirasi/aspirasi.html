@@ -1,0 +1,45 @@
+<<ion-header>
+
+  <ion-navbar>
+    <ion-title>Aspirasi</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content class="outer-content coba">
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      refreshingSpinner="circles"
+      refreshingText="Memuat ulang...">
+    </ion-refresher-content>
+  </ion-refresher>
+	<ion-card *ngFor="let post of aspirasi" class="aspirasi">
+		<ion-card-header>
+			<div ion-item>
+		        <ion-avatar item-left>
+		          <img src="https://openclipart.org/image/2400px/svg_to_png/211821/matt-icons_preferences-desktop-personal.png" alt="Speaker profile pic">
+		        </ion-avatar>
+		        {{post.subjek}}
+	        </div>
+	    </ion-card-header>
+	    <ion-card-content class="outer-content">
+            <h3 padding="true">{{post.isi_aspirasi}}</h3>
+	    </ion-card-content>
+	    <ion-row no-padding>
+	      <ion-col text-left>
+	        <button ion-button clear small color="primary">
+	          {{post.us_id}} Pendukung
+	        </button>
+	      </ion-col>
+	      <ion-col text-right>
+	        <button ion-button clear small color="primary" icon-left>
+	          <ion-icon name='thumbs-up'></ion-icon>
+	          Dukung
+	        </button>
+	      </ion-col>
+	    </ion-row>
+	</ion-card>
+	<ion-fab bottom right #fab>
+    	<button ion-fab (click)="tambahAspirasi()"><ion-icon name="add"></ion-icon></button>
+  	</ion-fab>
+</ion-content>

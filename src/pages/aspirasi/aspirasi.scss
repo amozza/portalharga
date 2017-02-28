@@ -1,0 +1,22 @@
+page-aspirasi {
+	.scroll-content {
+	    background: #EDEDED;
+	}
+
+   .aspirasi ion-card-header .item {
+    padding: 4px 16px;
+  }
+
+  .aspirasi ion-card-header,
+  .aspirasi ion-card-content,
+  .aspirasi ion-card-content .list ion-item-content, {
+    padding: 0;
+  }
+
+  @media (min-width: 600px) {
+    .aspirasi {
+      width: 60%;
+      margin: 10px auto;
+    }
+  }
+}

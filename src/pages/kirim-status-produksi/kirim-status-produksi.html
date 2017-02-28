@@ -1,0 +1,64 @@
+<!--
+  Generated template for the KirimStatusProduksi page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Status Produksi</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
+		<ion-list no-lines>
+			<ion-item>
+			  <ion-label stacked color="primary">Komoditas </ion-label>
+			  <ion-select [(ngModel)]="produksi.komoditas" name="komoditas" #komoditas="ngModel">
+			    <ion-option >Beras</ion-option>
+			    <ion-option >Bawang</ion-option>
+			    <ion-option >Cabai</ion-option>
+			  </ion-select>
+			</ion-item>
+			<p ion-text [hidden]="komoditas.valid || submitted == false" color="danger" padding-left>
+				Pilih komoditas
+			</p>
+			
+			<ion-item>
+				<ion-label stacked color="primary">Lokasi</ion-label>
+				<ion-input [(ngModel)]="produksi.lokasi" name="lokasi" type="text" #lokasi="ngModel" spellcheck="false" autocapitalize="off" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="lokasi.valid || submitted == false" color="danger" padding-left>
+				Subject is required
+			</p>
+
+			<ion-item>
+				<ion-label stacked color="primary">Jumlah Produksi</ion-label>
+				<button ion-item (click)="getLocation()">Get locations</button>
+				<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="text" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="jumlah.valid || submitted == false" color="danger" padding-left>
+				Subject is required
+			</p> 
+
+			<ion-item>
+				<ion-label stacked color="primary">Keterangan</ion-label>
+				<ion-textarea [(ngModel)]="produksi.keterangan" name="keterangan" #keterangan="ngModel" rows="6" required></ion-textarea>
+			</ion-item>
+		</ion-list>
+
+		<p ion-text [hidden]="keterangan.valid || submitted === false" color="danger" padding-left>
+			Keterangan is required
+		</p>
+
+		<div padding>
+			<button ion-button block type="submit">Send</button>
+		</div>
+	</form>
+</ion-content>
