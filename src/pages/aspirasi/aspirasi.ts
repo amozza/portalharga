@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, ActionSheetController, NavParams, ToastController, PopoverController } from 'ionic-angular';
 import { Http ,Headers,RequestOptions} from '@angular/http';
-import { ActionSheetController } from 'ionic-angular';
+import { StatusBar } from 'ionic-native';
 import { TambahAspirasiPage } from '../tambah-aspirasi/tambah-aspirasi';
+import { PendukungPage } from '../pendukung/pendukung';
 import { UserData } from '../../providers/user-data';
 import 'rxjs/add/operator/map';
 /*
@@ -19,9 +20,7 @@ export class AspirasiPage {
 	public aspirasi: any;
   public limit = 0;
   public httpErr = false;
-  headers: any;
-  options: any;
-
+  public id: string;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -33,16 +32,15 @@ export class AspirasiPage {
   ionViewDidLoad(){}
 
   ionViewWillEnter() {
-    console.log('ionViewDidLoad CobaPage');
-    this.userData.getToken().then((value) => {
-      this.headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value
-      });
-      this.options = new RequestOptions({ headers: this.headers});
-      console.log(this.headers);
-      this.getData();
+    StatusBar.overlaysWebView(false); // let status bar overlay webview
+    StatusBar.backgroundColorByHexString('#ffffff'); // set status bar to white
+
+    this.userData.getId().then((value)=>{
+      this.id = value;
     });
+
+    console.log('ionViewDidLoad CobaPage');
+    this.getData();
   }
   doRefresh(refresher) {
     setTimeout(() => {
@@ -51,16 +49,26 @@ export class AspirasiPage {
     }, 1500);
   }
   getData() {
-    this.http.get(this.userData.BASE_URL+'aspirasi/getAspirasi',this.options).subscribe(res => {
-      let a = res.json();
-      console.log(a);
-      this.aspirasi = a.data;
-      this.httpErr = false;
-    }, err => { console.log(err);
-        err.status==0? 
-        this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-        this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+    console.log(this.id);
+    this.userData.getToken().then((value) => {
+      let headers = new Headers({ 
+        'Content-Type': 'application/json',
+        'token': value
+      });
+      let options = new RequestOptions({ headers: headers});
+      
+      this.http.get(this.userData.BASE_URL+'aspirasi/getAspirasi',options).subscribe(res => {
+        let a = res.json();
+        console.log(a);
+        this.aspirasi = a.data;
+        this.httpErr = false;
+      }, err => { console.log(err);
+          err.status==0? 
+          this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+          this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+      });
     });
+    
   }
 
   showAlert(message: string){
@@ -75,4 +83,25 @@ export class AspirasiPage {
   tambahAspirasi() {
     this.navCtrl.push(TambahAspirasiPage);
   }
+  lihatPendukung(idAspirasi) {
+     this.navCtrl.push(PendukungPage,idAspirasi);
+     console.log(idAspirasi);
+  }
+  presentActionSheet(idAspirasi) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Pilihan',
+      buttons: [
+        {
+          text: 'Hapus aspirasi',
+          role: 'hapusAspirasi',
+          handler: () => {
+            console.log('Tulis Artikel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
 }
+

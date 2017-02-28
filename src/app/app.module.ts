@@ -14,6 +14,7 @@ import { LoginPage } from '../pages/login/login';
 import { OperasiPasarPage } from '../pages/operasi-pasar/operasi-pasar';
 import { StatusProduksiPage } from '../pages/status-produksi/status-produksi';
 import { KirimStatusProduksiPage } from '../pages/kirim-status-produksi/kirim-status-produksi';
+import { PendukungPage } from '../pages/pendukung/pendukung';
 
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
@@ -30,7 +31,8 @@ import { ConferenceData } from '../providers/conference-data';
     LoginPage,
     OperasiPasarPage,
     StatusProduksiPage,
-    KirimStatusProduksiPage
+    KirimStatusProduksiPage,
+    PendukungPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -47,7 +49,8 @@ import { ConferenceData } from '../providers/conference-data';
     LoginPage,
     OperasiPasarPage,
     StatusProduksiPage,
-    KirimStatusProduksiPage
+    KirimStatusProduksiPage,
+    PendukungPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},ConferenceData, UserData, Storage]
 })

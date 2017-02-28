@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { NavController,ToastController } from 'ionic-angular';
+import { NavController,ToastController,LoadingController } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 
 import { SignupPage } from '../signup/signup';
@@ -23,10 +23,15 @@ export class LoginPage {
     public navCtrl: NavController, 
     public http: Http,
     public toastCtrl: ToastController,
+    public loadCtrl: LoadingController,
     public userData: UserData) { }
 
   onLogin(form: NgForm) {
     this.submitted = true;
+    let loading = this.loadCtrl.create({
+        content: 'Tunggu sebentar...'
+    });
+    loading.present();
 
     if (form.valid) {
       let input = JSON.stringify({
@@ -35,10 +40,11 @@ export class LoginPage {
       });
       this.http.post(this.userData.BASE_URL+"api/auth",input,this.options).subscribe(data => {
          let response = data.json();
+         loading.dismiss();
          if(response.status == '200') {
-           this.navCtrl.setRoot(TabsPage);
            this.userData.login(response.data);
            this.userData.setToken(response.token);
+           this.navCtrl.setRoot(TabsPage);
          }
          this.showToast(response.message);
          console.log(response.message);
@@ -53,8 +59,7 @@ export class LoginPage {
   showToast(val){
     let toast = this.toastCtrl.create({
       message: val,
-      duration: 3500,
-      position: 'top'
+      duration: 3500
     });
     toast.present();
   };

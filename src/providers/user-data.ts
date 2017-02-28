@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Events,ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { Http,Headers,RequestOptions } from '@angular/http';
-import 'rxjs/add/operator/map';
-import 'rxjs/Rx';
 
 @Injectable()
 export class UserData {
@@ -12,16 +9,9 @@ export class UserData {
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
   BASE_URL = 'http://punyanpan.net:5000/';
-  headers = new Headers({
-      'Content-Type': 'application/json'
-    });
-  options = new RequestOptions({
-    headers: this.headers
-    });
-
+  
   constructor(
     public events: Events,
-    public http: Http,
     public toastCtrl: ToastController,
     public storage: Storage
   ) {}
