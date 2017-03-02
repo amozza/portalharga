@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { KirimStatusProduksiPage } from '../kirim-status-produksi/kirim-status-produksi';
 
 /*
   Generated class for the StatusProduksi page.
@@ -19,4 +20,7 @@ export class StatusProduksiPage {
     console.log('ionViewDidLoad StatusProduksiPage');
   }
 
+  tambahProduksi(){
+  	this.navCtrl.push(KirimStatusProduksiPage);
+  }
 }

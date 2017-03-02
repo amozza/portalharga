@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController, NavParams, ToastController, PopoverController } from 'ionic-angular';
+import { NavController, ActionSheetController, NavParams, ToastController, ModalController} from 'ionic-angular';
 import { Http ,Headers,RequestOptions} from '@angular/http';
 import { StatusBar } from 'ionic-native';
 import { TambahAspirasiPage } from '../tambah-aspirasi/tambah-aspirasi';
@@ -21,6 +21,7 @@ export class AspirasiPage {
   public limit = 0;
   public httpErr = false;
   public id: string;
+  public token: string;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -28,7 +29,7 @@ export class AspirasiPage {
     public actionSheetCtrl: ActionSheetController,
   	public toastCtrl: ToastController,
     public userData: UserData
-  	) {}
+  	) { }
   ionViewDidLoad(){}
 
   ionViewWillEnter() {
@@ -55,6 +56,7 @@ export class AspirasiPage {
         'Content-Type': 'application/json',
         'token': value
       });
+      this.token = value;
       let options = new RequestOptions({ headers: headers});
       
       this.http.get(this.userData.BASE_URL+'aspirasi/getAspirasi',options).subscribe(res => {
@@ -95,7 +97,31 @@ export class AspirasiPage {
           text: 'Hapus aspirasi',
           role: 'hapusAspirasi',
           handler: () => {
-            console.log('Tulis Artikel clicked');
+              let headers = new Headers({ 
+                'Content-Type': 'application/json',
+                'token': this.token
+              });
+              let options = new RequestOptions({ headers: headers});
+               let param = JSON.stringify({
+                  us_id : this.id,
+                  aspirasi_id : idAspirasi
+                });
+               console.log(param);
+              this.http.post(this.userData.BASE_URL+'aspirasi/delAspirasi',param,options).subscribe(res => {
+                let a = res.json();
+                console.log(a);
+                if(a.status == '200') {
+                  this.getData();
+                  this.showAlert(a.message);
+                }
+              }, err => { 
+                let a = err.json();
+                  err.status==0? 
+                  this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+                  err.status==403?
+                  this.showAlert(err.message):
+                  this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+              });
           }
         }
       ]
@@ -104,4 +130,3 @@ export class AspirasiPage {
   }
 
 }
-

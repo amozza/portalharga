@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { NavController,ToastController,LoadingController } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 
-import { SignupPage } from '../signup/signup';
+import { SignupPilihanPage } from '../signup-pilihan/signup-pilihan';
 import { TabsPage } from '../tabs/tabs';
 import { UserData } from '../../providers/user-data';
 
@@ -31,35 +31,42 @@ export class LoginPage {
     let loading = this.loadCtrl.create({
         content: 'Tunggu sebentar...'
     });
-    loading.present();
 
     if (form.valid) {
+    loading.present();
       let input = JSON.stringify({
         username: this.login.username, 
         password: this.login.password
       });
-      this.http.post(this.userData.BASE_URL+"api/auth",input,this.options).subscribe(data => {
-         let response = data.json();
-         loading.dismiss();
-         if(response.status == '200') {
-           this.userData.login(response.data);
-           this.userData.setToken(response.token);
-           this.navCtrl.setRoot(TabsPage);
-         }
-         this.showToast(response.message);
-         console.log(response.message);
-         console.log(data);
-      });
+      setTimeout(()=>{
+        this.http.post(this.userData.BASE_URL+"api/auth",input,this.options).subscribe(data => {
+           let response = data.json();
+           loading.dismiss();
+           if(response.status == '200') {
+             this.userData.login(response.data);
+             this.userData.setToken(response.token);
+             this.navCtrl.setRoot(TabsPage);
+           }
+           this.showToast(response.message);
+           console.log(response.message);
+           console.log(data);
+        }, err => { 
+           loading.dismiss();
+           err.status==0? 
+           this.showToast("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+           this.showToast("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+        });
+      },3000);
     }
   }
   onSignup() {
-    this.navCtrl.push(SignupPage);
+    this.navCtrl.push(SignupPilihanPage);
   }
 
   showToast(val){
     let toast = this.toastCtrl.create({
       message: val,
-      duration: 3500
+      duration: 3000
     });
     toast.present();
   };

@@ -9,7 +9,9 @@ export class UserData {
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
   BASE_URL = 'http://punyanpan.net:5000/';
-  
+  // BASE_URL = 'http://192.168.1.100:5000/';
+  // BASE_URL = 'http://portal.agri.web.id:5000/';
+
   constructor(
     public events: Events,
     public toastCtrl: ToastController,
@@ -46,8 +48,17 @@ export class UserData {
   setToken(token: string){
      this.storage.set('token', token);
   }
-
+  getData() {
+    return this.storage.get('user_data').then((value) => {
+      return value;
+    });
+  }
   getUsername() {
+    return this.storage.get('user_data').then((value) => {
+      return value.name;
+    });
+  };
+  getName() {
     return this.storage.get('user_data').then((value) => {
       return value.name;
     });

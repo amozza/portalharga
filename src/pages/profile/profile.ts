@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, App } from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
 import { LoginPage } from '../login/login';
-import { KirimStatusProduksiPage } from '../kirim-status-produksi/kirim-status-produksi';
+import { ProfileEditPage } from '../profile-edit/profile-edit';
 import { Storage } from '@ionic/storage';
 
 
@@ -17,8 +17,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'profile.html'
 })
 export class ProfilePage {
-	username: string;
-  email: string;
+	nama: string;
   constructor(
   	public alertCtrl: AlertController, 
   	public nav: NavController,
@@ -29,50 +28,22 @@ export class ProfilePage {
   }
 
   ngAfterViewInit() {
-    this.getUsername();
   }
 
+  ionViewWillEnter(){
+    this.getName();
+  }
   updatePicture() {
     console.log('Clicked to update picture');
   }
 
-  // Present an alert with the current username populated
-  // clicking OK will update the username and display it
-  // clicking Cancel will close the alert and do nothing
-  changeUsername() {
-    let alert = this.alertCtrl.create({
-      title: 'Change Username',
-      buttons: [
-        'Cancel'
-      ]
-    });
-    alert.addInput({
-      name: 'username',
-      value: this.username,
-      placeholder: 'username'
-    });
-    alert.addButton({
-      text: 'Ok',
-      handler: (data: any) => {
-        this.userData.setUsername(data.username);
-        this.getUsername();
-      }
-    });
-
-    alert.present();
-  }
-
-  getUsername() {
-    this.userData.getUsername().then((username) => {
-      this.username = username;
-    });
-    this.storage.get('user_data').then((value) => {
-      this.email = value.email;
+  getName() {
+    this.userData.getUsername().then((nama) => {
+      this.nama = nama;
     });
   }
-
-  changePassword() {
-    console.log('Clicked to change password');
+  editProfile(){
+    this.nav.push(ProfileEditPage);
   }
 
   logout() {
@@ -81,7 +52,4 @@ export class ProfilePage {
    // this.nav.setRoot(LoginPage);
   }
 
-  statusProduksi(){
-    this.nav.push(KirimStatusProduksiPage);
-  }
 }

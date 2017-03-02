@@ -6,7 +6,7 @@
 
 <ion-content>
 	<div class="logo">
-		<img src="https://lh5.ggpht.com/uOc3iqkehwJddeJ1d1HtaAQdSAVaViqPydyRfDFN8GGU9zrTkxKA5x7YDJ_3fkJSZA=w300" alt="Ionic logo">
+		<img src="assets/icon/login.png" alt="Ionic logo">
 	</div>
 
 	<form #loginForm="ngForm" novalidate>
@@ -36,7 +36,7 @@
 				<button ion-button (click)="onLogin(loginForm)" type="submit" block>Login</button>
 			</ion-col>
 			<ion-col>
-				<button ion-button (click)="onSignup()" color="light" block>Signup</button>
+				<ion-item>Belum punya akun? <p ion-text color="primary" (click)="onSignup()">daftar disini</p></ion-item>
 			</ion-col>
 		</ion-row>
 	</form>
