@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { Http,Headers,RequestOptions } from '@angular/http';
+import { UserData } from '../../providers/user-data';
+import {AuthHttp, AuthConfig} from 'angular2-jwt';
 
 /*
   Generated class for the KirimStatusProduksi page.
@@ -16,18 +18,33 @@ import { Http,Headers,RequestOptions } from '@angular/http';
 export class KirimStatusProduksiPage {
   
   submitted: boolean = false;
-  produksi:{komoditas?: string, lokasi?: string, jumlah?: string, keterangan?: string} = {};
-  headers = new Headers({ 'Content-Type': 'application/json'});
-  options = new RequestOptions({ headers: this.headers});
+  id: string;
+  produksi:{komoditas?: string, lokasi?: string, jumlah?: string, satuan?: string, keterangan?: string} = {};
+  headers: any;
+  options: any;
 
   constructor(
   	public navCtrl: NavController,
     public toastCtrl: ToastController, 
     public http: Http, 
-  	public navParams: NavParams) {}
+  	public navParams: NavParams,
+    public userData: UserData) {
+    this.produksi.satuan = 'Kg';
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad KirimStatusProduksiPage');
+    this.userData.getToken().then((value) => {
+      this.headers = new Headers({ 
+        'Content-Type': 'application/json',
+        'token': value
+      });
+      this.options = new RequestOptions({ headers: this.headers});
+    });
+
+    this.userData.getId().then((value) => {
+      this.id = value;
+    });
   }
 
   submit(form: NgForm) {
@@ -38,10 +55,11 @@ export class KirimStatusProduksiPage {
       let input = JSON.stringify({
         komoditas: this.produksi.komoditas,
         lokasi: this.produksi.lokasi,
-        jumlah: this.produksi.jumlah, 
-        keterangan: this.produksi.keterangan
+        jumlah_produksi: this.produksi.jumlah+' '+this.produksi.satuan, 
+        keterangan: this.produksi.keterangan,
+        us_id: this.id
       });
-      this.http.post("http://punyanpan.net:5000/status-produksi",input,this.options).subscribe(data => {
+      this.http.post(this.userData.BASE_URL+"produksi/postProduksi",input,this.options).subscribe(data => {
          let response = data.json();
          if(response.status == '200') {
             this.navCtrl.popToRoot();

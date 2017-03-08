@@ -13,46 +13,70 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
 		<ion-list no-lines>
-			<ion-item>
-			  <ion-label stacked color="primary">Komoditas </ion-label>
-			  <ion-select [(ngModel)]="produksi.komoditas" name="komoditas" #komoditas="ngModel">
-			    <ion-option >Beras</ion-option>
-			    <ion-option >Bawang</ion-option>
-			    <ion-option >Cabai</ion-option>
-			  </ion-select>
-			</ion-item>
+			<ion-row>
+				<ion-col>
+					<ion-item>
+					  <ion-label stacked color="primary">Komoditas </ion-label>
+					  <ion-select [(ngModel)]="produksi.komoditas" name="komoditas" #komoditas="ngModel">
+					    <ion-option >Beras</ion-option>
+					    <ion-option >Bawang</ion-option>
+					    <ion-option >Cabai</ion-option>
+					  </ion-select>
+					</ion-item>
+				</ion-col>
+			</ion-row>
 			<p ion-text [hidden]="komoditas.valid || submitted == false" color="danger" padding-left>
 				Pilih komoditas
 			</p>
-			
-			<ion-item>
-				<ion-label stacked color="primary">Lokasi</ion-label>
-				<ion-input [(ngModel)]="produksi.lokasi" name="lokasi" type="text" #lokasi="ngModel" spellcheck="false" autocapitalize="off" required>
-				</ion-input>
-			</ion-item>
+
+			<ion-row>
+				<ion-col>
+					<ion-item>
+						<ion-label stacked color="primary">Lokasi</ion-label>
+						<ion-input [(ngModel)]="produksi.lokasi" name="lokasi" type="text" #lokasi="ngModel" spellcheck="false" autocapitalize="off" required>
+						</ion-input>
+					</ion-item>
+				</ion-col>
+			</ion-row>
 			<p ion-text [hidden]="lokasi.valid || submitted == false" color="danger" padding-left>
-				Subject is required
+				Lokasi is required
 			</p>
 
-			<ion-item>
-				<ion-label stacked color="primary">Jumlah Produksi</ion-label>
-				<button ion-item (click)="getLocation()">Get locations</button>
-				<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="text" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required>
-				</ion-input>
-			</ion-item>
+			<ion-row>
+				<ion-col >
+					<ion-item>
+						<ion-label stacked color="primary">Jumlah Produksi</ion-label>	
+						<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="number" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required>
+						</ion-input>
+					</ion-item>
+				</ion-col>
+				<ion-col >
+					<ion-item>
+						<ion-label stacked color="primary">Satuan </ion-label>
+						<ion-select [(ngModel)]="produksi.satuan" name="satuan" >
+						    <ion-option >Kg</ion-option>
+						    <ion-option >Kwintal</ion-option>
+						    <ion-option >Ton</ion-option>
+						 </ion-select>
+					</ion-item>
+				</ion-col>
+			</ion-row>
 			<p ion-text [hidden]="jumlah.valid || submitted == false" color="danger" padding-left>
-				Subject is required
+				Jumlah is required
 			</p> 
 
-			<ion-item>
-				<ion-label stacked color="primary">Keterangan</ion-label>
-				<ion-textarea [(ngModel)]="produksi.keterangan" name="keterangan" #keterangan="ngModel" rows="6" required></ion-textarea>
-			</ion-item>
+			<ion-row>
+				<ion-col>
+					<ion-item>
+						<ion-label stacked color="primary">Keterangan</ion-label>
+						<ion-textarea [(ngModel)]="produksi.keterangan" name="keterangan" #keterangan="ngModel" rows="6" required></ion-textarea>
+					</ion-item>
+				</ion-col>
+			</ion-row>
 		</ion-list>
-
 		<p ion-text [hidden]="keterangan.valid || submitted === false" color="danger" padding-left>
 			Keterangan is required
 		</p>

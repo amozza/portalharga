@@ -71,7 +71,6 @@ export class ProfileEditPage {
         }
       }, err => { 
       	loading.dismiss();
-        let a = err.json();
           err.status==0? 
           this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
           err.status==403?

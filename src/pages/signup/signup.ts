@@ -44,10 +44,14 @@ export class SignupPage {
       });
       this.http.post(this.userData.BASE_URL+"user/inputUser",input,this.options).subscribe(data => {
            let response = data.json();
-           this.userData.signup(response);
+           if(response.status=='200') {
+             this.userData.signup(response.data);
+             this.userData.setToken(response.token);
+             this.navCtrl.setRoot(TabsPage);
+           }
            this.showToast(response.message);
         });
-      this.navCtrl.setRoot(TabsPage);
+      
       console.log(input);
 
     }

@@ -7,12 +7,21 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>pendukung</ion-title>
+    <ion-title>Pendukung</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+	<ion-card *ngFor="let post of pendukung">
+		<ion-card-header>
+			<div ion-item>
+		        <ion-avatar item-left>
+		          <img src="https://openclipart.org/image/2400px/svg_to_png/211821/matt-icons_preferences-desktop-personal.png" alt="Speaker profile pic">
+		        </ion-avatar>
+		        {{post.name}} 
+	        </div>
+	    </ion-card-header>
+	</ion-card>
 </ion-content>

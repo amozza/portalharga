@@ -7,13 +7,40 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>status-produksi</ion-title>
+    <ion-title>Status Produksi</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content >
+	<ion-card *ngFor="let post of produksi" class="aspirasi">
+		<ion-row>
+			<ion-col text-left>
+				<ion-card-header>
+					<h3>{{post.komoditas}}</h3>
+					<h3>{{post.jumlah_produksi}}</h3>
+					<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  
+			    </ion-card-header>
+			</ion-col>
+			<div *ngIf="post.us_id == id">
+			<ion-col text-right>
+				<button ion-button clear small  color="primary" (click)="presentActionSheet(post.produksi_id)">
+	        	 	<ion-icon name='more'></ion-icon>
+	        	 </button>
+			</ion-col>
+			</div>
+		</ion-row>
+	    <ion-card-content class="outer-content">
+            <h3>{{post.keterangan}}</h3>
+	    </ion-card-content>
+	    <ion-row padding>
+	      <ion-col text-left>
+	        <h5>{{post.lokasi}}</h5>
+	      </ion-col>
+	    </ion-row>
+	</ion-card>
+
 	<ion-fab bottom right #fab>
     	<button ion-fab (click)="tambahProduksi()"><ion-icon name="add"></ion-icon></button>
   	</ion-fab>
