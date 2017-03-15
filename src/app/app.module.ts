@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
+import { TabsMasyarakatPage } from '../pages/tabs-masyarakat/tabs-masyarakat';
 import { AspirasiPage } from '../pages/aspirasi/aspirasi';
 import { InfoHargaPage } from '../pages/info-harga/info-harga';
 import { ProfilePage } from '../pages/profile/profile';
@@ -21,32 +22,11 @@ import { PendukungPage } from '../pages/pendukung/pendukung';
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
 
-import { AuthHttp, AuthConfig, AUTH_PROVIDERS   } from 'angular2-jwt';
-import { Http, RequestOptions } from '@angular/http';
-
-/*let storage = new Storage();
-
-export function getAuthHttp(http) {
-  return new AuthHttp(new AuthConfig({
-    headerPrefix: 'token',
-    noJwtError: true,
-    globalHeaders: [{'Content-Type': 'application/json'}],
-    tokenGetter: (() => storage.get('token')),
-  }), http);
-}
-
-function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig({
-    tokenName: 'token',
-        tokenGetter: (() => sessionStorage.getItem('token')),
-        globalHeaders: [{'Content-Type':'application/json'}],
-    }), http, options);
-}*/
-
 @NgModule({
   declarations: [
     MyApp,
     TabsPage,
+    TabsMasyarakatPage,
     AspirasiPage,
     InfoHargaPage,
     ProfilePage,
@@ -67,6 +47,7 @@ function authHttpServiceFactory(http: Http, options: RequestOptions) {
   entryComponents: [
     MyApp,
     TabsPage,
+    TabsMasyarakatPage,
     AspirasiPage,
     InfoHargaPage,
     ProfilePage,

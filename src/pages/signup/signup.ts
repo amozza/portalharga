@@ -5,6 +5,7 @@ import { NavController, ToastController, NavParams } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 
 import { TabsPage } from '../tabs/tabs';
+import { TabsMasyarakatPage } from '../tabs-masyarakat/tabs-masyarakat';
 import { UserData } from '../../providers/user-data';
 
 
@@ -15,7 +16,9 @@ import { UserData } from '../../providers/user-data';
 export class SignupPage {
   signup: {username?: string, nama?: string, email?: string, password?: string, role?: any} = {};
   submitted = false;
-  headers = new Headers({ 'Content-Type': 'application/json'});
+  headers = new Headers({ 
+                'Content-Type': 'application/json',
+                'login_type' : '1'});
   options = new RequestOptions({ headers: this.headers});
 
   constructor(
@@ -47,7 +50,18 @@ export class SignupPage {
            if(response.status=='200') {
              this.userData.signup(response.data);
              this.userData.setToken(response.token);
-             this.navCtrl.setRoot(TabsPage);
+             switch (response.data.role) {
+               case 1:
+                 this.navCtrl.setRoot(TabsPage);
+                 break;
+               case 2:
+                 this.navCtrl.setRoot(TabsMasyarakatPage);
+                 break;
+               
+               default:
+                 // code...
+                 break;
+             }
            }
            this.showToast(response.message);
         });

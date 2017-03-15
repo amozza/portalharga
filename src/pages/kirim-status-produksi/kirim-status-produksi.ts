@@ -3,7 +3,6 @@ import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { UserData } from '../../providers/user-data';
-import {AuthHttp, AuthConfig} from 'angular2-jwt';
 
 /*
   Generated class for the KirimStatusProduksi page.
@@ -37,7 +36,8 @@ export class KirimStatusProduksiPage {
     this.userData.getToken().then((value) => {
       this.headers = new Headers({ 
         'Content-Type': 'application/json',
-        'token': value
+        'token': value,
+        'login_type' : '1'
       });
       this.options = new RequestOptions({ headers: this.headers});
     });

@@ -51,7 +51,8 @@ export class AspirasiPage {
     this.userData.getToken().then((value) => {
       let headers = new Headers({ 
         'Content-Type': 'application/json',
-        'token': value
+        'token': value,
+        'login_type' : '1'
       });
       this.token = value;
       let options = new RequestOptions({ headers: headers});
@@ -92,7 +93,8 @@ export class AspirasiPage {
   dukungAspirasi(aspirasi_id){
     let headers = new Headers({ 
       'Content-Type': 'application/json',
-      'token': this.token
+      'token': this.token,
+      'login_type' : '1'
     });
     let options = new RequestOptions({ headers: headers});
      let param = JSON.stringify({
@@ -118,7 +120,8 @@ export class AspirasiPage {
   batalDukungAspirasi(aspirasi_id){
     let headers = new Headers({ 
       'Content-Type': 'application/json',
-      'token': this.token
+      'token': this.token,
+      'login_type' : '1'
     });
     let options = new RequestOptions({ headers: headers});
      let param = JSON.stringify({
@@ -157,7 +160,8 @@ export class AspirasiPage {
           handler: () => {
               let headers = new Headers({ 
                 'Content-Type': 'application/json',
-                'token': this.token
+                'token': this.token,
+                'login_type' : '1'
               });
               let options = new RequestOptions({ headers: headers});
                let param = JSON.stringify({

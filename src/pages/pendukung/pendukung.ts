@@ -40,7 +40,8 @@ export class PendukungPage {
     this.userData.getToken().then((value) => {
       let headers = new Headers({ 
         'Content-Type': 'application/json',
-        'token': value
+        'token': value,
+        'login_type' : '1'
       });
       this.token = value;
       let options = new RequestOptions({ headers: headers});

@@ -50,7 +50,8 @@ export class ProfileEditPage {
     	loading.present();
       let headers = new Headers({ 
         'Content-Type': 'application/json',
-        'token': this.token
+        'token': this.token,
+        'login_type' : '1'
       });
       let options = new RequestOptions({ headers: headers});
        let param = JSON.stringify({

@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
+import { TabsMasyarakatPage } from '../pages/tabs-masyarakat/tabs-masyarakat';
 import { UserData } from '../providers/user-data';
 import { LoginPage } from '../pages/login/login';
 
@@ -26,7 +27,20 @@ export class MyApp {
 
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
       if(hasLoggedIn) {
-        this.rootPage = TabsPage;
+        this.userData.getRole().then((value)=>{
+          switch (value) {
+            case 1:
+             this.rootPage = TabsPage;
+              break;
+            case 2:
+              this.rootPage = TabsMasyarakatPage;
+              break;
+            default:
+            // code...
+            break;
+          }
+          console.log(value);
+        });
       } else {
         this.rootPage = LoginPage;
       }

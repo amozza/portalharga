@@ -18,6 +18,7 @@ import { Storage } from '@ionic/storage';
 })
 export class ProfilePage {
 	nama: string;
+  profilePict: string="https://";
   constructor(
   	public alertCtrl: AlertController, 
   	public nav: NavController,
@@ -32,6 +33,7 @@ export class ProfilePage {
 
   ionViewWillEnter(){
     this.getName();
+    this.getProfilePict();
   }
   updatePicture() {
     console.log('Clicked to update picture');
@@ -40,6 +42,12 @@ export class ProfilePage {
   getName() {
     this.userData.getUsername().then((nama) => {
       this.nama = nama;
+    });
+  }
+  getProfilePict() {
+    this.userData.getProfilePict().then((values) => {
+      this.profilePict += values;
+      console.log(this.profilePict);
     });
   }
   editProfile(){

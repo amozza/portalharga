@@ -33,7 +33,8 @@ export class TambahAspirasiPage {
     this.userData.getToken().then((value) => {
       this.headers = new Headers({ 
         'Content-Type': 'application/json',
-        'token': value
+        'token': value,
+        'login_type' : '1'
       });
       this.options = new RequestOptions({ headers: this.headers});
     });

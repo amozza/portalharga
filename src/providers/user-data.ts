@@ -63,9 +63,19 @@ export class UserData {
       return value.name;
     });
   };
+  getProfilePict() {
+    return this.storage.get('user_data').then((value) => {
+      return "https://ph.yippytech.com/"+value.prof_pict;
+    });
+  };
   getToken() {
     return this.storage.get('token').then((value) => {
       return value;
+    });
+  };
+  getRole() {
+    return this.storage.get('user_data').then((value) => {
+      return value.role;
     });
   };
   getId(){
