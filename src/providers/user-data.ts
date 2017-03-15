@@ -8,7 +8,7 @@ export class UserData {
   _favorites: string[] = [];
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
-  BASE_URL = 'http://punyanpan.net:5000/';
+  BASE_URL = 'http://yippytech.com:5000/';
   // BASE_URL = 'http://192.168.1.100:5000/';
   // BASE_URL = 'http://portal.agri.web.id:5000/';
 
