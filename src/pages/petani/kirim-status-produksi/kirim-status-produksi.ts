@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { Http,Headers,RequestOptions } from '@angular/http';
-import { UserData } from '../../providers/user-data';
+import { UserData } from '../../../providers/user-data';
 
 /*
   Generated class for the KirimStatusProduksi page.

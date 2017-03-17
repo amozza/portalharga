@@ -9,7 +9,7 @@
   <ion-navbar>
     <ion-title>Edit profile</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="onUpdate(updateForm)">
+      <button ion-button icon-only color="primary" (click)="onUpdate(updateForm)">
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>
@@ -19,6 +19,10 @@
 
 
 <ion-content padding>
+	<div padding-top text-center *ngIf="profile.picture">
+	    <img [src]="profile.picture" alt="avatar">
+	    <h5 (click)="updatePicture()">Change Photo</h5>
+	</div>
 	<form #updateForm="ngForm" novalidate>
 		<ion-list no-lines>
 			<ion-item>
@@ -57,4 +61,6 @@
 			</p>
 		</ion-list>
 	</form>
+	<h5>Uploaded picture</h5>
+	<img [src]="base64Image" *ngIf="base64Image" />
 </ion-content>

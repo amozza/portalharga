@@ -1,0 +1,62 @@
+<!--
+  Generated template for the Profile page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<div padding-top text-center *ngIf="nama">
+	    <img [src]="profilePict" alt="avatar">
+	    <h2>{{nama}}</h2>
+	    <button ion-button outline color="primary" (click)="editProfile()" >
+			Edit profile
+		</button>
+		<button ion-button outline color="primary" (click)="logout()" >
+			Logout
+		</button>
+	</div>
+	<h4>Aspirasiku</h4>
+	<ion-card *ngFor="let post of aspirasi" class="aspirasi">
+		<ion-row>
+			<ion-col text-left>
+				<ion-card-header>
+					<div ion-item>
+				        <ion-avatar item-left>
+				          <img src="assets/icon/user.png" *ngIf="!post.prof_pict">
+				          <img [src]="'https://ph.yippytech.com/'+post.prof_pict" *ngIf="post.prof_pict">
+				        </ion-avatar>
+				        {{post.name}}
+	    				<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  
+			        </div>
+			    </ion-card-header>
+			</ion-col> 
+			<div *ngIf="post.us_id == id">
+				<ion-col text-right>
+					<button ion-button clear small  color="primary" (click)="presentActionSheet(post.aspirasi_id)">
+		        	 	<ion-icon name='more'></ion-icon>
+		        	 </button>
+				</ion-col>
+			</div>
+		</ion-row>
+	    <ion-card-content class="outer-content">
+	    	<h2 padding="true">{{post.subjek}}</h2>
+            <h3 padding="true">{{post.isi_aspirasi}}</h3>
+	    </ion-card-content>
+	    <ion-row no-padding>
+	      <ion-col text-left>
+	        <button ion-button clear small  color="primary" (click)="lihatPendukung(post.aspirasi_id)">
+	          {{post.total_pendukung}} Pendukung
+	        </button>
+	      </ion-col>
+	    </ion-row>
+	</ion-card>
+</ion-content>

@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NavController, NavParams, ToastController, LoadingController} from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
 import { Http ,Headers,RequestOptions} from '@angular/http';
+import {Camera} from 'ionic-native';
 
 /*
   Generated class for the ProfileEdit page.
@@ -15,7 +16,8 @@ import { Http ,Headers,RequestOptions} from '@angular/http';
   templateUrl: 'profile-edit.html'
 })
 export class ProfileEditPage {
-  profile: {us_id?: string, username?: string, nama?: string, email?: string, password?: string} = {};
+  profile: {us_id?: string, username?: string, nama?: string, email?: string, picture?: string} = {};
+  base64Image: string;
   submitted = false;
   token: string;
   constructor(
@@ -35,9 +37,47 @@ export class ProfileEditPage {
       this.profile.nama = value.name;
       this.profile.email = value.email;
       this.profile.us_id = value.us_id;
+      this.profile.picture = "https://ph.yippytech.com/" + value.prof_pict;
     });
     this.userData.getToken().then((value)=>{
       this.token = value;
+    });
+  }
+  updatePicture() {
+    console.log('Clicked to update picture');
+    this.takePicture();
+  }
+  takePicture(){
+    Camera.getPicture({
+        destinationType: Camera.DestinationType.DATA_URL,
+        targetWidth: 200,
+        targetHeight: 200
+    }).then((imageData) => {
+      // imageData is a base64 encoded string
+        this.base64Image = "data:image/jpeg;base64," + imageData;
+        let headers = new Headers({ 
+          'Content-Type': 'application/json',
+          'token': this.token,
+          'login_type' : '1'
+          });
+        let options = new RequestOptions({ headers: headers});
+         let param = JSON.stringify({
+            us_id : this.profile.us_id,
+            string64: this.base64Image
+          });
+        this.http.post(this.userData.BASE_URL+'user/upload_photo1',param,options).subscribe(res => {
+          let a = res.json();
+          this.showAlert(a.data);
+        }, err => { 
+            err.status==0? 
+            this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+            err.status==403?
+            this.showAlert(err.message):
+            this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+        });
+        this.showAlert(this.base64Image);
+    }, (err) => {
+        console.log(err);
     });
   }
   onUpdate(form: NgForm) {
@@ -58,8 +98,7 @@ export class ProfileEditPage {
        	  us_id : this.profile.us_id,
           username : this.profile.username,
           name : this.profile.nama,
-          email : this.profile.email,
-          old_password : this.profile.password
+          email : this.profile.email
         });
       this.http.post(this.userData.BASE_URL+'user/update',param,options).subscribe(res => {
       	loading.dismiss();
@@ -84,7 +123,7 @@ export class ProfileEditPage {
   showAlert(message: string){
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 3000
+      duration: 5000
     });
     toast.present();
   }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
-import { UserData } from '../../providers/user-data';
+import { UserData } from '../../../providers/user-data';
 
 /*
   Generated class for the TambahAspirasi page.

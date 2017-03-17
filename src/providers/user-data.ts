@@ -65,7 +65,7 @@ export class UserData {
   };
   getProfilePict() {
     return this.storage.get('user_data').then((value) => {
-      return "https://ph.yippytech.com/"+value.prof_pict;
+      return value.prof_pict;
     });
   };
   getToken() {

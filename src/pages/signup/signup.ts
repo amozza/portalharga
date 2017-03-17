@@ -4,8 +4,8 @@ import { NgForm } from '@angular/forms';
 import { NavController, ToastController, NavParams } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 
-import { TabsPage } from '../tabs/tabs';
-import { TabsMasyarakatPage } from '../tabs-masyarakat/tabs-masyarakat';
+import { TabsPage } from '../petani/tabs-petani/tabs';
+import { TabsMasyarakatPage } from '../masyarakat/tabs-masyarakat/tabs-masyarakat';
 import { UserData } from '../../providers/user-data';
 
 

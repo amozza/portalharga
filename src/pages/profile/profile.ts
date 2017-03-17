@@ -18,7 +18,7 @@ import { Storage } from '@ionic/storage';
 })
 export class ProfilePage {
 	nama: string;
-  profilePict: string="https://";
+  profilePict: string;
   constructor(
   	public alertCtrl: AlertController, 
   	public nav: NavController,
@@ -35,10 +35,6 @@ export class ProfilePage {
     this.getName();
     this.getProfilePict();
   }
-  updatePicture() {
-    console.log('Clicked to update picture');
-  }
-
   getName() {
     this.userData.getUsername().then((nama) => {
       this.nama = nama;
@@ -46,8 +42,7 @@ export class ProfilePage {
   }
   getProfilePict() {
     this.userData.getProfilePict().then((values) => {
-      this.profilePict += values;
-      console.log(this.profilePict);
+      this.profilePict = "https://ph.yippytech.com/" + values;
     });
   }
   editProfile(){

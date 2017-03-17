@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 
-import { ProfilePage } from '../profile/profile';
-import { InfoHargaPage } from '../info-harga/info-harga';
-import { AspirasiPage } from '../aspirasi/aspirasi';
-import { StatusProduksiPage } from '../status-produksi/status-produksi';
+import { ProfilePage } from '../../profile/profile';
+import { InfoHargaPage } from '../../info-harga/info-harga';
 
 @Component({
   templateUrl: 'tabs-masyarakat.html'
