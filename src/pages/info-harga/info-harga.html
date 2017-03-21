@@ -7,23 +7,69 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Info Harga
+      Info Harga 
     </ion-title>
   </ion-navbar>
+  <ion-item>
+    <ion-label> pilih komoditas </ion-label>
+    <ion-select [(ngModel)]="komoditas" multiple="true" (ionChange)="showselected(komoditas)">
+      <ion-option >Bawang</ion-option>
+      <ion-option >Beras</ion-option>
+      <ion-option >Cabai</ion-option>
+    </ion-select>
+  </ion-item>
 </ion-header>
  
-<ion-content>
-<ion-item>
-  <ion-label> pilih komoditas </ion-label>
-  <ion-select [(ngModel)]="komoditas" multiple="true" (ionChange)="showselected(komoditas)">
-    <ion-option >Bawang</ion-option>
-    <ion-option >Beras</ion-option>
-    <ion-option >Cabai</ion-option>
-  </ion-select>
-</ion-item>
-<ion-item >
+<ion-content >
+
+<!-- <ion-item >
   <h3>Current location:</h3>
   <h3>{{lat}} lat, {{lng}} lng</h3>
-</ion-item>
-  <div #map id="map"></div>  
+</ion-item> -->
+  <div #map id="map"></div> 
+    <div class="set-scroll">
+      <ion-card>
+        <ion-card-header>
+          <h2>Komoditas x</h2>
+          <h5>Rp. 30.000 per Kg</h5>
+        </ion-card-header>
+        <ion-card-content class="outer-content">
+          <ion-icon name='pin'></ion-icon>
+          Pasar x
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <h2>Komoditas x</h2>
+          <h5>Rp. 30.000 per Kg</h5>
+        </ion-card-header>
+        <ion-card-content class="outer-content">
+          <ion-icon name='pin'></ion-icon>
+          Pasar x
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <h2>Komoditas x</h2>
+          <h5>Rp. 30.000 per Kg</h5>
+        </ion-card-header>
+        <ion-card-content class="outer-content">
+          <ion-icon name='pin'></ion-icon>
+          Pasar x
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <h2>Komoditas x</h2>
+          <h5>Rp. 30.000 per Kg</h5>
+        </ion-card-header>
+        <ion-card-content class="outer-content">
+          <ion-icon name='pin'></ion-icon>
+          Pasar x
+        </ion-card-content>
+      </ion-card>
+    </div>
+  <ion-fab bottom right #fab *ngIf="userRole==2">
+    <button ion-fab (click)="postHargaKomoditas()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

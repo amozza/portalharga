@@ -2,27 +2,25 @@ import { Injectable } from '@angular/core';
 
 import { Events,ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class UserData {
-  _favorites: string[] = [];
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
   BASE_URL = 'http://yippytech.com:5000/';
-  // BASE_URL = 'http://192.168.1.100:5000/';
-  // BASE_URL = 'http://portal.agri.web.id:5000/';
-
+  token:any;
+  data:any;
   constructor(
     public events: Events,
     public toastCtrl: ToastController,
-    public storage: Storage
+    public storage: Storage,
+    public http:Http
   ) {}
-
 
   login(data: string) {
     this.storage.set(this.HAS_LOGGED_IN, true);
     this.storage.set('user_data', data);
-    // this.setUsername(username);
     this.events.publish('user:login');
   };
 
@@ -31,8 +29,6 @@ export class UserData {
     this.storage.set(this.HAS_LOGGED_IN, true);
     this.storage.set('user_data', data);
     this.events.publish('user:signup');
-    // this.setUsername(username);
-    
   };
 
   logout() {
@@ -51,6 +47,13 @@ export class UserData {
   getData() {
     return this.storage.get('user_data').then((value) => {
       return value;
+    });
+  }
+  updateProfilePict(prof_pict) {
+    this.storage.get('user_data').then((value) => {
+      let data = value;
+      data.prof_pict=prof_pict;
+      this.storage.set('user_data', data);
     });
   }
   getUsername() {
@@ -90,6 +93,27 @@ export class UserData {
     });
   };
 
-  
+  load() {
+  if (this.data) {
+    // already loaded data
+    return Promise.resolve(this.data);
+  }
+
+  // don't have the data yet
+  return new Promise(resolve => {
+    // We're using Angular HTTP provider to request the data,
+    // then on the response, it'll map the JSON data to a parsed JS object.
+    // Next, we process the data and resolve the promise with the new data.
+    this.http.get('https://randomuser.me/api/')
+      .map(res => res.json())
+      .subscribe(data => {
+        // we've got back the raw data, now generate the core schedule data
+        // and save the data for later reference
+        this.data = data;
+        console.log(data);
+        resolve(this.data);
+      });
+  });
+}
 
 }

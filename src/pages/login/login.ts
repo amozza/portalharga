@@ -41,7 +41,6 @@ export class LoginPage {
         username: this.login.username, 
         password: this.login.password
       });
-      setTimeout(()=>{
         this.http.post(this.userData.BASE_URL+"api/auth",input,this.options).subscribe(data => {
            let response = data.json();
            loading.dismiss();
@@ -71,7 +70,7 @@ export class LoginPage {
            this.showToast("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
            this.showToast("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
         });
-      },3000);
+      
     }
   }
   onSignup() {

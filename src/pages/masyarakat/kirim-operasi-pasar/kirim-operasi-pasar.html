@@ -1,0 +1,54 @@
+<!--
+  Generated template for the KirimOperasiPasar page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Kirim operasi pasar</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
+		<ion-list no-lines>
+			<ion-item>
+			  <ion-label stacked color="primary">Pasar </ion-label>
+			  <ion-select [(ngModel)]="operasi.pasar" name="pasar" #pasar="ngModel">
+			    <ion-option >Pasar A</ion-option>
+			    <ion-option >Pasar B</ion-option>
+			    <ion-option >Pasar C</ion-option>
+			  </ion-select>
+			</ion-item>
+			<p ion-text [hidden]="pasar.valid || submitted == false" color="danger" padding-left>
+				Pilih pasar
+			</p>
+
+			<ion-item>
+				<ion-label stacked color="primary">Subjek</ion-label>
+				<ion-input [(ngModel)]="operasi.subject" name="subject" placeholder="Subjek" type="text" #subject="ngModel" spellcheck="false" autocapitalize="off" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="subject.valid || submitted == false" color="danger" padding-left>
+				Subject is required
+			</p>
+
+			<ion-item>
+				<ion-label stacked color="primary">Opini</ion-label>
+				<ion-textarea [(ngModel)]="operasi.opini" name="opini" #opini="ngModel" rows="6" required placeholder="Opini"></ion-textarea>
+			</ion-item>
+		</ion-list>
+
+		<p ion-text [hidden]="opini.valid || submitted === false" color="danger" padding-left>
+			Opini is required
+		</p>
+
+		<div padding>
+			<button ion-button block type="submit">Send</button>
+		</div>
+	</form>
+</ion-content>

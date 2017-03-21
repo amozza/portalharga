@@ -1,0 +1,52 @@
+<!--
+  Generated template for the JualKomoditas page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Jual Komoditas</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ion-card *ngFor="let post of jualanku">
+        <ion-row>
+			<ion-col text-left>
+				<ion-card-header>
+				    <div ion-item>
+				        {{post.komoditas}}
+						<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  
+				    </div>
+		        </ion-card-header>
+		    </ion-col>
+		    <ion-col text-right>
+				<button ion-button clear small  color="primary" (click)="presentActionSheet(post.jualan_id)">
+	        	 	<ion-icon name='more'></ion-icon>
+	        	 </button>
+			</ion-col>
+		</ion-row>
+    	<img [src]="'https://ph.yippytech.com/'+post.foto_komoditas" *ngIf="post.foto_komoditas">
+        <ion-card-content class="outer-content">
+        	<ion-row>
+	        	<h6>
+		        	<ion-icon name='pricetag'> </ion-icon>
+		        	Rp. {{post.harga}} per Kg
+	        	</h6>
+        	</ion-row>
+        	<ion-row>
+        		<h6>
+		        	<ion-icon name='cart'> </ion-icon>
+		        	{{post.stok}} Kg
+	        	</h6>
+        	</ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-fab bottom right #fab>
+    	<button ion-fab (click)="tambahJualan()"><ion-icon name="add"></ion-icon></button>
+  	</ion-fab>
+</ion-content>

@@ -31,8 +31,6 @@ export class AspirasiPage {
   	public toastCtrl: ToastController,
     public userData: UserData
   	) { }
-  ionViewDidLoad(){}
-
   ionViewWillEnter() {
     this.userData.getId().then((value)=>{
       this.id = value;
@@ -48,7 +46,6 @@ export class AspirasiPage {
     }, 1500);
   }
   getAspirasi() {
-    
     this.userData.getToken().then((value) => {
       let headers = new Headers({ 
         'Content-Type': 'application/json',
@@ -64,7 +61,7 @@ export class AspirasiPage {
         this.aspirasi = a.data;
         this.httpErr = false;
       }, err => { console.log(err);
-          this.showAlert(err);
+          this.showError(err);
       });
     });
   }
@@ -83,7 +80,7 @@ export class AspirasiPage {
           this.showAlert(a.message);
         }
       }, err => { 
-          this.showAlert(err);
+          this.showError(err);
       });
   }
   batalDukungAspirasi(aspirasi_id){
@@ -100,7 +97,7 @@ export class AspirasiPage {
           this.showAlert(a.message);
         }
       }, err => { 
-          this.showAlert(err);
+          this.showError(err);
       });
   }
   
@@ -125,7 +122,7 @@ export class AspirasiPage {
                   this.showAlert(a.message);
                 }
               }, err => { 
-                this.showAlert(err);
+                this.showError(err);
               });
           }
         }

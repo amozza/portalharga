@@ -12,9 +12,13 @@ import { KirimStatusProduksiPage } from '../pages/petani/kirim-status-produksi/k
 import { PendukungPage } from '../pages/petani/pendukung/pendukung';
 import { StatusProduksiPage } from '../pages/petani/status-produksi/status-produksi';
 import { ProfilePetaniPage } from '../pages/petani/profile-petani/profile';
+import { TambahJualKomoditasPage } from '../pages/petani/tambah-jual-komoditas/tambah-jual-komoditas';
+import { JualKomoditasPage } from '../pages/petani/jual-komoditas/jual-komoditas';
 // Masyarakat
 import { TabsMasyarakatPage } from '../pages/masyarakat/tabs-masyarakat/tabs-masyarakat';
 import { OperasiPasarPage } from '../pages/masyarakat/operasi-pasar/operasi-pasar';
+import { KirimOperasiPasarPage } from '../pages/masyarakat/kirim-operasi-pasar/kirim-operasi-pasar';
+import { JualBeliPage } from '../pages/masyarakat/jual-beli/jual-beli';
 
 import { InfoHargaPage } from '../pages/info-harga/info-harga';
 import { ProfilePage } from '../pages/profile/profile';
@@ -31,7 +35,10 @@ import { ConferenceData } from '../providers/conference-data';
     MyApp,
     TabsPage,
     TabsMasyarakatPage,
+    JualBeliPage,
     AspirasiPage,
+    TambahJualKomoditasPage,
+    JualKomoditasPage,
     InfoHargaPage,
     ProfilePage,
     ProfilePetaniPage,
@@ -41,6 +48,7 @@ import { ConferenceData } from '../providers/conference-data';
     SignupPilihanPage,
     LoginPage,
     OperasiPasarPage,
+    KirimOperasiPasarPage,
     StatusProduksiPage,
     KirimStatusProduksiPage,
     PendukungPage
@@ -53,7 +61,10 @@ import { ConferenceData } from '../providers/conference-data';
     MyApp,
     TabsPage,
     TabsMasyarakatPage,
+    JualBeliPage,
     AspirasiPage,
+    TambahJualKomoditasPage,
+    JualKomoditasPage,
     InfoHargaPage,
     ProfilePage,
     ProfilePetaniPage,
@@ -63,6 +74,7 @@ import { ConferenceData } from '../providers/conference-data';
     SignupPilihanPage,
     LoginPage,
     OperasiPasarPage,
+    KirimOperasiPasarPage,
     StatusProduksiPage,
     KirimStatusProduksiPage,
     PendukungPage

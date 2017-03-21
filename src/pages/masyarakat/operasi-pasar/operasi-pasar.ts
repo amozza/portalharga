@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
-import { NgForm } from '@angular/forms';
 import { Http,Headers,RequestOptions } from '@angular/http';
+import { UserData } from '../../../providers/user-data';
+import { KirimOperasiPasarPage } from '../kirim-operasi-pasar/kirim-operasi-pasar';
 
 /*
   Generated class for the OperasiPasar page.
@@ -17,44 +18,49 @@ export class OperasiPasarPage {
 
   submitted: boolean = false;
   operasi:{pasar?: string, subject?: string, opini?: string} = {};
-  headers = new Headers({ 'Content-Type': 'application/json'});
-  options = new RequestOptions({ headers: this.headers});
-
+  dataOperasi:any ;
+  options:any;
+  us_id:any;
   constructor(
   	public navCtrl: NavController,
   	public http: Http, 
   	public toastCtrl: ToastController,
+    public userData: UserData,
   	public navParams: NavParams) {}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad OperasiPasarPage');
+  ionViewWillEnter() {
+    this.userData.getId().then((value)=>{
+      this.us_id = value;
+    });
+    //this.getOperasi();
   }
 
-  submit(form: NgForm) {
-    this.submitted = true;
-
-    if (form.valid) {
-      this.submitted = false;
-      let input = JSON.stringify({
-        subject: this.operasi.subject, 
-        message: this.operasi.opini
+  getOperasi() {
+    this.userData.getToken().then((value) => {
+      let headers = new Headers({ 
+        'Content-Type': 'application/json',
+        'token': value,
+        'login_type' : '1'
       });
-      this.http.post("http://punyanpan.net:5000/operasi-pasar",input,this.options).subscribe(data => {
-         let response = data.json();
-         if(response.status == '200') {
-            this.navCtrl.popToRoot();
-            this.showAlert("Opini kamu telah dikirim");
-         }
-         
-      }, err => {
-        this.navCtrl.popToRoot();
-        err.status==0? 
-        this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-        this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
-        });
-            
-    }
+      this.options = new RequestOptions({ headers: headers});
+      
+      this.http.get(this.userData.BASE_URL+'operasi-pasar/get/'+this.us_id,this.options).subscribe(res => {
+        let a = res.json();
+        console.log(a);
+        this.dataOperasi = a.data;
+      }, err => { console.log(err);
+          this.showError(err);
+      });
+    });
   }
+  showError(err: any){  
+    err.status==0? 
+    this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+    err.status==403?
+    this.showAlert(err.message):
+    this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+  }
+
   showAlert(message: string){
     let toast = this.toastCtrl.create({
       message: message,
@@ -63,4 +69,7 @@ export class OperasiPasarPage {
     toast.present();
   }
 
+  kirimOperasiPasar() {
+    this.navCtrl.push(KirimOperasiPasarPage);
+  }
 }

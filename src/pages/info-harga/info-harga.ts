@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { GoogleMap, Geolocation} from 'ionic-native';
+import { UserData } from '../../providers/user-data';
 import 'rxjs/add/operator/map';
 /*
   Generated class for the InfoHarga page.
@@ -21,8 +22,19 @@ export class InfoHargaPage {
   komoditas: string = 'Cabai';
   lat: any;
   lng: any;
+  userRole: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(
+    public navCtrl: NavController,
+    public userData: UserData, 
+    public navParams: NavParams) {}
+
+  ionViewWillEnter() {
+    this.userData.getRole().then((value)=>{
+      this.userRole = value;
+    });
+    //this.getOperasi();
+  }
 
   ionViewDidLoad() {
   	this.loadMap();

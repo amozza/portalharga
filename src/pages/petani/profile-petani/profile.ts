@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, App ,ToastController} from 'ionic-angular';
+import { NavController, AlertController, App ,ToastController, ActionSheetController} from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
 import { ProfileEditPage } from '../../profile-edit/profile-edit';
 import { Storage } from '@ionic/storage';
 import { Http ,Headers,RequestOptions} from '@angular/http';
+import { PendukungPage } from '../pendukung/pendukung';
 
 
 /*
@@ -23,13 +24,16 @@ export class ProfilePetaniPage {
   public aspirasi: any;
   public httpErr = false;
   public id: any;
+  public options: any;
+  
   constructor(
   	public alertCtrl: AlertController, 
   	public nav: NavController,
     public app: App,
     public http: Http,
     public toastCtrl: ToastController,
-    public storage: Storage, 
+    public storage: Storage,
+    public actionSheetCtrl: ActionSheetController, 
   	public userData: UserData) {
 
   }
@@ -38,8 +42,8 @@ export class ProfilePetaniPage {
   }
 
   ionViewWillEnter(){
-    this.getName();
     this.getProfilePict();
+    this.getName();
     this.getAspirasi();
   }
   getName() {
@@ -72,22 +76,58 @@ export class ProfilePetaniPage {
         'token': value,
         'login_type' : '1'
       });
-      let options = new RequestOptions({ headers: headers});
+      this.options = new RequestOptions({ headers: headers});
       
-      this.http.get(this.userData.BASE_URL+'aspirasi/getAspirasi/'+this.id,options).subscribe(res => {
+      this.http.get(this.userData.BASE_URL+'aspirasi/getAspirasiku/'+this.id,this.options).subscribe(res => {
         let a = res.json();
         console.log(a);
         this.aspirasi = a.data;
         this.httpErr = false;
-      }, err => { console.log(err);
-          err.status==0? 
-          this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-          this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+      }, err => {
+          this.showError(err);
       });
 
     });
   }
-
+  lihatPendukung(idAspirasi) {
+     this.nav.push(PendukungPage,idAspirasi);
+  }
+  presentActionSheet(idAspirasi) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Pilihan',
+      buttons: [
+        {
+          text: 'Hapus aspirasi',
+          role: 'hapusAspirasi',
+          handler: () => {
+               let param = JSON.stringify({
+                  us_id : this.id,
+                  aspirasi_id : idAspirasi
+                });
+               console.log(param);
+              this.http.post(this.userData.BASE_URL+'aspirasi/delAspirasi',param,this.options).subscribe(res => {
+                let a = res.json();
+                console.log(a);
+                if(a.status == '200') {
+                  this.getAspirasi();
+                  this.showAlert(a.message);
+                }
+              }, err => { 
+                this.showError(err);
+              });
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+  showError(err: any){  
+    err.status==0? 
+    this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+    err.status==403?
+    this.showAlert(err.message):
+    this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+  }
   showAlert(message: string){
     let toast = this.toastCtrl.create({
       message: message,

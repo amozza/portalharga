@@ -42,7 +42,7 @@ export class ProfilePage {
   }
   getProfilePict() {
     this.userData.getProfilePict().then((values) => {
-      this.profilePict = "https://ph.yippytech.com/" + values;
+      this.profilePict = values;
     });
   }
   editProfile(){

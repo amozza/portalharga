@@ -15,7 +15,8 @@
 
 <ion-content padding>
 	<div padding-top text-center *ngIf="nama">
-	    <img [src]="profilePict" alt="avatar">
+	    <img src="assets/icon/user.png" *ngIf="!profilePict">
+		<img [src]="'https://ph.yippytech.com/'+profilePict" *ngIf="profilePict">
 	    <h2>{{nama}}</h2>
 	    <button ion-button outline color="primary" (click)="editProfile()" >
 			Edit profile
