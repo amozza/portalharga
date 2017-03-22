@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>tambah-jual-komoditas</ion-title>
+    <ion-title>Jual Komoditas</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -33,22 +33,9 @@
 			</p>
 
 			<ion-row>
-				<ion-col>
-					<ion-item>
-						<ion-label stacked color="primary">Lokasi</ion-label>
-						<ion-input [(ngModel)]="produksi.lokasi" name="lokasi" type="text" #lokasi="ngModel" spellcheck="false" autocapitalize="off" required>
-						</ion-input>
-					</ion-item>
-				</ion-col>
-			</ion-row>
-			<p ion-text [hidden]="lokasi.valid || submitted == false" color="danger" padding-left>
-				Lokasi is required
-			</p>
-
-			<ion-row>
 				<ion-col >
 					<ion-item>
-						<ion-label stacked color="primary">Harga</ion-label>	
+						<ion-label stacked color="primary">Harga (Rp.)</ion-label>	
 						<ion-input [(ngModel)]="produksi.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required>
 						</ion-input>
 					</ion-item>
@@ -90,6 +77,46 @@
 			<p ion-text [hidden]="jumlah.valid || submitted == false" color="danger" padding-left>
 				Jumlah is required
 			</p> 
+
+
+			<ion-row>
+				<ion-col>
+					<ion-item>
+						<ion-label stacked color="primary">Deskripsi komoditas</ion-label>
+						<ion-textarea [(ngModel)]="produksi.deskripsi" name="deskripsi" #deskripsi="ngModel" rows="6" required></ion-textarea>
+					</ion-item>
+				</ion-col>
+			</ion-row>
+			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
+				Deskripsi is required
+			</p>
+
+			<ion-row>
+				<ion-col>
+					<ion-item>
+						<ion-label stacked color="primary">Foto</ion-label>
+					</ion-item>
+					<ion-row padding>
+						<ion-col>
+							<div  (click)="takePicture()" >
+						        <ion-icon name='camera'></ion-icon>
+						          Ambil gambar
+					        </div>
+						</ion-col>
+						<ion-col>
+					        <div (click)="getPhotoFromGallery()">
+						        <ion-icon name='image'></ion-icon>
+						          Pilih dari gallery
+					        </div>
+						</ion-col>
+					</ion-row>
+						
+					<ion-item *ngIf="produksi.foto">
+						<img [src]="'data:image/jpeg;base64,'+ produksi.foto" >
+					</ion-item>
+				</ion-col>
+			</ion-row>
+
 		</ion-list>
 
 		<div padding>

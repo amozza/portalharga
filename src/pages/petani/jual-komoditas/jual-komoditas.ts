@@ -98,6 +98,7 @@ export class JualKomoditasPage {
                   this.showAlert(a.message);
                 }
               }, err => { 
+                console.log(err);
                 this.showError(err);
               });
           }

@@ -3,6 +3,7 @@ import { NavController, NavParams,ToastController } from 'ionic-angular';
 import { Http ,Headers,RequestOptions} from '@angular/http';
 import { UserData } from '../../../providers/user-data';
 import { NgForm } from '@angular/forms';
+import {Camera} from 'ionic-native';
 
 /*
   Generated class for the TambahJualKomoditas page.
@@ -17,7 +18,7 @@ import { NgForm } from '@angular/forms';
 export class TambahJualKomoditasPage {
   submitted: boolean = false;
   id: string;
-  produksi:{komoditas?: string, jumlah?: string, satuanHarga?: string, satuanJumlah?: string, harga?: string, gambar?: string} = {};
+  produksi:{komoditas?: string, jumlah?: string, satuanHarga?: string, satuanJumlah?: string, harga?: string, foto?: string} = {};
   headers: any;2
   options: any;
 
@@ -44,6 +45,31 @@ export class TambahJualKomoditasPage {
       this.id = value;
     });
   }
+
+  takePicture(){
+    Camera.getPicture({
+        destinationType: Camera.DestinationType.DATA_URL,
+        targetWidth: 300,
+        targetHeight: 600
+    }).then((imageData) => {
+    	this.produksi.foto = imageData;
+    	}, (err) => {
+        console.log(err);
+    });
+  }
+  getPhotoFromGallery(){
+    Camera.getPicture({
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType     : Camera.PictureSourceType.PHOTOLIBRARY,
+        targetWidth: 300,
+        targetHeight: 600
+    }).then((imageData) => {
+    	this.produksi.foto = imageData;
+    	}, (err) => {
+        console.log(err);
+    });
+  }
+
   submit(form: NgForm) {
     this.submitted = true;
 
@@ -51,16 +77,16 @@ export class TambahJualKomoditasPage {
       this.submitted = false;
       let input = JSON.stringify({
         komoditas: this.produksi.komoditas,
-        string64: this.produksi.gambar,
-        stok: this.produksi.jumlah, 
-        harga: this.produksi.harga+' '+this.produksi.satuanHarga,
+        string64: this.produksi.foto,
+        stok: this.produksi.jumlah+' '+this.produksi.satuanJumlah , 
+        harga: this.produksi.harga+' per '+this.produksi.satuanHarga,
         us_id: this.id
       });
       this.http.post(this.userData.BASE_URL+"jualan/postJualan",input,this.options).subscribe(data => {
          let response = data.json();
          if(response.status == '200') {
             this.navCtrl.popToRoot();
-            this.showAlert("Status produksi kamu telah dikirim");
+            this.showAlert("Komoditasmu telah berhasil dikirim");
          }
          
       }, err => {
