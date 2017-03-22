@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, App } from 'ionic-angular';
+import { NavController, AlertController, App, PopoverController } from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
 import { LoginPage } from '../login/login';
 import { ProfileEditPage } from '../profile-edit/profile-edit';
 import { Storage } from '@ionic/storage';
+import { PopoverPage } from '../popover/popover';
 
 
 /*
@@ -24,7 +25,8 @@ export class ProfilePage {
   	public nav: NavController,
     public app: App,
     public storage: Storage, 
-  	public userData: UserData) {
+  	public userData: UserData,
+    public popoverCtrl: PopoverController) {
 
   }
 
@@ -34,6 +36,10 @@ export class ProfilePage {
   ionViewWillEnter(){
     this.getName();
     this.getProfilePict();
+  }
+  presentPopover(event: Event) {
+    let popover = this.popoverCtrl.create(PopoverPage);
+    popover.present({ ev: event });
   }
   getName() {
     this.userData.getUsername().then((nama) => {

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, App ,ToastController, ActionSheetController} from 'ionic-angular';
+import { NavController, AlertController, App ,ToastController, ActionSheetController, PopoverController} from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
 import { ProfileEditPage } from '../../profile-edit/profile-edit';
 import { Storage } from '@ionic/storage';
 import { Http ,Headers,RequestOptions} from '@angular/http';
 import { PendukungPage } from '../pendukung/pendukung';
+import { PopoverPage } from '../../popover/popover';
 
 
 /*
@@ -34,11 +35,17 @@ export class ProfilePetaniPage {
     public toastCtrl: ToastController,
     public storage: Storage,
     public actionSheetCtrl: ActionSheetController, 
-  	public userData: UserData) {
+  	public userData: UserData,
+    public popoverCtrl: PopoverController) {
 
   }
 
   ngAfterViewInit() {
+  }
+
+  presentPopover(event: Event) {
+    let popover = this.popoverCtrl.create(PopoverPage);
+    popover.present({ ev: event });
   }
 
   ionViewWillEnter(){

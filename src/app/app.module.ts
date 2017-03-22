@@ -19,8 +19,10 @@ import { TabsMasyarakatPage } from '../pages/masyarakat/tabs-masyarakat/tabs-mas
 import { OperasiPasarPage } from '../pages/masyarakat/operasi-pasar/operasi-pasar';
 import { KirimOperasiPasarPage } from '../pages/masyarakat/kirim-operasi-pasar/kirim-operasi-pasar';
 import { JualBeliPage } from '../pages/masyarakat/jual-beli/jual-beli';
-
+//General
 import { InfoHargaPage } from '../pages/info-harga/info-harga';
+import { PopoverPage } from '../pages/popover/popover';
+import { GantiPasswordPage } from '../pages/ganti-password/ganti-password';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProfileEditPage } from '../pages/profile-edit/profile-edit';
 import { SignupPage } from '../pages/signup/signup';
@@ -51,7 +53,9 @@ import { ConferenceData } from '../providers/conference-data';
     KirimOperasiPasarPage,
     StatusProduksiPage,
     KirimStatusProduksiPage,
-    PendukungPage
+    PendukungPage,
+    PopoverPage,
+    GantiPasswordPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -77,7 +81,9 @@ import { ConferenceData } from '../providers/conference-data';
     KirimOperasiPasarPage,
     StatusProduksiPage,
     KirimStatusProduksiPage,
-    PendukungPage
+    PendukungPage,
+    PopoverPage,
+    GantiPasswordPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
