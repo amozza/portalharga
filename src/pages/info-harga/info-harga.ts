@@ -1,7 +1,9 @@
 import { Component, ViewChild, ElementRef} from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController} from 'ionic-angular';
 import { GoogleMap, Geolocation} from 'ionic-native';
 import { UserData } from '../../providers/user-data';
+import { TambahInfoHargaPage } from '../masyarakat/tambah-info-harga/tambah-info-harga';
+import { Http ,Headers,RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
 /*
   Generated class for the InfoHarga page.
@@ -19,21 +21,29 @@ export class InfoHargaPage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: GoogleMap;
-  komoditas: string = 'Cabai';
+  komoditas: string = 'Bawang';
   lat: any;
   lng: any;
   userRole: number;
+  id: string;
+  options: any;
+  token: string;
+  dataHarga: any;
 
   constructor(
     public navCtrl: NavController,
     public userData: UserData, 
-    public navParams: NavParams) {}
+    public navParams: NavParams,
+    public http: Http,
+    public toastCtrl: ToastController
+    ) {}
 
   ionViewWillEnter() {
     this.userData.getRole().then((value)=>{
       this.userRole = value;
     });
-    //this.getOperasi();
+    this.getAddress();
+    this.getDataHarga(this.komoditas);
   }
 
   ionViewDidLoad() {
@@ -43,7 +53,10 @@ export class InfoHargaPage {
   showselected(selected_value)
   {
     this.komoditas = selected_value;
-    console.log("selector: ", this.komoditas );
+    this.getDataHarga(selected_value);
+  }
+  postHargaKomoditas(){
+    this.navCtrl.push(TambahInfoHargaPage);
   }
 
   getCurrentLocation(){
@@ -56,33 +69,16 @@ export class InfoHargaPage {
       console.log(err);
     });
   }
-  // loadMap2(){
-  //   let location = new google.maps.LatLng(-6.560284, 106.7233045);
-  //   this.map = new GoogleMap('map', {
-  //         'backgroundColor': 'white',
-  //         'controls': {
-  //           'compass': true,
-  //           'myLocationButton': true,
-  //           'indoorPicker': true,
-  //           'zoom': true
-  //         },
-  //         'gestures': {
-  //           'scroll': true,
-  //           'tilt': true,
-  //           'rotate': true,
-  //           'zoom': true
-  //         },
-  //         'camera': {
-  //           'latLng': location,
-  //           'tilt': 30,
-  //           'zoom': 15,
-  //           'bearing': 50
-  //         }
-  //       });
-  // }
+
+  getAddress(){
+    let geocoder = new google.maps.Geocoder();
+    let latlng = {lat: -6.560284, lng: 106.7233045};
+    geocoder.geocode({'location': latlng}, function(results, status) {
+      console.log(results[0].formatted_address);
+    });
+  }
 
   loadMap(){
- 
     let latLng = new google.maps.LatLng(-6.560284, 106.7233045);
  
     let mapOptions = {
@@ -136,6 +132,41 @@ export class InfoHargaPage {
  	marker3.addListener('click', () => {
             infoWindow3.open(mapOptions, marker3);
           });
+  }
+  getDataHarga(komoditas) {
+    this.userData.getToken().then((value) => {
+      let headers = new Headers({ 
+        'Content-Type': 'application/json',
+        'token': value,
+        'login_type' : '1'
+      });
+      this.token = value;
+      this.options = new RequestOptions({ headers: headers});
+      let input = JSON.stringify({
+        jenis: komoditas
+      });
+      this.http.post(this.userData.BASE_URL+'masyarakat/todayKom',input,this.options).subscribe(res => {
+        let a = res.json();
+        console.log(a);
+        this.dataHarga = a.data;
+      }, err => { console.log(err);
+          this.showError(err);
+      });
+    });
+  }
+  showError(err: any){  
+    err.status==0? 
+    this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+    err.status==403?
+    this.showAlert(err.message):
+    this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+  }
+  showAlert(message: string){
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    });
+    toast.present();
   }
 
 }

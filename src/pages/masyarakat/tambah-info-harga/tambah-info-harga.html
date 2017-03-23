@@ -1,0 +1,51 @@
+<!--
+  Generated template for the TambahInfoHarga page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Tambah Info Harga</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
+		<ion-list no-lines>
+			<ion-row>
+				<ion-col>
+					<ion-item>
+					  <ion-label stacked color="primary">Komoditas </ion-label>
+					  <ion-select [(ngModel)]="post.komoditas" name="komoditas" #komoditas="ngModel" placeholder="pilih komoditas" required>
+					    <ion-option >Beras</ion-option>
+					    <ion-option >Bawang</ion-option>
+					    <ion-option >Cabai</ion-option>
+					  </ion-select>
+					</ion-item>
+				</ion-col>
+			</ion-row>
+			<p ion-text [hidden]="komoditas.valid || submitted == false" color="danger" padding-left>
+				Pilih komoditas
+			</p>
+
+			<ion-row>
+				<ion-col >
+					<ion-item>
+						<ion-label stacked color="primary">Harga</ion-label>	
+						<ion-input [(ngModel)]="post.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Rp. ">
+						</ion-input>
+					</ion-item>
+				</ion-col>
+			</ion-row>
+
+		</ion-list>
+
+		<div padding>
+			<button ion-button block type="submit">Kirim</button>
+		</div>
+	</form>
+</ion-content>
