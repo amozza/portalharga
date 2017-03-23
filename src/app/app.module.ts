@@ -14,6 +14,7 @@ import { StatusProduksiPage } from '../pages/petani/status-produksi/status-produ
 import { ProfilePetaniPage } from '../pages/petani/profile-petani/profile';
 import { TambahJualKomoditasPage } from '../pages/petani/tambah-jual-komoditas/tambah-jual-komoditas';
 import { JualKomoditasPage } from '../pages/petani/jual-komoditas/jual-komoditas';
+import { EditJualKomoditasPage } from '../pages/petani/edit-jual-komoditas/edit-jual-komoditas';
 // Masyarakat
 import { TabsMasyarakatPage } from '../pages/masyarakat/tabs-masyarakat/tabs-masyarakat';
 import { OperasiPasarPage } from '../pages/masyarakat/operasi-pasar/operasi-pasar';
@@ -41,6 +42,7 @@ import { ConferenceData } from '../providers/conference-data';
     AspirasiPage,
     TambahJualKomoditasPage,
     JualKomoditasPage,
+    EditJualKomoditasPage,
     InfoHargaPage,
     ProfilePage,
     ProfilePetaniPage,
@@ -69,6 +71,7 @@ import { ConferenceData } from '../providers/conference-data';
     AspirasiPage,
     TambahJualKomoditasPage,
     JualKomoditasPage,
+    EditJualKomoditasPage,
     InfoHargaPage,
     ProfilePage,
     ProfilePetaniPage,

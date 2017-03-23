@@ -3,6 +3,7 @@ import { NavController, NavParams, ToastController, ActionSheetController} from 
 import { Http ,Headers,RequestOptions} from '@angular/http';
 import { UserData } from '../../../providers/user-data';
 import { TambahJualKomoditasPage } from '../tambah-jual-komoditas/tambah-jual-komoditas';
+import { EditJualKomoditasPage } from '../edit-jual-komoditas/edit-jual-komoditas';
 
 /*
   Generated class for the JualKomoditas page.
@@ -58,7 +59,7 @@ export class JualKomoditasPage {
   tambahJualan(){
   	this.navCtrl.push(TambahJualKomoditasPage);
   }
-  presentActionSheet(idJualan) {
+  presentActionSheet(data) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
       buttons: [
@@ -66,20 +67,7 @@ export class JualKomoditasPage {
           text: 'Edit Penjualan',
           role: 'editpenjualan',
           handler: () => {
-               let param = JSON.stringify({
-                  us_id : this.id,
-                  jualan_id : idJualan
-                });
-              this.http.post(this.userData.BASE_URL+'jualan/delJualan',param,this.options).subscribe(res => {
-                let a = res.json();
-                console.log(a);
-                if(a.status == '200') {
-                  this.getJualan();
-                  this.showAlert(a.message);
-                }
-              }, err => { 
-                this.showError(err);
-              });
+               this.navCtrl.push(EditJualKomoditasPage,data);
           }
         },
         {
@@ -88,7 +76,7 @@ export class JualKomoditasPage {
           handler: () => {
                let param = JSON.stringify({
                   us_id : this.id,
-                  jualan_id : idJualan
+                  jualan_id : data.jualan_id
                 });
               this.http.post(this.userData.BASE_URL+'jualan/delJualan',param,this.options).subscribe(res => {
                 let a = res.json();
