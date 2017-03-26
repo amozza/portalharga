@@ -16,36 +16,56 @@
 <ion-content padding>
 	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
 		<ion-list no-lines>
-			<ion-item>
-			  <ion-label stacked color="primary">Pasar </ion-label>
-			  <ion-select [(ngModel)]="operasi.pasar" name="pasar" #pasar="ngModel">
-			    <ion-option >Pasar A</ion-option>
-			    <ion-option >Pasar B</ion-option>
-			    <ion-option >Pasar C</ion-option>
-			  </ion-select>
-			</ion-item>
-			<p ion-text [hidden]="pasar.valid || submitted == false" color="danger" padding-left>
-				Pilih pasar
+			<ion-row>
+				<ion-col>
+					<ion-item>
+					  <ion-label stacked color="primary">Komoditas </ion-label>
+					  <ion-select [(ngModel)]="operasi.komoditas" name="komoditas" #komoditas="ngModel" placeholder="pilih komoditas" required>
+					    <ion-option >Beras</ion-option>
+					    <ion-option >Bawang</ion-option>
+					    <ion-option >Cabai</ion-option>
+					  </ion-select>
+					</ion-item>
+				</ion-col>
+			</ion-row>
+			<p ion-text [hidden]="komoditas.valid || submitted == false" color="danger" padding-left>
+				Pilih komoditas
 			</p>
+			<ion-row>
+				<ion-col>
+					<ion-item>
+						<ion-label stacked color="primary">Lokasi Pasar</ion-label>
+					</ion-item>
+					<ion-row padding>
+						<ion-col>
+							<div  (click)="getMyLocation()" >
+						        <ion-icon name='pin'></ion-icon>
+						          Use my location
+					        </div>
+						</ion-col>
+					</ion-row>
+						
+					<ion-item >
+						<ion-input [(ngModel)]="lokasi" name="pasar" #pasar="ngModel" rows="6" required placeholder="Lokasi Pasar"></ion-input>
+					</ion-item>
+					<p ion-text [hidden]="pasar.valid || submitted === false" color="danger" padding-left>
+						This field is required
+					</p>
+				</ion-col>
+			</ion-row>
 
-			<ion-item>
-				<ion-label stacked color="primary">Subjek</ion-label>
-				<ion-input [(ngModel)]="operasi.subject" name="subject" placeholder="Subjek" type="text" #subject="ngModel" spellcheck="false" autocapitalize="off" required>
-				</ion-input>
-			</ion-item>
-			<p ion-text [hidden]="subject.valid || submitted == false" color="danger" padding-left>
-				Subject is required
+			<ion-row>
+				<ion-col>
+					<ion-item>
+						<ion-label stacked color="primary">Pesan</ion-label>
+						<ion-textarea [(ngModel)]="operasi.opini" name="opini" #opini="ngModel" rows="6" required placeholder="Opini"></ion-textarea>
+					</ion-item>
+				</ion-col>
+			</ion-row>
+			<p ion-text [hidden]="opini.valid || submitted === false" color="danger" padding-left>
+				This field is required
 			</p>
-
-			<ion-item>
-				<ion-label stacked color="primary">Opini</ion-label>
-				<ion-textarea [(ngModel)]="operasi.opini" name="opini" #opini="ngModel" rows="6" required placeholder="Opini"></ion-textarea>
-			</ion-item>
 		</ion-list>
-
-		<p ion-text [hidden]="opini.valid || submitted === false" color="danger" padding-left>
-			Opini is required
-		</p>
 
 		<div padding>
 			<button ion-button block type="submit">Send</button>

@@ -8,6 +8,7 @@ import { SignupPilihanPage } from '../signup-pilihan/signup-pilihan';
 import { TabsPage } from '../petani/tabs-petani/tabs';
 import { TabsMasyarakatPage } from '../masyarakat/tabs-masyarakat/tabs-masyarakat';
 import { UserData } from '../../providers/user-data';
+import { ForgetPasswordPage } from '../forget-password/forget-password';
 
 
 @Component({
@@ -76,7 +77,9 @@ export class LoginPage {
   onSignup() {
     this.navCtrl.push(SignupPilihanPage);
   }
-
+  onForgotPassword(){
+    this.navCtrl.push(ForgetPasswordPage);
+  }
   showToast(val){
     let toast = this.toastCtrl.create({
       message: val,

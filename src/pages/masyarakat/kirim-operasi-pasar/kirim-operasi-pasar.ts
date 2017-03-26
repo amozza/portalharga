@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController} from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { UserData } from '../../../providers/user-data';
+import { Geolocation} from 'ionic-native';
 
-
+declare var google: any;
 /*
   Generated class for the KirimOperasiPasar page.
 
@@ -17,14 +18,17 @@ import { UserData } from '../../../providers/user-data';
 })
 export class KirimOperasiPasarPage {
   submitted: boolean = false;
-  operasi:{pasar?: string, subject?: string, opini?: string} = {};
+  operasi:{pasar?: string, komoditas?: string, opini?: string} = {};
   options: any;
   us_id: any;
+  lokasi: string;
   constructor(public navCtrl: NavController, 
   	public http: Http, 
   	public toastCtrl: ToastController,
     public userData: UserData,
-    public navParams: NavParams) {}
+    public navParams: NavParams,
+    public loadCtrl: LoadingController
+  ) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad KirimOperasiPasarPage');
@@ -43,15 +47,41 @@ export class KirimOperasiPasarPage {
       this.us_id = value;
     });
   }
+  getMyLocation(){
+    let loading = this.loadCtrl.create({
+        content: 'Tunggu sebentar...'
+    });
+    loading.present();
+    Geolocation.getCurrentPosition().then((position) => {
+      let latlng = {lat: position.coords.latitude, lng: position.coords.longitude};
+      let geocoder = new google.maps.Geocoder();
+      this.lokasi="coba";
+      geocoder.geocode({'location': latlng},(results, status)=> {
+        if(status=='OK') {
+          this.lokasi = results[0].formatted_address;
+        } else{
+          this.showAlert("Tidak dapat menemukan alamat Anda");
+        }
+        loading.dismiss();
+      });
+    }, (err) => {
+      loading.dismiss();
+      this.showAlert("Tidak dapat menemukan posisi Anda");
+    });
+  }
+
   submit(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
       this.submitted = false;
       let input = JSON.stringify({
-        subject: this.operasi.subject, 
-        message: this.operasi.opini
+        komoditas: this.operasi.komoditas, 
+        pesan: this.operasi.opini,
+        lokasi: this.lokasi,
+        us_id: this.us_id,
+        email: 'pake dari collection user aja'
       });
-      this.http.post(this.userData.BASE_URL+"operasi-pasar/post",input,this.options).subscribe(data => {
+      this.http.post(this.userData.BASE_URL+"masyarakat/addOperasi",input,this.options).subscribe(data => {
          let response = data.json();
          if(response.status == '200') {
             this.navCtrl.popToRoot();
@@ -62,9 +92,9 @@ export class KirimOperasiPasarPage {
           this.navCtrl.popToRoot();
           this.showError(err);
         });
-            
     }
   }
+
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):

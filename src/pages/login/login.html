@@ -10,11 +10,11 @@
 	</div>
 
 	<form #loginForm="ngForm" novalidate>
-		<ion-list no-lines>
+		<ion-list >
 			<ion-item>
 				<ion-label stacked color="primary">Username</ion-label>
 				<ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
-					required>
+					required placeholder="Username">
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
@@ -23,7 +23,7 @@
 
 			<ion-item>
 				<ion-label stacked color="primary">Password</ion-label>
-				<ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required>
+				<ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required placeholder="Password">
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
@@ -36,9 +36,23 @@
 				<button ion-button (click)="onLogin(loginForm)" type="submit" block>Login</button>
 			</ion-col>
 			<ion-col>
-				<ion-item>Belum punya akun? <p ion-text color="primary" (click)="onSignup()">daftar disini</p></ion-item>
+				
 			</ion-col>
 		</ion-row>
 	</form>
-
+	<div class="row" padding>
+	    <div class="col">
+	        <div class="text-center">
+	            <div style="text-align: center;"><span>Belum punya akun? </span> <span ion-text color="primary" (click)="onSignup()"><b>daftar disini!</b></span></div>
+	        </div>
+	    </div>
+	</div>
+	<div class="row" padding>
+	    <div class="col">
+	        <div class="text-center">
+	            <div style="text-align: center;"> <span ion-text color="primary" (click)="onForgotPassword()">Lupa password?</span></div>
+	        </div>
+	    </div>
+	</div>
+	
 </ion-content>
