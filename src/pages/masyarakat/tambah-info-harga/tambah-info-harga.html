@@ -21,9 +21,7 @@
 					<ion-item>
 					  <ion-label stacked color="primary">Komoditas </ion-label>
 					  <ion-select [(ngModel)]="post.komoditas" name="komoditas" #komoditas="ngModel" placeholder="pilih komoditas" required>
-					    <ion-option >Beras</ion-option>
-					    <ion-option >Bawang</ion-option>
-					    <ion-option >Cabai</ion-option>
+					    <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
 					  </ion-select>
 					</ion-item>
 				</ion-col>

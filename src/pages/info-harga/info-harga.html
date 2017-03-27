@@ -13,9 +13,7 @@
   <ion-item>
     <ion-label> pilih komoditas </ion-label>
     <ion-select [(ngModel)]="komoditas" (ionChange)="showselected(komoditas)">
-      <ion-option >Bawang</ion-option>
-      <ion-option >Beras</ion-option>
-      <ion-option >Cabai</ion-option>
+      <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
     </ion-select>
   </ion-item>
 </ion-header>
@@ -30,7 +28,7 @@
       </ion-card-header>
       <ion-card-content class="outer-content">
         <ion-icon name='pin'></ion-icon>
-        {{post.lokasi}}
+        {{post.alamat}}
       </ion-card-content>
     </div>
   </ion-card>

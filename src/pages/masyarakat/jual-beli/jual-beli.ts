@@ -44,8 +44,7 @@ export class JualBeliPage {
         if(a.status=200) {
         	this.jualan = a.data;
         }
-        console.log(a);
-      }, err => { console.log(err);
+      }, err => { 
           this.showError(err);
       });
     });

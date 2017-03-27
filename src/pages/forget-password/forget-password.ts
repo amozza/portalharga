@@ -55,7 +55,7 @@ export class ForgetPasswordPage {
            } else{
            	this.userNotFound = true;
            }
-           this.showAlert(response.message);
+           //this.showAlert(response.message);
            
         }, err => { 
            loading.dismiss();
