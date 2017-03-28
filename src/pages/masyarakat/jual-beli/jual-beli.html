@@ -14,18 +14,30 @@
 
 
 <ion-content >
-	<ion-card>
+	<ion-card *ngFor="let data of jualan">
         <ion-card-header>
 		    <div ion-item>
 		        <ion-avatar item-left>
-		          <img src="assets/icon/user.png" >
+		          <img [src]="'http://ph.yippytech.com/'+data.prof_pict" >
 		        </ion-avatar>
-		        Nama
-				<h6>1 sec ago</h6>  
+		        {{data.nama}}
+				<h6>{{data.time}} ago</h6>  
 		    </div>
-        	<h2>Komoditas x</h2>
-	    	<h5>Rp. 30.000 per Kg</h5>
+        <ion-row>
+          <ion-col>
+            <h2>{{data.komoditas}}</h2>
+          </ion-col>
+        </ion-row>
+	    	<ion-row>
+          <ion-col>
+            <h5>Rp. {{data.harga}} per {{data.satuan_harga}}</h5>
+          </ion-col>
+          <ion-col>
+            <h5>Stok: {{data.stok}} {{data.satuan_stok}}</h5>
+          </ion-col>
+        </ion-row>
         </ion-card-header>
+        <img [src]="'http://ph.yippytech.com/'+data.foto_komoditas" *ngIf="data.foto_komoditas">
         <ion-card-content class="outer-content">
         	<ion-row>
 	        	<h6>

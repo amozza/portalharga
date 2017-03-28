@@ -30,7 +30,7 @@ export class InfoHargaPage {
   token: string;
   dataHarga = [];
   marker = [];
-  dataKomoditas:any;
+  dataKomoditas=[];
 
   constructor(
     public navCtrl: NavController,
@@ -53,7 +53,7 @@ export class InfoHargaPage {
     let latLng = new google.maps.LatLng(-6.560284, 106.7233045);
     let mapOptions = {
       center: latLng,
-      zoom: 15,
+      zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -77,7 +77,7 @@ export class InfoHargaPage {
       let latLng = new google.maps.LatLng(this.lat, this.lng);
       let mapOptions = {
         center: latLng,
-        zoom: 15,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -118,7 +118,7 @@ export class InfoHargaPage {
       let latLng = new google.maps.LatLng(data.latitude, data.longitude);
       let mapOptions = {
         center: latLng,
-        zoom: 15,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       let infoWindow = new google.maps.InfoWindow({

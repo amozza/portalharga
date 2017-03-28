@@ -39,10 +39,13 @@ export class JualBeliPage {
       this.token = value;
       this.options = new RequestOptions({ headers: headers});
       
-      this.http.get(this.userData.BASE_URL+'jualan/getJualanKu/'+this.id,this.options).subscribe(res => {
+      this.http.get(this.userData.BASE_URL+'jualan/getAll/',this.options).subscribe(res => {
         let a = res.json();
-        if(a.status=200) {
+        console.log(a);
+        if(a.status == 200) {
         	this.jualan = a.data;
+        } else if(a.status == 404){
+        	this.jualan = [];
         }
       }, err => { 
           this.showError(err);

@@ -1,5 +1,5 @@
 <!--
-  Generated template for the OperasiPasar page.
+  Generated template for the ProfileMasyarakat page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,29 +7,35 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Request Operasi Pasar</ion-title>
+    <ion-title>Profile</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-	<ion-card *ngFor="let data of dataOperasi">
-      <ion-row>
-        <ion-col text-left>
-          <ion-card-header>
-            <h2>{{data.komoditas}}</h2>
-            <h5>{{data.datePost}}</h5>
-          </ion-card-header>
-        </ion-col>
-        <div *ngIf="data.us_id == us_id">
-          <ion-col text-right>
-            <button ion-button clear small  color="primary" (click)="presentActionSheet(data.operasiPasar_id)">
-              <ion-icon name='more'></ion-icon>
-             </button>
-          </ion-col>
-        </div>
-      </ion-row>
+	<div padding-top text-center *ngIf="nama">
+	    <img src="assets/icon/user.png" *ngIf="!profilePict">
+		<img [src]="'https://ph.yippytech.com/'+profilePict" *ngIf="profilePict">
+	    <h2>{{nama}}</h2>
+	    <button ion-button outline color="primary" (click)="editProfile()" >
+			Edit profile
+		</button>
+		<button ion-button outline color="primary" (click)="logout()" >
+			Logout
+		</button>
+	 </div>
+
+	 <ion-card *ngFor="let data of dataOperasi" no-padding>
+        <ion-card-header>
+          <h2>{{data.komoditas}}</h2>
+          <h5>{{data.datePost}}</h5>
+        </ion-card-header>
         <ion-card-content class="outer-content">
           <h4>{{data.pesan}}</h4>
         </ion-card-content>
@@ -44,13 +50,13 @@
             </button>
           </ion-col>
           <ion-col text-right>
-            <div *ngIf="data.us_id != us_id && data.status_voted == false">
+            <div *ngIf="data.us_id != id && data.status_voted == false">
               <button ion-button clear small color="primary" icon-left (click)="dukungOperasi(data.operasiPasar_id)" >
                 <ion-icon name='thumbs-up'></ion-icon>
                 Dukung
               </button>
           </div>
-          <div *ngIf="data.us_id != us_id && data.status_voted == true">
+          <div *ngIf="data.us_id != id && data.status_voted == true">
               <button ion-button clear small color="primary" icon-left (click)="batalDukungOperasi(data.operasiPasar_id)" >
                 <ion-icon name='thumbs-up'></ion-icon>
                 Batal Dukung
@@ -59,7 +65,4 @@
           </ion-col>
         </ion-row>
     </ion-card>
-	<ion-fab bottom right #fab>
-    	<button ion-fab (click)="kirimOperasiPasar()"><ion-icon name="add"></ion-icon></button>
-  	</ion-fab>
 </ion-content>

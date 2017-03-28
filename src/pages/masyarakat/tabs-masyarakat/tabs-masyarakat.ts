@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ProfilePage } from '../../profile/profile';
+import { ProfileMasyarakatPage } from '../profile-masyarakat/profile-masyarakat';
 import { InfoHargaPage } from '../../info-harga/info-harga';
 import { OperasiPasarPage } from '../operasi-pasar/operasi-pasar';
 import { JualBeliPage } from '../jual-beli/jual-beli';
@@ -13,7 +13,7 @@ export class TabsMasyarakatPage {
   // should be each tab's root Page
   tab2Root: any = InfoHargaPage;
   tab3Root: any = OperasiPasarPage;  
-  tab4Root: any = ProfilePage;
+  tab4Root: any = ProfileMasyarakatPage;
   tab5Root: any = JualBeliPage;
   
   constructor() {

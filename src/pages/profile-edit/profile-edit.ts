@@ -38,7 +38,7 @@ export class ProfileEditPage {
       this.profile.nama = value.name;
       this.profile.email = value.email;
       this.profile.us_id = value.us_id;
-      this.profile.picture = "https://ph.yippytech.com/" + value.prof_pict;
+      this.profile.picture = value.prof_pict;
     });
     this.userData.getToken().then((value)=>{
       this.token = value;

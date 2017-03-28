@@ -21,6 +21,7 @@ export class KirimStatusProduksiPage {
   produksi:{komoditas?: string, lokasi?: string, jumlah?: string, satuan?: string, keterangan?: string} = {};
   headers: any;
   options: any;
+  dataKomoditas = [];
 
   constructor(
   	public navCtrl: NavController,
@@ -32,6 +33,7 @@ export class KirimStatusProduksiPage {
   }
 
   ionViewWillEnter() {
+    this.getKomoditas();
     this.userData.getToken().then((value) => {
       this.headers = new Headers({ 
         'Content-Type': 'application/json',
@@ -44,8 +46,25 @@ export class KirimStatusProduksiPage {
     this.userData.getId().then((value) => {
       this.id = value;
     });
-  }
 
+  }
+  getKomoditas() {
+    this.userData.getToken().then((value) => {
+      let headers = new Headers({ 
+        'Content-Type': 'application/json',
+        'token': value,
+        'login_type' : '1'
+      });
+      this.options = new RequestOptions({ headers: headers});
+      
+      this.http.get(this.userData.BASE_URL+'setKomoditas/jenisKomoditas',this.options).subscribe(res => {
+        let a = res.json();
+        this.dataKomoditas = a.data;
+      }, err => { 
+          this.showError(err);
+      });
+    });
+  }
   submit(form: NgForm) {
     this.submitted = true;
 
@@ -67,12 +86,17 @@ export class KirimStatusProduksiPage {
          
       }, err => {
         this.navCtrl.popToRoot();
-        err.status==0? 
-        this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-        this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+        this.showError(err);
         });
             
     }
+  }
+  showError(err: any){  
+    err.status==0? 
+    this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+    err.status==403?
+    this.showAlert(err.message):
+    this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   showAlert(message: string){
     let toast = this.toastCtrl.create({

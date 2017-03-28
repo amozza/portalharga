@@ -15,15 +15,13 @@
 
 <ion-content>
 	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
-		<ion-list no-lines>
+		<ion-list>
 			<ion-row>
 				<ion-col>
 					<ion-item>
 					  <ion-label stacked color="primary">Komoditas </ion-label>
 					  <ion-select [(ngModel)]="produksi.komoditas" name="komoditas" #komoditas="ngModel">
-					    <ion-option >Beras</ion-option>
-					    <ion-option >Bawang</ion-option>
-					    <ion-option >Cabai</ion-option>
+					    <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
 					  </ion-select>
 					</ion-item>
 				</ion-col>
@@ -36,7 +34,7 @@
 				<ion-col>
 					<ion-item>
 						<ion-label stacked color="primary">Lokasi</ion-label>
-						<ion-input [(ngModel)]="produksi.lokasi" name="lokasi" type="text" #lokasi="ngModel" spellcheck="false" autocapitalize="off" required>
+						<ion-input [(ngModel)]="produksi.lokasi" name="lokasi" type="text" #lokasi="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Lokasi">
 						</ion-input>
 					</ion-item>
 				</ion-col>
@@ -49,7 +47,7 @@
 				<ion-col >
 					<ion-item>
 						<ion-label stacked color="primary">Jumlah Produksi</ion-label>	
-						<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="number" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required>
+						<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="number" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Jumlah Produksi">
 						</ion-input>
 					</ion-item>
 				</ion-col>
@@ -72,7 +70,7 @@
 				<ion-col>
 					<ion-item>
 						<ion-label stacked color="primary">Keterangan</ion-label>
-						<ion-textarea [(ngModel)]="produksi.keterangan" name="keterangan" #keterangan="ngModel" rows="6" required></ion-textarea>
+						<ion-textarea [(ngModel)]="produksi.keterangan" name="keterangan" #keterangan="ngModel" rows="6" required placeholder="Keterangan"></ion-textarea>
 					</ion-item>
 				</ion-col>
 			</ion-row>
@@ -82,7 +80,7 @@
 		</p>
 
 		<div padding>
-			<button ion-button block type="submit">Send</button>
+			<button ion-button block type="submit">Kirim</button>
 		</div>
 	</form>
 </ion-content>

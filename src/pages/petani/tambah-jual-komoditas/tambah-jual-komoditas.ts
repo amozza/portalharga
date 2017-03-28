@@ -19,8 +19,9 @@ export class TambahJualKomoditasPage {
   submitted: boolean = false;
   id: string;
   produksi:{komoditas?: string, jumlah?: string, satuanHarga?: string, satuanJumlah?: string, harga?: string, foto?: string} = {};
-  headers: any;2
+  headers: any;
   options: any;
+  dataKomoditas = [];
 
   constructor(
   	public navCtrl: NavController,
@@ -44,12 +45,29 @@ export class TambahJualKomoditasPage {
     this.userData.getId().then((value) => {
       this.id = value;
     });
+    this.getKomoditas();
   }
-
+  getKomoditas() {
+    this.userData.getToken().then((value) => {
+      let headers = new Headers({ 
+        'Content-Type': 'application/json',
+        'token': value,
+        'login_type' : '1'
+      });
+      this.options = new RequestOptions({ headers: headers});
+      
+      this.http.get(this.userData.BASE_URL+'setKomoditas/jenisKomoditas',this.options).subscribe(res => {
+        let a = res.json();
+        this.dataKomoditas = a.data;
+      }, err => { 
+          this.showError(err);
+      });
+    });
+  }
   takePicture(){
     Camera.getPicture({
         destinationType: Camera.DestinationType.DATA_URL,
-        targetWidth: 300,
+        targetWidth: 600,
         targetHeight: 600
     }).then((imageData) => {
     	this.produksi.foto = imageData;
@@ -61,7 +79,7 @@ export class TambahJualKomoditasPage {
     Camera.getPicture({
         destinationType: Camera.DestinationType.DATA_URL,
         sourceType     : Camera.PictureSourceType.PHOTOLIBRARY,
-        targetWidth: 300,
+        targetWidth: 600,
         targetHeight: 600
     }).then((imageData) => {
     	this.produksi.foto = imageData;
@@ -78,9 +96,11 @@ export class TambahJualKomoditasPage {
       let input = JSON.stringify({
         komoditas: this.produksi.komoditas,
         string64: this.produksi.foto,
-        stok: this.produksi.jumlah+' '+this.produksi.satuanJumlah , 
-        harga: this.produksi.harga+' per '+this.produksi.satuanHarga,
-        us_id: this.id
+        stok: this.produksi.jumlah, 
+        harga: this.produksi.harga,
+        us_id: this.id,
+        satuan_harga: this.produksi.satuanHarga,
+        satuan_stok: this.produksi.satuanJumlah
       });
       this.http.post(this.userData.BASE_URL+"jualan/postJualan",input,this.options).subscribe(data => {
          let response = data.json();

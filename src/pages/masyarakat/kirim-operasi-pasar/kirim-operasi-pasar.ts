@@ -22,6 +22,7 @@ export class KirimOperasiPasarPage {
   options: any;
   us_id: any;
   lokasi: string;
+  dataKomoditas = [];
   constructor(public navCtrl: NavController, 
   	public http: Http, 
   	public toastCtrl: ToastController,
@@ -34,17 +35,27 @@ export class KirimOperasiPasarPage {
     console.log('ionViewDidLoad KirimOperasiPasarPage');
   }
   ionViewWillEnter(){
-  	this.userData.getToken().then((value) => {
+  	this.getKomoditas();
+   
+    this.userData.getId().then((value) => {
+      this.us_id = value;
+    });
+  }
+  getKomoditas() {
+    this.userData.getToken().then((value) => {
       let headers = new Headers({ 
         'Content-Type': 'application/json',
         'token': value,
         'login_type' : '1'
       });
       this.options = new RequestOptions({ headers: headers});
-    });
-
-    this.userData.getId().then((value) => {
-      this.us_id = value;
+      
+      this.http.get(this.userData.BASE_URL+'setKomoditas/jenisKomoditas',this.options).subscribe(res => {
+        let a = res.json();
+        this.dataKomoditas = a.data;
+      }, err => { 
+          this.showError(err);
+      });
     });
   }
   getMyLocation(){
@@ -83,6 +94,7 @@ export class KirimOperasiPasarPage {
       });
       this.http.post(this.userData.BASE_URL+"masyarakat/addOperasi",input,this.options).subscribe(data => {
          let response = data.json();
+         console.log(response);
          if(response.status == '200') {
             this.navCtrl.popToRoot();
             this.showAlert("Opini kamu telah dikirim");

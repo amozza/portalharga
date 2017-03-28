@@ -20,7 +20,7 @@ export class TambahInfoHargaPage {
   submitted = false;
   post:{komoditas?: string, harga?: number, satuanHarga?: string} = {};
   lokasi:{lat?: number, lng?: number}={};
-  dataKomoditas:any;
+  dataKomoditas=[];
   options: any;
   id: string;
   alamat: any;
@@ -31,7 +31,7 @@ export class TambahInfoHargaPage {
   	public userData: UserData,
   	public http: Http,
   	public toastCtrl: ToastController
-  	) {}
+  	) { }
 
   ionViewWillEnter() {
     this.getCurrentLocation();
@@ -91,6 +91,7 @@ export class TambahInfoHargaPage {
       });
       this.http.post(this.userData.BASE_URL+"masyarakat/addKom",input,this.options).subscribe(data => {
          let response = data.json();
+         console.log(response);
          if(response.status == '200') {
             this.navCtrl.popToRoot();
             this.showAlert("Terima kasih telah mengirim info harga");

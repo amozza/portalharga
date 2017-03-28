@@ -48,8 +48,11 @@ export class JualKomoditasPage {
       
       this.http.get(this.userData.BASE_URL+'jualan/getJualanKu/'+this.id,this.options).subscribe(res => {
         let a = res.json();
-        console.log(a);
-        this.jualanku = a.data;
+        if(a.status == 200) {
+          this.jualanku = a.data;
+        } else if(a.status == 404){
+          this.jualanku = [];
+        }
         this.httpErr = false;
       }, err => { console.log(err);
           this.showError(err);
@@ -80,7 +83,6 @@ export class JualKomoditasPage {
                 });
               this.http.post(this.userData.BASE_URL+'jualan/delJualan',param,this.options).subscribe(res => {
                 let a = res.json();
-                console.log(a);
                 if(a.status == '200') {
                   this.getJualan();
                   this.showAlert(a.message);

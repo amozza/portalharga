@@ -15,15 +15,13 @@
 
 <ion-content>
 	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
-		<ion-list no-lines>
+		<ion-list>
 			<ion-row>
 				<ion-col>
 					<ion-item>
 					  <ion-label stacked color="primary">Komoditas </ion-label>
-					  <ion-select [(ngModel)]="produksi.komoditas" name="komoditas" #komoditas="ngModel">
-					    <ion-option >Beras</ion-option>
-					    <ion-option >Bawang</ion-option>
-					    <ion-option >Cabai</ion-option>
+					  <ion-select [(ngModel)]="produksi.komoditas" name="komoditas" #komoditas="ngModel" placeholder="Pilih komoditas" required>
+					    <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
 					  </ion-select>
 					</ion-item>
 				</ion-col>
@@ -35,8 +33,8 @@
 			<ion-row>
 				<ion-col >
 					<ion-item>
-						<ion-label stacked color="primary">Harga (Rp.)</ion-label>	
-						<ion-input [(ngModel)]="produksi.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required>
+						<ion-label stacked color="primary">Harga</ion-label>	
+						<ion-input [(ngModel)]="produksi.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Rp.">
 						</ion-input>
 					</ion-item>
 				</ion-col>
@@ -59,7 +57,7 @@
 				<ion-col >
 					<ion-item>
 						<ion-label stacked color="primary">Stok Tersedia</ion-label>	
-						<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="number" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required>
+						<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="number" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Stok" >
 						</ion-input>
 					</ion-item>
 				</ion-col>
@@ -78,24 +76,24 @@
 				Jumlah is required
 			</p> 
 
-
+<!-- 
 			<ion-row>
 				<ion-col>
 					<ion-item>
 						<ion-label stacked color="primary">Deskripsi komoditas</ion-label>
-						<ion-textarea [(ngModel)]="produksi.deskripsi" name="deskripsi" #deskripsi="ngModel" rows="6" required></ion-textarea>
+						<ion-textarea [(ngModel)]="produksi.deskripsi" name="deskripsi" #deskripsi="ngModel" rows="6" required placeholder="Deskripsi"></ion-textarea>
 					</ion-item>
 				</ion-col>
 			</ion-row>
 			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
 				Deskripsi is required
-			</p>
+			</p> -->
 
 			<ion-row>
 				<ion-col>
-					<ion-item>
+					<ion-row padding>
 						<ion-label stacked color="primary">Foto</ion-label>
-					</ion-item>
+					</ion-row>
 					<ion-row padding>
 						<ion-col>
 							<div  (click)="takePicture()" >
@@ -120,7 +118,7 @@
 		</ion-list>
 
 		<div padding>
-			<button ion-button block type="submit">Send</button>
+			<button ion-button block type="submit">Kirim</button>
 		</div>
 	</form>
 </ion-content>
