@@ -7,16 +7,17 @@ import { Geolocation} from 'ionic-native';
 
 declare var google: any;
 /*
-  Generated class for the KirimOperasiPasar page.
+  Generated class for the EditOperasiPasar page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-kirim-operasi-pasar',
-  templateUrl: 'kirim-operasi-pasar.html'
+  selector: 'page-edit-operasi-pasar',
+  templateUrl: 'edit-operasi-pasar.html'
 })
-export class KirimOperasiPasarPage {
+export class EditOperasiPasarPage {
+
   submitted: boolean = false;
   operasi:{pasar?: string, komoditas?: string, opini?: string} = {};
   options: any;
@@ -29,11 +30,13 @@ export class KirimOperasiPasarPage {
     public userData: UserData,
     public navParams: NavParams,
     public loadCtrl: LoadingController
-  ) {}
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad KirimOperasiPasarPage');
+  ) {
+  	let data = navParams.data;
+  	this.operasi.komoditas = data.komoditas,
+  	this.operasi.opini = data.pesan;
+  	this.lokasi = data.lokasi;
   }
+
   ionViewWillEnter(){
   	this.getKomoditas();
    
@@ -90,7 +93,7 @@ export class KirimOperasiPasarPage {
         lokasi: this.lokasi,
         us_id: this.us_id
       });
-      this.http.post(this.userData.BASE_URL+"masyarakat/addOperasi",input,this.options).subscribe(data => {
+      this.http.post(this.userData.BASE_URL+"masyarakat/updateOperasi",input,this.options).subscribe(data => {
          let response = data.json();
          console.log(response);
          if(response.status == '200') {
@@ -120,5 +123,4 @@ export class KirimOperasiPasarPage {
     });
     toast.present();
   }
-
 }

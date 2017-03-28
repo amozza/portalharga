@@ -24,18 +24,22 @@
         </ion-col>
         <div *ngIf="data.us_id == us_id">
           <ion-col text-right>
-            <button ion-button clear small  color="primary" (click)="presentActionSheet(data.operasiPasar_id)">
+            <button ion-button clear small  color="primary" (click)="presentActionSheet(data)">
               <ion-icon name='more'></ion-icon>
              </button>
           </ion-col>
         </div>
       </ion-row>
-        <ion-card-content class="outer-content">
-          <h4>{{data.pesan}}</h4>
-        </ion-card-content>
         <ion-row padding-left>
-          <ion-icon name='pin'></ion-icon>
-          {{data.lokasi}}
+          <ion-col>
+            <h4>{{data.pesan}}</h4>
+          </ion-col>
+        </ion-row>
+        <ion-row padding-left>
+          <ion-col>
+            <ion-icon name='pin'></ion-icon>
+            {{data.lokasi}}
+          </ion-col>
         </ion-row>
         <ion-row no-padding>
           <ion-col text-left>

@@ -3,6 +3,7 @@ import { NavController, NavParams, ToastController,ActionSheetController} from '
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { UserData } from '../../../providers/user-data';
 import { KirimOperasiPasarPage } from '../kirim-operasi-pasar/kirim-operasi-pasar';
+import { EditOperasiPasarPage } from '../edit-operasi-pasar/edit-operasi-pasar';
 
 /*
   Generated class for the OperasiPasar page.
@@ -61,7 +62,7 @@ export class OperasiPasarPage {
   batalDukungOperasi(idOperasi){
     
   }
-  presentActionSheet(idAspirasi) {
+  presentActionSheet(data) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
       buttons: [
@@ -69,7 +70,7 @@ export class OperasiPasarPage {
           text: 'Edit operasi pasar',
           role: 'editOperasiPasar',
           handler: () => {
-               
+            this.navCtrl.push(EditOperasiPasarPage,data);
           }
         },
         {
@@ -78,7 +79,7 @@ export class OperasiPasarPage {
           handler: () => {
                let param = JSON.stringify({
                   us_id : this.us_id,
-                  aspirasi_id : idAspirasi
+                  aspirasi_id : data.operasiPasar_id
                 });
                console.log(param);
               this.http.post(this.userData.BASE_URL+'masyarakat/delOperasiPasar',param,this.options).subscribe(res => {

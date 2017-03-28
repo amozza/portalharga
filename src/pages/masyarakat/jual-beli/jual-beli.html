@@ -16,13 +16,17 @@
 <ion-content >
 	<ion-card *ngFor="let data of jualan">
         <ion-card-header>
-		    <div ion-item>
-		        <ion-avatar item-left>
-		          <img [src]="'http://ph.yippytech.com/'+data.prof_pict" >
-		        </ion-avatar>
-		        {{data.nama}}
-				<h6>{{data.time}} ago</h6>  
-		    </div>
+  		    <ion-row>
+            <ion-col>
+              <ion-item no-padding>
+      		      <ion-avatar item-left>
+      		        <img [src]="'http://ph.yippytech.com/'+data.prof_pict" >
+      		      </ion-avatar>
+      		        {{data.nama}}
+      				  <h6>{{data.time}} ago</h6>  
+      		    </ion-item>
+            </ion-col>
+          </ion-row>
         <ion-row>
           <ion-col>
             <h2>{{data.komoditas}}</h2>
