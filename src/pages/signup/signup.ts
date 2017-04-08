@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { NavController, ToastController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, NavParams, LoadingController } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 
 import { TabsPage } from '../petani/tabs-petani/tabs';
@@ -14,47 +14,53 @@ import { UserData } from '../../providers/user-data';
   templateUrl: 'signup.html'
 })
 export class SignupPage {
-  signup: {username?: string, nama?: string, email?: string, password?: string, role?: any} = {};
+  user: {username?: string, name?: string, email?: string, password?: string, role?: any} = {};
   submitted = false;
   headers = new Headers({ 
-                'Content-Type': 'application/json',
-                'login_type' : '1'});
+                'Content-Type': 'application/json'});
   options = new RequestOptions({ headers: this.headers});
 
   constructor(
     public toastCtrl: ToastController,
     public navCtrl: NavController, 
     public http: Http,
-     public navParams: NavParams,
-    public userData: UserData
+    public navParams: NavParams,
+    public userData: UserData,
+    public loadCtrl: LoadingController
     ) {
-    this.signup.role = navParams.data;
+    this.user.role = navParams.data;
   }
   
   changeUserType(type: any){
-    this.signup.role = type;
+    this.user.role = type;
   }
   onSignup(form: NgForm) {
     this.submitted = true;
+    let loading = this.loadCtrl.create({
+        content: 'Tunggu sebentar...'
+    });
 
     if (form.valid) {
+      loading.present();
       let input = JSON.stringify({
-        username: this.signup.username, 
-        name: this.signup.nama, 
-        email: this.signup.email, 
-        password: this.signup.password, 
-        role: this.signup.role
+        username: this.user.username, 
+        name: this.user.name, 
+        email: this.user.email, 
+        password: this.user.password, 
+        role: this.user.role,
+        login_type : 1
       });
-      this.http.post(this.userData.BASE_URL+"user/inputUser",input,this.options).subscribe(data => {
+      this.http.post(this.userData.BASE_URL+"user/add",input,this.options).subscribe(data => {
+           loading.dismiss();
            let response = data.json();
-           if(response.status=='200') {
+           if(response.status==200) {
              this.userData.signup(response.data);
              this.userData.setToken(response.token);
              switch (response.data.role) {
-               case 1:
+               case 4: //petani
                  this.navCtrl.setRoot(TabsPage);
                  break;
-               case 2:
+               case 5: //masyarakat
                  this.navCtrl.setRoot(TabsMasyarakatPage);
                  break;
                
@@ -63,14 +69,19 @@ export class SignupPage {
                  break;
              }
            }
-           this.showToast(response.message);
+           this.showAlert(response.message);
+        }, err => { 
+           loading.dismiss();
+           this.showError(err);
         });
-      
-      console.log(input);
-
     }
   }
-  showToast(message){
+  showError(err: any){  
+    err.status==0? 
+    this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+    this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+  }
+  showAlert(message){
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000

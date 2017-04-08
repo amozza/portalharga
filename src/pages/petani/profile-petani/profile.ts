@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, App ,ToastController, ActionSheetController, PopoverController} from 'ionic-angular';
+import { NavController, AlertController, App ,ToastController, ActionSheetController, PopoverController, LoadingController} from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
 import { ProfileEditPage } from '../../profile-edit/profile-edit';
 import { Storage } from '@ionic/storage';
-import { Http ,Headers,RequestOptions} from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { PendukungPage } from '../pendukung/pendukung';
 import { PopoverPage } from '../../popover/popover';
+import { EditAspirasiPage } from '../edit-aspirasi/edit-aspirasi';
 
 
 /*
@@ -20,27 +21,24 @@ import { PopoverPage } from '../../popover/popover';
   templateUrl: 'profile.html'
 })
 export class ProfilePetaniPage {
-	nama: string;
-  profilePict: string;
+	public nama: string;
+  public profilePicture: string;
   public aspirasi: any;
-  public httpErr = false;
-  public id: any;
-  public options: any;
+  public id: string;
+  public loading: any;
   
   constructor(
   	public alertCtrl: AlertController, 
   	public nav: NavController,
     public app: App,
-    public http: Http,
+    public authHttp: AuthHttp,
     public toastCtrl: ToastController,
     public storage: Storage,
     public actionSheetCtrl: ActionSheetController, 
   	public userData: UserData,
+    public loadingCtrl: LoadingController,
     public popoverCtrl: PopoverController) {
 
-  }
-
-  ngAfterViewInit() {
   }
 
   presentPopover(event: Event) {
@@ -49,23 +47,24 @@ export class ProfilePetaniPage {
   }
 
   ionViewWillEnter(){
-    this.getProfilePict();
-    this.getName();
-    this.getAspirasi();
+    this.getDataProfile();
+    this.loading = this.loadingCtrl.create({
+        content: 'Tunggu sebentar...'
+    });
   }
-  getName() {
+  getDataProfile() {
     this.userData.getUsername().then((nama) => {
       this.nama = nama;
     });
     this.userData.getId().then((value)=>{
       this.id = value;
+      this.getAspirasi();
+    });
+    this.userData.getProfilePict().then((value) => {
+      this.profilePicture = value;
     });
   }
-  getProfilePict() {
-    this.userData.getProfilePict().then((values) => {
-      this.profilePict = "https://ph.yippytech.com/" + values;
-    });
-  }
+
   editProfile(){
     this.nav.push(ProfileEditPage);
   }
@@ -73,55 +72,58 @@ export class ProfilePetaniPage {
   logout() {
     this.userData.logout();
     this.app.getRootNav().setRoot(LoginPage);
-   // this.nav.setRoot(LoginPage);
   }
   getAspirasi() {
-    
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.options = new RequestOptions({ headers: headers});
-      
-      this.http.get(this.userData.BASE_URL+'aspirasi/getAspirasiku/'+this.id,this.options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        this.aspirasi = a.data;
-        this.httpErr = false;
-      }, err => {
-          this.showError(err);
-      });
-
+    this.authHttp.get(this.userData.BASE_URL+'aspirasi/get/'+this.id).subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.aspirasi = response.data;
+      } else if(response.status == 204){
+        this.aspirasi = [];
+      }
+    }, err => { console.log(err);
+        this.showError(err);
     });
   }
   lihatPendukung(idAspirasi) {
      this.nav.push(PendukungPage,idAspirasi);
   }
-  presentActionSheet(idAspirasi) {
+  hapusAspirasi(aspirasi_id){
+    this.loading.present();
+    let param = JSON.stringify({
+      aspirasi_id : aspirasi_id
+    });
+    this.authHttp.post(this.userData.BASE_URL+'aspirasi/delete',param).subscribe(res => {
+      this.loading.dismiss();
+      let response = res.json();
+      if(response.status == 200) {
+        this.getAspirasi();
+        this.showAlert(response.message);
+      }
+    }, err => { 
+      this.loading.dismiss();
+      this.showError(err);
+    });
+  }
+  editAspirasi(dataAspirasi){
+    this.nav.push(EditAspirasiPage,dataAspirasi);
+  }
+  presentActionSheet(dataAspirasi) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
       buttons: [
         {
+          text: 'Edit aspirasi',
+          role: 'editAspirasi',
+          handler: () => {
+            this.editAspirasi(dataAspirasi);
+          }
+        },
+        {
           text: 'Hapus aspirasi',
           role: 'hapusAspirasi',
           handler: () => {
-               let param = JSON.stringify({
-                  us_id : this.id,
-                  aspirasi_id : idAspirasi
-                });
-               console.log(param);
-              this.http.post(this.userData.BASE_URL+'aspirasi/delAspirasi',param,this.options).subscribe(res => {
-                let a = res.json();
-                console.log(a);
-                if(a.status == '200') {
-                  this.getAspirasi();
-                  this.showAlert(a.message);
-                }
-              }, err => { 
-                this.showError(err);
-              });
+            this.hapusAspirasi(dataAspirasi.aspirasi_id);
           }
         }
       ]
@@ -131,8 +133,6 @@ export class ProfilePetaniPage {
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   showAlert(message: string){
@@ -141,7 +141,6 @@ export class ProfilePetaniPage {
       duration: 3000
     });
     toast.present();
-    this.httpErr = true;
   }
 
 }

@@ -19,8 +19,7 @@ export class LoginPage {
   login: {username?: string, password?: string} = {};
   submitted = false;
   headers = new Headers({ 
-                'Content-Type': 'application/json',
-                'login_type':'1'});
+                'Content-Type': 'application/json'});
   options = new RequestOptions({ headers: this.headers});
 
   constructor(
@@ -29,7 +28,9 @@ export class LoginPage {
     public toastCtrl: ToastController,
     public loadCtrl: LoadingController,
     public userData: UserData) { }
-
+  ionViewWillEnter(){
+    
+  }
   onLogin(form: NgForm) {
     this.submitted = true;
     let loading = this.loadCtrl.create({
@@ -40,19 +41,21 @@ export class LoginPage {
     loading.present();
       let input = JSON.stringify({
         username: this.login.username, 
-        password: this.login.password
+        password: this.login.password,
+        login_type: 1
       });
-        this.http.post(this.userData.BASE_URL+"api/auth",input,this.options).subscribe(data => {
+        this.http.post(this.userData.BASE_URL+"user/auth",input,this.options).subscribe(data => {
            let response = data.json();
            loading.dismiss();
-           if(response.status == '200') {
+           console.log(response);
+           if(response.status == 200) {
              this.userData.login(response.data);
              this.userData.setToken(response.token);
              switch (response.data.role) {
-               case 1:
+               case 4: //petani
                  this.navCtrl.setRoot(TabsPage);
                  break;
-               case 2:
+               case 5: //masyarakat
                  this.navCtrl.setRoot(TabsMasyarakatPage);
                  break;
                
@@ -62,14 +65,10 @@ export class LoginPage {
              }
              // this.navCtrl.setRoot(TabsPage);
            }
-           this.showToast(response.message);
-           console.log(response.message);
-           console.log(data);
+           this.showAlert("Login berhasil");
         }, err => { 
            loading.dismiss();
-           err.status==0?   
-           this.showToast("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-           this.showToast("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+           this.showError(err);
         });
       
     }
@@ -80,7 +79,12 @@ export class LoginPage {
   onForgotPassword(){
     this.navCtrl.push(ForgetPasswordPage);
   }
-  showToast(val){
+  showError(err: any){  
+    err.status==0? 
+    this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+    this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+  }
+  showAlert(val){
     let toast = this.toastCtrl.create({
       message: val,
       duration: 3000

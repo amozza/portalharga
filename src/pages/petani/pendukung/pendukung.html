@@ -14,14 +14,14 @@
 
 
 <ion-content>
-	<ion-card *ngFor="let post of pendukung">
+	<ion-card *ngFor="let data of pendukung">
 		<ion-card-header>
 			<div ion-item>
 		        <ion-avatar item-left>
-		          <img src="assets/icon/user.png" *ngIf="!post.prof_pict">
-		          <img [src]="'https://ph.yippytech.com/'+post.prof_pict" *ngIf="post.prof_pict">
+		          <img src="assets/icon/user.png" *ngIf="!data.picture">
+		          <img [src]="data.picture" *ngIf="data.picture">
 		        </ion-avatar>
-		        {{post.name}}
+		        {{data.name}}
 	        </div>
 	    </ion-card-header>
 	</ion-card>

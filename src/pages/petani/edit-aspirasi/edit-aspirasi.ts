@@ -5,31 +5,31 @@ import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
 
 /*
-  Generated class for the TambahAspirasi page.
+  Generated class for the EditAspirasi page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-tambah-aspirasi',
-  templateUrl: 'tambah-aspirasi.html'
+  selector: 'page-edit-aspirasi',
+  templateUrl: 'edit-aspirasi.html'
 })
-export class TambahAspirasiPage {
-
+export class EditAspirasiPage {
   submitted: boolean = false;
-  aspirasi:{subject?: string, isi?: string} = {};
+  aspirasi:{id?: string, subject?: string, isi?: string} = {};
   user_id: any;
+
   constructor(
   	public navCtrl: NavController,
     public toastCtrl: ToastController, 
     public authHttp: AuthHttp,
   	public navParams: NavParams,
-    public userData: UserData) {}
-
-  ionViewDidLoad() {
-    this.userData.getId().then((value) => {
-      this.user_id = value;
-    });
+    public userData: UserData
+    ) {
+  	let data = navParams.data;
+  	this.aspirasi.subject = data.subjek;
+  	this.aspirasi.isi = data.isi;
+  	this.aspirasi.id = data.aspirasi_id;
   }
 
   submit(form: NgForm) {
@@ -38,13 +38,14 @@ export class TambahAspirasiPage {
       this.submitted = false;
       let param = JSON.stringify({
         subjek: this.aspirasi.subject, 
-        isi: this.aspirasi.isi
+        isi: this.aspirasi.isi,
+        aspirasi_id : this.aspirasi.id
       }); 
-      this.authHttp.post(this.userData.BASE_URL+"aspirasi/add",param).subscribe(data => {
+      this.authHttp.post(this.userData.BASE_URL+"aspirasi/update",param).subscribe(data => {
          let response = data.json();
          if(response.status == 200) {
             this.navCtrl.popToRoot();
-            this.showAlert("Aspirasi telah dikirim");
+            this.showAlert("Aspirasi telah diperbarui");
          } else {
            this.showAlert(response);
          }
@@ -66,4 +67,5 @@ export class TambahAspirasiPage {
     });
     toast.present();
   }
+
 }

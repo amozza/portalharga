@@ -20,8 +20,7 @@ export class ForgetPasswordPage {
   userNotFound = false;
   submitted = false;
   headers = new Headers({ 
-                'Content-Type': 'application/json',
-                'login_type':'1'});
+                'Content-Type': 'application/json'});
   options = new RequestOptions({ headers: this.headers});
   constructor(
   	public navCtrl: NavController, 
@@ -43,32 +42,27 @@ export class ForgetPasswordPage {
     });
 
     if (form.valid) {
-    loading.present();
+      loading.present();
       let input = JSON.stringify({
         username: this.user.username
       });
-        this.http.post(this.userData.BASE_URL+"forgetPassword/send",input,this.options).subscribe(data => {
-           let response = data.json();
-           loading.dismiss();
-           if(response.status == '200') {
-           	this.success = true;
-           } else{
-           	this.userNotFound = true;
-           }
-           //this.showAlert(response.message);
-           
-        }, err => { 
-           loading.dismiss();
-           this.showError(err);
-        });
-      
+      this.http.post(this.userData.BASE_URL+"user/forgetPassword",input,this.options).subscribe(data => {
+         let response = data.json();
+         loading.dismiss();
+         if(response.status == 200) {
+         	this.success = true;
+         } else{
+         	this.userNotFound = true;
+         }
+      }, err => { 
+         loading.dismiss();
+         this.showError(err);
+      });
     }
   }
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
 

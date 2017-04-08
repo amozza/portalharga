@@ -13,47 +13,47 @@
       refreshingText="Memuat ulang...">
     </ion-refresher-content>
   </ion-refresher>
-	<ion-card *ngFor="let post of aspirasi" class="aspirasi">
+	<ion-card *ngFor="let data of aspirasi" class="aspirasi">
 		<ion-row>
 			<ion-col text-left>
 				<ion-card-header>
 					<div ion-item>
 				        <ion-avatar item-left>
-				          <img src="assets/icon/user.png" *ngIf="!post.prof_pict">
-				          <img [src]="'https://ph.yippytech.com/'+post.prof_pict" *ngIf="post.prof_pict">
+				          <img src="assets/icon/user.png" *ngIf="!data.picture">
+				          <img [src]="data.picture" *ngIf="data.picture">
 				        </ion-avatar>
-				        {{post.name}}
-	    				<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  
+				        {{data.name}}
+	    				<h6>{{data.time}} {{data.time!='now'?'ago':''}}</h6>  
 			        </div>
 			    </ion-card-header>
 			</ion-col> 
-			<div *ngIf="post.us_id == id">
+			<div *ngIf="data.user_id == user_id">
 				<ion-col text-right>
-					<button ion-button clear small  color="primary" (click)="presentActionSheet(post.aspirasi_id)">
+					<button ion-button clear small  color="primary" (click)="presentActionSheet(data)">
 		        	 	<ion-icon name='more'></ion-icon>
 		        	 </button>
 				</ion-col>
 			</div>
 		</ion-row>
 	    <ion-card-content class="outer-content">
-	    	<h2 padding="true">{{post.subjek}}</h2>
-            <h3 padding="true">{{post.isi_aspirasi}}</h3>
+	    	<h2 padding="true">{{data.subjek}}</h2>
+            <h3 padding="true">{{data.isi}}</h3>
 	    </ion-card-content>
 	    <ion-row no-padding>
 	      <ion-col text-left>
-	        <button ion-button clear small  color="primary" (click)="lihatPendukung(post.aspirasi_id)">
-	          {{post.total_pendukung}} Pendukung
+	        <button ion-button clear small  color="primary" (click)="lihatPendukung(data.aspirasi_id)">
+	          {{data.total_pendukung}} Pendukung
 	        </button>
 	      </ion-col>
 	      <ion-col text-right>
-	      	<div *ngIf="post.us_id != id && post.status_voted == false">
-		        <button ion-button clear small color="primary" icon-left (click)="dukungAspirasi(post.aspirasi_id)" >
+	      	<div *ngIf="data.user_id != user_id && data.status_voted == false">
+		        <button ion-button clear small color="primary" icon-left (click)="dukungAspirasi(data.aspirasi_id)" >
 		          <ion-icon name='thumbs-up'></ion-icon>
 		          Dukung
 		        </button>
 		    </div>
-		    <div *ngIf="post.us_id != id && post.status_voted == true">
-		        <button ion-button clear small color="primary" icon-left (click)="batalDukungAspirasi(post.aspirasi_id)" >
+		    <div *ngIf="data.user_id != user_id && data.status_voted == true">
+		        <button ion-button clear small color="primary" icon-left (click)="batalDukungAspirasi(data.aspirasi_id)" >
 		          <ion-icon name='thumbs-up'></ion-icon>
 		          Batal Dukung
 		        </button>

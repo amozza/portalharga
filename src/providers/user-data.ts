@@ -73,6 +73,7 @@ export class UserData {
   };
   getToken() {
     return this.storage.get('token').then((value) => {
+      console.log(value);
       return value;
     });
   };
@@ -83,7 +84,7 @@ export class UserData {
   };
   getId(){
     return this.storage.get('user_data').then((value) => {
-      return value.us_id;
+      return value.user_id;
     });
   }
   // return a promise

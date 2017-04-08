@@ -7,10 +7,12 @@ import { MyApp } from './app.component';
 // Petani
 import { TabsPage } from '../pages/petani/tabs-petani/tabs';
 import { AspirasiPage } from '../pages/petani/aspirasi/aspirasi';
+import { EditAspirasiPage } from '../pages/petani/edit-aspirasi/edit-aspirasi';
 import { TambahAspirasiPage } from '../pages/petani/tambah-aspirasi/tambah-aspirasi';
 import { KirimStatusProduksiPage } from '../pages/petani/kirim-status-produksi/kirim-status-produksi';
 import { PendukungPage } from '../pages/petani/pendukung/pendukung';
 import { StatusProduksiPage } from '../pages/petani/status-produksi/status-produksi';
+import { EditStatusProduksiPage } from '../pages/petani/edit-status-produksi/edit-status-produksi';
 import { ProfilePetaniPage } from '../pages/petani/profile-petani/profile';
 import { TambahJualKomoditasPage } from '../pages/petani/tambah-jual-komoditas/tambah-jual-komoditas';
 import { JualKomoditasPage } from '../pages/petani/jual-komoditas/jual-komoditas';
@@ -36,6 +38,20 @@ import { ForgetPasswordPage } from '../pages/forget-password/forget-password';
 
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
+
+import { Http } from '@angular/http';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+
+let storage = new Storage();
+
+export function getAuthHttp(http) {
+  return new AuthHttp(new AuthConfig({
+    headerPrefix: "",
+    noJwtError: true,
+    globalHeaders: [{'Content-Type': 'application/json'}],
+    tokenGetter: (() => storage.get('token')),
+  }), http);
+}
 
 @NgModule({
   declarations: [
@@ -65,7 +81,9 @@ import { ConferenceData } from '../providers/conference-data';
     GantiPasswordPage,
     TambahInfoHargaPage,
     ForgetPasswordPage,
-    ProfileMasyarakatPage
+    ProfileMasyarakatPage,
+    EditAspirasiPage,
+    EditStatusProduksiPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -98,13 +116,20 @@ import { ConferenceData } from '../providers/conference-data';
     GantiPasswordPage,
     TambahInfoHargaPage,
     ForgetPasswordPage,
-    ProfileMasyarakatPage
+    ProfileMasyarakatPage,
+    EditAspirasiPage,
+    EditStatusProduksiPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   ConferenceData,
   UserData,
-  Storage
+  Storage,
+    {
+      provide: AuthHttp,
+      useFactory: getAuthHttp,
+      deps: [Http]
+    }
   ]
 })
 export class AppModule {}

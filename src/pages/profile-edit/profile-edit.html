@@ -20,15 +20,15 @@
 
 <ion-content padding>
 	<div padding-top text-center>
-	    <img src="assets/icon/user.png" *ngIf="!profile.picture">
-	    <img [src]="'https://ph.yippytech.com/'+profile.picture" *ngIf="profile.picture" alt="avatar">
-	    <h5 (click)="updatePicture()">Change Photo</h5>
+	    <img src="assets/icon/user.png" *ngIf="!user.picture">
+	    <img [src]="user.picture" *ngIf="user.picture" alt="avatar">
+	    <h5 (click)="updatePicture()">Ubah foto profile</h5>
 	</div>
 	<form #updateForm="ngForm" novalidate>
 		<ion-list no-lines>
 			<ion-item>
 				<ion-label stacked color="primary">Nama Lengkap</ion-label>
-				<ion-input [(ngModel)]="profile.nama" name="nama" type="text" #nama="ngModel" required>
+				<ion-input [(ngModel)]="user.name" name="nama" type="text" #nama="ngModel" required>
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="nama.valid || submitted == false" color="danger" padding-left>
@@ -36,21 +36,20 @@
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="primary">Email</ion-label>
-				<ion-input [(ngModel)]="profile.email" name="email" type="email" #email="ngModel" required>
-				</ion-input>
-			</ion-item>
-			<p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
-				Email is required
-			</p>
-
-			<ion-item>
 				<ion-label stacked color="primary">Username</ion-label>
-				<ion-input [(ngModel)]="profile.username" name="username" type="text" #username="ngModel" required>
+				<ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" required>
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
 				Username is required
+			</p>
+			<ion-item>
+				<ion-label stacked color="primary">Password</ion-label>
+				<ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required placeholder="Password">
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+				Password is required
 			</p>
 		</ion-list>
 	</form>

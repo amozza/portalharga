@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ActionSheetController} from 'ionic-angular';
-import { Http ,Headers,RequestOptions} from '@angular/http';
 import { UserData } from '../../../providers/user-data';
 import { TambahJualKomoditasPage } from '../tambah-jual-komoditas/tambah-jual-komoditas';
 import { EditJualKomoditasPage } from '../edit-jual-komoditas/edit-jual-komoditas';
+import { AuthHttp } from 'angular2-jwt';
 
 /*
   Generated class for the JualKomoditas page.
@@ -17,52 +17,56 @@ import { EditJualKomoditasPage } from '../edit-jual-komoditas/edit-jual-komodita
 })
 export class JualKomoditasPage {
   public jualanku: any;
-  public httpErr = false;
-  public id: string;
-  public token: string;
-  public options: any;
+  public user_id: string;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
   	public userData: UserData,
-  	public http: Http,
+  	public authHttp: AuthHttp,
   	public actionSheetCtrl: ActionSheetController,
   	public toastCtrl: ToastController) {}
 
   ionViewWillEnter() {
     this.userData.getId().then((value)=>{
-      this.id = value;
+      this.user_id = value;
     });
     this.getJualan();
   }
 
   getJualan() {
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.token = value;
-      this.options = new RequestOptions({ headers: headers});
-      
-      this.http.get(this.userData.BASE_URL+'jualan/getJualanKu/'+this.id,this.options).subscribe(res => {
-        let a = res.json();
-        if(a.status == 200) {
-          this.jualanku = a.data;
-        } else if(a.status == 404){
-          this.jualanku = [];
-        }
-        this.httpErr = false;
-      }, err => { console.log(err);
-          this.showError(err);
-      });
+    this.authHttp.get(this.userData.BASE_URL+'dagangan/get').subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.jualanku = response.data;
+      } else if(response.status == 204){
+        this.jualanku = [];
+      }
+    }, err => { console.log(err);
+        this.showError(err);
     });
   }
   tambahJualan(){
   	this.navCtrl.push(TambahJualKomoditasPage);
   }
-  presentActionSheet(data) {
+  editJualan(dataDagangan){
+    this.navCtrl.push(EditJualKomoditasPage,dataDagangan);
+  }
+  hapusJualan(dataDagangan){
+    let param = JSON.stringify({
+      dagangan_id : dataDagangan.dagangan_id
+    });
+    this.authHttp.post(this.userData.BASE_URL+'dagangan/delete',param).subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.getJualan();
+        this.showAlert(response.message);
+      }
+    }, err => { 
+      console.log(err);
+      this.showError(err);
+    });
+  }
+  presentActionSheet(dataDagangan) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
       buttons: [
@@ -70,27 +74,14 @@ export class JualKomoditasPage {
           text: 'Edit Penjualan',
           role: 'editpenjualan',
           handler: () => {
-               this.navCtrl.push(EditJualKomoditasPage,data);
+            this.editJualan(dataDagangan);
           }
         },
         {
           text: 'Hapus Penjualan',
           role: 'hapuspenjualan',
           handler: () => {
-               let param = JSON.stringify({
-                  us_id : this.id,
-                  jualan_id : data.jualan_id
-                });
-              this.http.post(this.userData.BASE_URL+'jualan/delJualan',param,this.options).subscribe(res => {
-                let a = res.json();
-                if(a.status == '200') {
-                  this.getJualan();
-                  this.showAlert(a.message);
-                }
-              }, err => { 
-                console.log(err);
-                this.showError(err);
-              });
+            this.hapusJualan(dataDagangan);
           }
         }
       ]
@@ -100,8 +91,6 @@ export class JualKomoditasPage {
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   showAlert(message: string){
@@ -110,7 +99,6 @@ export class JualKomoditasPage {
       duration: 3000
     });
     toast.present();
-    this.httpErr = true;
   }
 
 }

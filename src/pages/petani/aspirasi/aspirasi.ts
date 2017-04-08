@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController, NavParams, ToastController} from 'ionic-angular';
-import { Http ,Headers,RequestOptions} from '@angular/http';
+import { NavController, ActionSheetController, NavParams, ToastController,LoadingController} from 'ionic-angular';
 import { TambahAspirasiPage } from '../tambah-aspirasi/tambah-aspirasi';
 import { PendukungPage } from '../pendukung/pendukung';
+import { EditAspirasiPage } from '../edit-aspirasi/edit-aspirasi';
 import { UserData } from '../../../providers/user-data';
-import 'rxjs/add/operator/map';
-
+import { AuthHttp } from 'angular2-jwt';
 /*
   Generated class for the Coba page.
 
@@ -19,25 +18,25 @@ import 'rxjs/add/operator/map';
 export class AspirasiPage {
 	public aspirasi: any;
   public limit = 0;
-  public httpErr = false;
-  public id: string;
-  public token: string;
-  public options: any;
+  public user_id: string;
+  public loading: any;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
-  	public http: Http,
     public actionSheetCtrl: ActionSheetController,
   	public toastCtrl: ToastController,
-    public userData: UserData
+    public userData: UserData,
+    public authHttp: AuthHttp,
+    public loadCtrl: LoadingController
   	) { }
   ionViewWillEnter() {
     this.userData.getId().then((value)=>{
-      this.id = value;
-    });
-
-    console.log('ionViewDidLoad CobaPage');
+      this.user_id = value;
     this.getAspirasi();
+    });
+    this.loading = this.loadCtrl.create({
+        content: 'Tunggu sebentar...'
+    });
   }
   doRefresh(refresher) {
     setTimeout(() => {
@@ -46,84 +45,90 @@ export class AspirasiPage {
     }, 1500);
   }
   getAspirasi() {
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.token = value;
-      this.options = new RequestOptions({ headers: headers});
-      
-      this.http.get(this.userData.BASE_URL+'aspirasi/getAspirasi/'+this.id,this.options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        this.aspirasi = a.data;
-        this.httpErr = false;
-      }, err => { console.log(err);
-          this.showError(err);
-      });
+    this.authHttp.get(this.userData.BASE_URL+'aspirasi/get').subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.aspirasi = response.data;
+      } else if(response.status == 204){
+        this.aspirasi = [];
+      }
+    }, err => { console.log(err);
+        this.showError(err);
     });
+    // this.authHttp.get(this.userData.BASE_URL+'aspirasi/get')
+    // .subscribe(
+    //   data => console.log(data.json()),
+    //   err => console.log(err),
+    //   () => console.log('Request Complete')
+    // );
   }
 
   dukungAspirasi(aspirasi_id){
-     let param = JSON.stringify({
-        us_id : this.id,
-        aspirasi_id : aspirasi_id
-      });
+   let param = JSON.stringify({
+      aspirasi_id : aspirasi_id
+    });
 
-      this.http.post(this.userData.BASE_URL+'aspirasi/dukungAspirasi',param,this.options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        if(a.status == '200') {
-          this.getAspirasi();
-          this.showAlert(a.message);
-        }
-      }, err => { 
-          this.showError(err);
-      });
+    this.authHttp.post(this.userData.BASE_URL+'aspirasi/pendukung/add',param).subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.getAspirasi();
+        this.showAlert(response.message);
+      } 
+    }, err => { 
+        this.showError(err);
+    });
   }
   batalDukungAspirasi(aspirasi_id){
-     let param = JSON.stringify({
-        us_id : this.id,
-        aspirasi_id : aspirasi_id
-      });
+   let param = JSON.stringify({
+      aspirasi_id : aspirasi_id
+    });
 
-      this.http.post(this.userData.BASE_URL+'aspirasi/batalDukung',param,this.options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        if(a.status == '200') {
-          this.getAspirasi();
-          this.showAlert(a.message);
-        }
-      }, err => { 
-          this.showError(err);
-      });
+    this.authHttp.post(this.userData.BASE_URL+'aspirasi/pendukung/delete',param).subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.getAspirasi();
+        this.showAlert(response.message);
+      }
+    }, err => { 
+        this.showError(err);
+    });
   }
-  
-  presentActionSheet(idAspirasi) {
+  hapusAspirasi(aspirasi_id){
+    this.loading.present();
+    let param = JSON.stringify({
+      aspirasi_id : aspirasi_id
+    });
+    this.authHttp.post(this.userData.BASE_URL+'aspirasi/delete',param).subscribe(res => {
+      this.loading.dismiss();
+      let response = res.json();
+      if(response.status == 200) {
+        this.getAspirasi();
+        this.showAlert(response.message);
+      }
+    }, err => { 
+      this.loading.dismiss();
+      this.showError(err);
+    });
+  }
+  editAspirasi(dataAspirasi){
+    this.navCtrl.push(EditAspirasiPage,dataAspirasi);
+  }
+  presentActionSheet(dataAspirasi) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
       buttons: [
         {
+          text: 'Edit aspirasi',
+          role: 'editAspirasi',
+          handler: () => {
+            this.editAspirasi(dataAspirasi);
+          }
+        },
+        {
           text: 'Hapus aspirasi',
           role: 'hapusAspirasi',
           handler: () => {
-               let param = JSON.stringify({
-                  us_id : this.id,
-                  aspirasi_id : idAspirasi
-                });
-               console.log(param);
-              this.http.post(this.userData.BASE_URL+'aspirasi/delAspirasi',param,this.options).subscribe(res => {
-                let a = res.json();
-                console.log(a);
-                if(a.status == '200') {
-                  this.getAspirasi();
-                  this.showAlert(a.message);
-                }
-              }, err => { 
-                this.showError(err);
-              });
+            this.hapusAspirasi(dataAspirasi.aspirasi_id);
           }
         }
       ]
@@ -133,15 +138,13 @@ export class AspirasiPage {
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   tambahAspirasi() {
     this.navCtrl.push(TambahAspirasiPage);
   }
-  lihatPendukung(idAspirasi) {
-     this.navCtrl.push(PendukungPage,idAspirasi);
+  lihatPendukung(aspirasi_id) {
+     this.navCtrl.push(PendukungPage,aspirasi_id);
   }
 
   showAlert(message: string){
@@ -150,6 +153,5 @@ export class AspirasiPage {
       duration: 3000
     });
     toast.present();
-    this.httpErr = true;
   }
 }

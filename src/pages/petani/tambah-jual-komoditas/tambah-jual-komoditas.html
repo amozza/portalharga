@@ -20,8 +20,8 @@
 				<ion-col>
 					<ion-item>
 					  <ion-label stacked color="primary">Komoditas </ion-label>
-					  <ion-select [(ngModel)]="produksi.komoditas" name="komoditas" #komoditas="ngModel" placeholder="Pilih komoditas" required>
-					    <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
+					  <ion-select [(ngModel)]="selectedKomoditas" name="komoditas" #komoditas="ngModel" placeholder="Pilih komoditas" (ionChange)="changeKomoditas(selectedKomoditas)" required>
+					    <ion-option *ngFor="let data of dataKomoditas" value="{{data.komoditas_id}}">{{data.name}}</ion-option>
 					  </ion-select>
 					</ion-item>
 				</ion-col>
@@ -33,19 +33,9 @@
 			<ion-row>
 				<ion-col >
 					<ion-item>
-						<ion-label stacked color="primary">Harga</ion-label>	
-						<ion-input [(ngModel)]="produksi.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Rp.">
+						<ion-label stacked color="primary">Harga (per {{dagangan.satuan}})</ion-label>	
+						<ion-input [(ngModel)]="dagangan.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Rp.">
 						</ion-input>
-					</ion-item>
-				</ion-col>
-				<ion-col >
-					<ion-item>
-						<ion-label stacked color="primary">Per </ion-label>
-						<ion-select [(ngModel)]="produksi.satuanHarga" name="satuan" >
-						    <ion-option >Kg</ion-option>
-						    <ion-option >Kwintal</ion-option>
-						    <ion-option >Ton</ion-option>
-						 </ion-select>
 					</ion-item>
 				</ion-col>
 			</ion-row>
@@ -56,38 +46,28 @@
 			<ion-row>
 				<ion-col >
 					<ion-item>
-						<ion-label stacked color="primary">Stok Tersedia</ion-label>	
-						<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="number" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Stok" >
+						<ion-label stacked color="primary">Stok Tersedia ({{dagangan.satuan}})</ion-label>	
+						<ion-input [(ngModel)]="dagangan.stok" name="stok" type="number" min="0" #stok="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Stok" >
 						</ion-input>
 					</ion-item>
 				</ion-col>
-				<ion-col >
-					<ion-item>
-						<ion-label stacked color="primary">Satuan </ion-label>
-						<ion-select [(ngModel)]="produksi.satuanJumlah" name="satuan" >
-						    <ion-option >Kg</ion-option>
-						    <ion-option >Kwintal</ion-option>
-						    <ion-option >Ton</ion-option>
-						 </ion-select>
-					</ion-item>
-				</ion-col>
 			</ion-row>
-			<p ion-text [hidden]="jumlah.valid || submitted == false" color="danger" padding-left>
+			<p ion-text [hidden]="stok.valid || submitted == false" color="danger" padding-left>
 				Jumlah is required
 			</p> 
 
-<!-- 
+
 			<ion-row>
 				<ion-col>
 					<ion-item>
-						<ion-label stacked color="primary">Deskripsi komoditas</ion-label>
-						<ion-textarea [(ngModel)]="produksi.deskripsi" name="deskripsi" #deskripsi="ngModel" rows="6" required placeholder="Deskripsi"></ion-textarea>
+						<ion-label stacked color="primary">Keterangan</ion-label>
+						<ion-textarea [(ngModel)]="dagangan.keterangan" name="deskripsi" #deskripsi="ngModel" rows="6" required placeholder="Keterangan"></ion-textarea>
 					</ion-item>
 				</ion-col>
 			</ion-row>
 			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
-				Deskripsi is required
-			</p> -->
+				Keterangan is required
+			</p>
 
 			<ion-row>
 				<ion-col>
@@ -109,8 +89,8 @@
 						</ion-col>
 					</ion-row>
 						
-					<ion-item *ngIf="produksi.foto">
-						<img [src]="'data:image/jpeg;base64,'+ produksi.foto" >
+					<ion-item *ngIf="dagangan.picture">
+						<img [src]="'data:image/jpeg;base64,'+ dagangan.picture" >
 					</ion-item>
 				</ion-col>
 			</ion-row>

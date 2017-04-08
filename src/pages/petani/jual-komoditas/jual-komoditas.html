@@ -14,34 +14,35 @@
 
 
 <ion-content>
-	<ion-card *ngFor="let post of jualanku">
+	<ion-card *ngFor="let data of jualanku">
         <ion-row>
 			<ion-col text-left>
 				<ion-card-header>
 				    <div ion-item>
-				        {{post.komoditas}}
-						<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  
+				        {{data.nama_komoditas}}
+						<h6>{{data.time}} {{data.time!='now'?'ago':''}}</h6>  
 				    </div>
 		        </ion-card-header>
 		    </ion-col>
 		    <ion-col text-right>
-				<button ion-button clear small  color="primary" (click)="presentActionSheet(post)">
+				<button ion-button clear small  color="primary" (click)="presentActionSheet(data)">
 	        	 	<ion-icon name='more'></ion-icon>
 	        	 </button>
 			</ion-col>
 		</ion-row>
-    	<img [src]="'https://ph.yippytech.com/'+post.foto_komoditas" *ngIf="post.foto_komoditas">
+    	<img [src]="data.picture" *ngIf="data.picture">
+    	<h6 padding>{{data.keterangan}}</h6>
         <ion-card-content class="outer-content">
         	<ion-row>
 	        	<h6>
 		        	<ion-icon name='pricetag'> </ion-icon>
-		        	Rp. {{post.harga}} per {{post.satuan_harga}}
+		        	Rp. {{data.harga}} per {{data.satuan_komoditas}}
 	        	</h6>
         	</ion-row>
         	<ion-row>
         		<h6>
 		        	<ion-icon name='cart'> </ion-icon>
-		        	{{post.stok}} {{post.satuan_stok}}
+		        	{{data.stok}} {{data.satuan_komoditas}}
 	        	</h6>
         	</ion-row>
         </ion-card-content>

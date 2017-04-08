@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams,ToastController } from 'ionic-angular';
-import { Http ,Headers,RequestOptions} from '@angular/http';
 import { UserData } from '../../../providers/user-data';
 import { NgForm } from '@angular/forms';
 import {Camera} from 'ionic-native';
+import { AuthHttp } from 'angular2-jwt';
 
 /*
   Generated class for the EditJualKomoditas page.
@@ -18,41 +18,43 @@ import {Camera} from 'ionic-native';
 export class EditJualKomoditasPage {
 
   submitted: boolean = false;
-  id: string;
-  produksi:{komoditas?: string, jumlah?: string, satuanHarga?: string, satuanJumlah?: string, harga?: string, foto?: string} = {};
-  headers: any;
-  options: any;
-  jualan_id: string;
-
+  user_id: string;
+  dagangan:{dagangan_id?: string,komoditas_id?: string, keterangan?: string, stok?: string, harga?: string, satuan?: string,  picture?: string} = {};
+  dataKomoditas = [];
+  image: string;
   constructor(
   	public navCtrl: NavController,
     public toastCtrl: ToastController, 
-    public http: Http, 
+    public authHttp: AuthHttp, 
   	public navParams: NavParams,
     public userData: UserData) {
-    this.produksi.satuanHarga = 'Kg';
-    this.produksi.satuanJumlah = 'Kg';
+
     let data = navParams.data;
-    console.log(data);
-    this.produksi.komoditas = data.komoditas;
-    this.produksi.jumlah = data.stok;
-    this.produksi.harga = data.harga;
-    this.produksi.foto = 'https://ph.yippytech.com/'+data.foto_komoditas;
-    this.jualan_id = data.jualan_id;
+    this.dagangan.komoditas_id = data.komoditas_id;
+    this.dagangan.stok = data.stok;
+    this.dagangan.harga = data.harga;
+    this.image = data.picture;
+    this.dagangan.keterangan = data.keterangan;
+    this.dagangan.dagangan_id = data.dagangan_id;
   }
   ionViewWillEnter() {
-    this.userData.getToken().then((value) => {
-      this.headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.options = new RequestOptions({ headers: this.headers});
-    });
-
     this.userData.getId().then((value) => {
-      this.id = value;
+      this.user_id = value;
     });
+    this.getKomoditas();
+  }
+
+  getKomoditas() {
+      this.authHttp.get(this.userData.BASE_URL+'komoditas/get').subscribe(res => {
+        let response = res.json();
+        if(response.status == 200) {
+          this.dataKomoditas = response.data;
+        } else if(response.status == 204){
+          this.dataKomoditas = [];
+        }
+      }, err => { 
+          this.showError(err);
+      });
   }
 
   takePicture(){
@@ -61,7 +63,7 @@ export class EditJualKomoditasPage {
         targetWidth: 600,
         targetHeight: 600
     }).then((imageData) => {
-    	this.produksi.foto = 'data:image/jpeg;base64,'+imageData;
+    	this.dagangan.picture =imageData;
     	}, (err) => {
         console.log(err);
     });
@@ -73,7 +75,7 @@ export class EditJualKomoditasPage {
         targetWidth: 600,
         targetHeight: 600
     }).then((imageData) => {
-    	this.produksi.foto = 'data:image/jpeg;base64,'+imageData;
+    	this.dagangan.picture = imageData;
     	}, (err) => {
         console.log(err);
     });
@@ -85,32 +87,28 @@ export class EditJualKomoditasPage {
     if (form.valid) {
       this.submitted = false;
       let input = JSON.stringify({
-        komoditas: this.produksi.komoditas,
-        string64: this.produksi.foto,
-        stok: this.produksi.jumlah+' '+this.produksi.satuanJumlah , 
-        harga: this.produksi.harga+' per '+this.produksi.satuanHarga,
-        us_id: this.id,
-        jualan_id: this.jualan_id
+        komoditas_id: this.dagangan.komoditas_id,
+        picture: this.dagangan.picture,
+        stok: this.dagangan.stok, 
+        harga: this.dagangan.harga,
+        dagangan_id: this.dagangan.dagangan_id,
+        keterangan: this.dagangan.keterangan
       });
-      this.http.post(this.userData.BASE_URL+"jualan/updateJualan",input,this.options).subscribe(data => {
+      this.authHttp.post(this.userData.BASE_URL+"dagangan/update",input).subscribe(data => {
          let response = data.json();
-         if(response.status == '200') {
+         if(response.status == 200) {
             this.navCtrl.popToRoot();
-            this.showAlert("Komoditasmu telah berhasil dikirim");
+            this.showAlert("Komoditas anda telah berhasil diperbarui");
          }
-         
       }, err => {
         this.navCtrl.popToRoot();
         this.showError(err);
-        });
-            
+      });
     }
   }
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   showAlert(message: string){

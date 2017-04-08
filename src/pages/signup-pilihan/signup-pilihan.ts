@@ -16,13 +16,16 @@ export class SignupPilihanPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SignupPilihanPage');
-  }
   petani(){
-  	this.navCtrl.push(SignupPage,1);
+  	this.navCtrl.push(SignupPage,4);
   }
   masyarakat(){
-  	this.navCtrl.push(SignupPage,2);
+  	this.navCtrl.push(SignupPage,5);
+  }
+  pedagang(){
+    this.navCtrl.push(SignupPage,6);
+  }
+  penyuluh(){
+    this.navCtrl.push(SignupPage,3);
   }
 }

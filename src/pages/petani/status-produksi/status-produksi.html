@@ -18,25 +18,26 @@
 		<ion-row>
 			<ion-col text-left>
 				<ion-card-header>
-					<h3>{{post.komoditas}}</h3>
-					<h3>{{post.jumlah_produksi}}</h3>
+					<h3>{{post.nama_komoditas}}</h3>
+					<h3>{{post.jumlah}} {{post.satuan_komoditas}}</h3>
 					<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  
 			    </ion-card-header>
 			</ion-col>
-			<div *ngIf="post.us_id == id">
+			<div *ngIf="post.user_id == id">
 			<ion-col text-right>
-				<button ion-button clear small  color="primary" (click)="presentActionSheet(post.produksi_id)">
+				<button ion-button clear small  color="primary" (click)="presentActionSheet(post)">
 	        	 	<ion-icon name='more'></ion-icon>
 	        	 </button>
 			</ion-col>
 			</div>
 		</ion-row>
 	    <ion-card-content class="outer-content">
+            <h6>Akan panen pada {{post.date_panen}}</h6>
             <h3>{{post.keterangan}}</h3>
 	    </ion-card-content>
 	    <ion-row padding>
 	      <ion-col text-left>
-	        <h5>{{post.lokasi}}</h5>
+	      <ion-icon name='pin'> {{post.alamat}}</ion-icon>
 	      </ion-col>
 	    </ion-row>
 	</ion-card>

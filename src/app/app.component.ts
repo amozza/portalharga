@@ -29,10 +29,10 @@ export class MyApp {
       if(hasLoggedIn) {
         this.userData.getRole().then((value)=>{
           switch (value) {
-            case 1:
+            case 4:
              this.rootPage = TabsPage;
               break;
-            case 2:
+            case 5:
               this.rootPage = TabsMasyarakatPage;
               break;
             default:

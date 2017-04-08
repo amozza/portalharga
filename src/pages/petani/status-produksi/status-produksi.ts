@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ActionSheetController} from 'ionic-angular';
 import { KirimStatusProduksiPage } from '../kirim-status-produksi/kirim-status-produksi';
-import { Http ,Headers,RequestOptions} from '@angular/http';
+import { EditStatusProduksiPage } from '../edit-status-produksi/edit-status-produksi';
+import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 
 /*
@@ -18,67 +19,62 @@ export class StatusProduksiPage {
 
   public produksi:any ;
   public token: string;
-  public httpErr: any;
   public id: string;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public userData: UserData,
-    public http: Http,
+    public authHttp: AuthHttp,
     public toastCtrl: ToastController,
     public actionSheetCtrl: ActionSheetController) {}
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad StatusProduksiPage');
-  }
 
   ionViewWillEnter() {
     this.userData.getId().then((value)=>{
       this.id = value;
     });
-    this.getData();
+    this.getDataProduksi();
   }
 
-  getData() {
-    console.log(this.id);
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.token = value;
-      let options = new RequestOptions({ headers: headers});
+  getDataProduksi() {
+    this.authHttp.get(this.userData.BASE_URL+'produksi/get').subscribe(res => {
+      let response = res.json();
+      console.log(response);
+      if (response.status == 200){
+        this.produksi = response.data;
+      } else if(response.status == 204){
+        this.produksi = [];
+      }
       
-      this.http.get(this.userData.BASE_URL+'produksi/getProduksi/'+this.id,options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        this.produksi = a.data;
-        this.httpErr = false;
-      }, err => { console.log(err);
-          err.status==0? 
-          this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-          this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
-      });
+    }, err => { console.log(err);
+        this.showError(err);
     });
-    
   }
-
-  showAlert(message: string){
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 3000
-    });
-    toast.present();
-    this.httpErr = true;
-  }
-
+  
   tambahProduksi(){
-  	this.navCtrl.push(KirimStatusProduksiPage);
+    this.navCtrl.push(KirimStatusProduksiPage);
   }
 
-  presentActionSheet(idProduksi) {
+  editProduksi(dataProduksi){
+    this.navCtrl.push(EditStatusProduksiPage,dataProduksi);
+  }
+
+  hapusProduksi(dataProduksi){
+    let param = JSON.stringify({
+        produksi_id : dataProduksi.produksi_id
+    });
+    this.authHttp.post(this.userData.BASE_URL+'produksi/delete',param).subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.getDataProduksi();
+      } 
+      this.showAlert(response.message);
+    }, err => { 
+      this.showError(err);
+    });
+  }
+
+  presentActionSheet(dataProduksi) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
       buttons: [
@@ -86,42 +82,32 @@ export class StatusProduksiPage {
           text: 'Hapus Produksi',
           role: 'hapusProduksi',
           handler: () => {
-              let headers = new Headers({ 
-                'Content-Type': 'application/json',
-                'token': this.token
-              });
-              let options = new RequestOptions({ headers: headers});
-               let param = JSON.stringify({
-                  us_id : this.id,
-                  produksi_id : idProduksi
-                });
-               console.log(param);
-              this.http.post(this.userData.BASE_URL+'produksi/delProduksi',param,options).subscribe(res => {
-                let a = res.json();
-                console.log(a);
-                if(a.status == '200') {
-                  this.getData();
-                  this.showAlert(a.message);
-                }
-              }, err => { 
-                  err.status==0? 
-                  this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-                  err.status==403?
-                  this.showAlert(err.message):
-                  this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
-              });
+            this.hapusProduksi(dataProduksi);
           }
         },
         {
           text: 'Edit Produksi',
           role: 'editProduksi',
           handler: () => {
-              
+            this.editProduksi(dataProduksi);
           }
         }
       ]
     });
     actionSheet.present();
+  }
+  
+  showError(err: any){  
+    err.status==0? 
+    this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+    this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+  }
+  showAlert(message: string){
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    });
+    toast.present();
   }
 
 }

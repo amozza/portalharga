@@ -4,30 +4,31 @@ import { NgForm } from '@angular/forms';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 import { Geolocation} from 'ionic-native';
-
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
 /*
-  Generated class for the KirimStatusProduksi page.
+  Generated class for the EditStatusProduksi page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
 declare var google: any;
 @Component({
-  selector: 'page-kirim-status-produksi',
-  templateUrl: 'kirim-status-produksi.html'
+  selector: 'page-edit-status-produksi',
+  templateUrl: 'edit-status-produksi.html'
 })
-export class KirimStatusProduksiPage {
-  
+export class EditStatusProduksiPage {
   submitted: boolean = false;
   id: string;
-  produksi:{komoditas_id?: string, alamat?: string, jumlah?: string, satuan?: string, waktu_panen?: any, keterangan?: string} = {};
+  produksi:{id?: string, komoditas_id?: string, alamat?: string, jumlah?: string, satuan?: string, waktu_panen?: any, keterangan?: string} = {};
   lokasi:{lat?: number, lng?: number}={};
   inputAlamat: string;
   dataKomoditas = [];
-  useCurrentLocation = false;
+  useCurrentLocation: boolean;
   useCurrentLocationColor: string;
   useManualLocationColor: string;
   loading: any;
+
   constructor(
   	public navCtrl: NavController,
     public toastCtrl: ToastController, 
@@ -35,6 +36,16 @@ export class KirimStatusProduksiPage {
   	public navParams: NavParams,
     public userData: UserData,
     public loadCtrl: LoadingController) {
+  	let data = navParams.data;
+  	this.produksi.id = data.produksi_id;
+  	this.produksi.alamat = data.alamat;
+  	this.inputAlamat = data.alamat;
+  	this.produksi.jumlah = data.jumlah;
+  	this.produksi.waktu_panen = moment(data.date_panen).format('YYYY-MM-DD');
+  	this.produksi.keterangan = data.keterangan;
+  	this.lokasi.lat = data.latitude;
+  	this.lokasi.lng = data.longitude;
+  	this.produksi.satuan = data.satuan;
   }
 
   ionViewWillEnter() {
@@ -50,7 +61,6 @@ export class KirimStatusProduksiPage {
         let response = res.json();
         if(response.status == 200) {
           this.dataKomoditas = response.data;
-
         } else if(response.status == 204){
           this.dataKomoditas = [];
         }
@@ -86,7 +96,7 @@ export class KirimStatusProduksiPage {
         this.produksi.alamat = address;
         this.lokasi.lat = lokasi.geometry.location.lat();
         this.lokasi.lng = lokasi.geometry.location.lng();
-        this.postStatusProduksi();
+        this.updateStatusProduksi();
       } else{
         this.loading.dismiss();
         this.showAlert("Tidak dapat menemukan lokasi anda");
@@ -120,10 +130,11 @@ export class KirimStatusProduksiPage {
       console.log(err);
     });
   }
-  postStatusProduksi(){
+  updateStatusProduksi(){
     let date = new Date(this.produksi.waktu_panen).getTime();
     this.submitted = false;
       let input = JSON.stringify({
+      	produksi_id: this.produksi.id,
         komoditas_id: this.produksi.komoditas_id,
         alamat: this.produksi.alamat,
         latitude: this.lokasi.lat,
@@ -132,12 +143,12 @@ export class KirimStatusProduksiPage {
         keterangan: this.produksi.keterangan,
         date_panen: date
       });
-      this.authHttp.post(this.userData.BASE_URL+"produksi/add",input).subscribe(data => {
+      this.authHttp.post(this.userData.BASE_URL+"produksi/update",input).subscribe(data => {
          this.loading.dismiss();
          let response = data.json();
          if(response.status == '200') {
             this.navCtrl.popToRoot();
-            this.showAlert("Status produksi anda telah dikirim");
+            this.showAlert("Status produksi anda telah diperbarui");
          }
          
       }, err => {
@@ -148,12 +159,12 @@ export class KirimStatusProduksiPage {
   submit(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
-      this.loading = this.loadCtrl.create({
-          content: 'Tunggu sebentar...'
-      });
-      this.loading.present();
+	  this.loading = this.loadCtrl.create({
+	      content: 'Tunggu sebentar...'
+	  });
+	  this.loading.present();
       if(this.useCurrentLocation) {
-        this.postStatusProduksi();
+        this.updateStatusProduksi();
       } else{
         this.getLatitudeLongitude(this.inputAlamat);
       }
@@ -171,4 +182,5 @@ export class KirimStatusProduksiPage {
     });
     toast.present();
   }
+
 }
