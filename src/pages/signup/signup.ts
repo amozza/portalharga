@@ -56,6 +56,7 @@ export class SignupPage {
            if(response.status==200) {
              this.userData.signup(response.data);
              this.userData.setToken(response.token);
+             setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
              switch (response.data.role) {
                case 4: //petani
                  this.navCtrl.setRoot(TabsPage);

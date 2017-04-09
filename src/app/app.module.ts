@@ -22,6 +22,7 @@ import { TabsMasyarakatPage } from '../pages/masyarakat/tabs-masyarakat/tabs-mas
 import { OperasiPasarPage } from '../pages/masyarakat/operasi-pasar/operasi-pasar';
 import { EditOperasiPasarPage } from '../pages/masyarakat/edit-operasi-pasar/edit-operasi-pasar';
 import { KirimOperasiPasarPage } from '../pages/masyarakat/kirim-operasi-pasar/kirim-operasi-pasar';
+import { PendukungOperasiPasarPage } from '../pages/masyarakat/pendukung-operasi-pasar/pendukung-operasi-pasar';
 import { JualBeliPage } from '../pages/masyarakat/jual-beli/jual-beli';
 import { TambahInfoHargaPage } from '../pages/masyarakat/tambah-info-harga/tambah-info-harga';
 import { ProfileMasyarakatPage } from '../pages/masyarakat/profile-masyarakat/profile-masyarakat';
@@ -83,7 +84,8 @@ export function getAuthHttp(http) {
     ForgetPasswordPage,
     ProfileMasyarakatPage,
     EditAspirasiPage,
-    EditStatusProduksiPage
+    EditStatusProduksiPage,
+    PendukungOperasiPasarPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -118,7 +120,8 @@ export function getAuthHttp(http) {
     ForgetPasswordPage,
     ProfileMasyarakatPage,
     EditAspirasiPage,
-    EditStatusProduksiPage
+    EditStatusProduksiPage,
+    PendukungOperasiPasarPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

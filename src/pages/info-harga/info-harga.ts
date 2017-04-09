@@ -3,7 +3,7 @@ import { NavController, NavParams, ToastController} from 'ionic-angular';
 import { GoogleMap, Geolocation} from 'ionic-native';
 import { UserData } from '../../providers/user-data';
 import { TambahInfoHargaPage } from '../masyarakat/tambah-info-harga/tambah-info-harga';
-import { Http ,Headers,RequestOptions} from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 /*
   Generated class for the InfoHarga page.
@@ -21,13 +21,11 @@ export class InfoHargaPage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: GoogleMap;
-  komoditas: string = 'Bawang';
+  choosedKomoditas: string = 'All';
   lat: any;
   lng: any;
   userRole: number;
   id: string;
-  options: any;
-  token: string;
   dataHarga = [];
   marker = [];
   dataKomoditas=[];
@@ -36,7 +34,7 @@ export class InfoHargaPage {
     public navCtrl: NavController,
     public userData: UserData, 
     public navParams: NavParams,
-    public http: Http,
+    public authHttp: AuthHttp,
     public toastCtrl: ToastController
     ) {}
 
@@ -44,9 +42,14 @@ export class InfoHargaPage {
     this.userData.getRole().then((value)=>{
       this.userRole = value;
     });
-    // this.getAddress();
-    this.getDataHarga(this.komoditas);
-    this.getKomoditas();
+    this.userData.getKomoditas().then((value)=>{
+      if(value) {
+        this.dataKomoditas = value;
+      } else {
+        this.getKomoditas();
+      }
+    });
+    // this.getDataHarga(this.komoditas);
   }
 
   ionViewDidLoad() {
@@ -61,7 +64,7 @@ export class InfoHargaPage {
   }
   showselected(selected_value)
   {
-    this.komoditas = selected_value;
+    this.choosedKomoditas = selected_value;
     this.clearMarker();
     this.getDataHarga(selected_value);
   }
@@ -87,29 +90,16 @@ export class InfoHargaPage {
     });
   }
   getKomoditas() {
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.options = new RequestOptions({ headers: headers});
-      
-      this.http.get(this.userData.BASE_URL+'setKomoditas/jenisKomoditas',this.options).subscribe(res => {
-        let a = res.json();
-        this.dataKomoditas = a.data;
-      }, err => { 
-          this.showError(err);
-      });
-    });
-  }
-  getAddress(){
-    let geocoder = new google.maps.Geocoder();
-    let latlng = {lat: -6.560284, lng: 106.7233045};
-    geocoder.geocode({'location': latlng}, function(results, status) {
-      if(status == 'OK') {
-        console.log(results[0].formatted_address);
+    this.authHttp.get(this.userData.BASE_URL+'komoditas/get').subscribe(res => {
+      let response = res.json();
+      console.log(response);
+      if(response.status == 200) {
+        this.dataKomoditas = response.data;
+      } else if(response.status == 204){
+        this.dataKomoditas = [];
       }
+    }, err => { 
+        this.showError(err);
     });
   }
 
@@ -145,34 +135,25 @@ export class InfoHargaPage {
   }
   getDataHarga(komoditas) {
     this.dataHarga = [];
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.token = value;
-      this.options = new RequestOptions({ headers: headers});
       let input = JSON.stringify({
         jenis: komoditas
       });
-      this.http.post(this.userData.BASE_URL+'masyarakat/todayKom',input,this.options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        if(a.data) {
-          this.dataHarga = a.data;
+      this.authHttp.post(this.userData.BASE_URL+'laporanHarga/get/day/1',input).subscribe(res => {
+        let response = res.json();
+        console.log(response);
+        if(response.status == 200) {
+          this.dataHarga = response.data;
+        } else if(response.status == 204) {
+          this.dataHarga = [];
         }
         this.loadMarker();
       }, err => { console.log(err);
           this.showError(err);
       });
-    });
   }
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   showAlert(message: string){

@@ -14,14 +14,14 @@
 
 
 <ion-content >
-	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
+	<form #submitForm="ngForm" novalidate >
 		<ion-list>
 			<ion-row>
 				<ion-col>
 					<ion-item>
 					  <ion-label stacked color="primary">Komoditas </ion-label>
 					  <ion-select [(ngModel)]="operasi.komoditas" name="komoditas" #komoditas="ngModel" placeholder="pilih komoditas" required>
-					    <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
+					    <ion-option *ngFor="let data of dataKomoditas" value="{{data.komoditas_id}}">{{data.name}}</ion-option>
 					  </ion-select>
 					</ion-item>
 				</ion-col>
@@ -31,7 +31,7 @@
 			</p>
 			<ion-row padding-left>
 				<ion-col>
-					<ion-row>
+					<!-- <ion-row>
 						<ion-col>
 							<ion-label stacked color="primary">Lokasi Pasar</ion-label>
 						</ion-col>
@@ -43,15 +43,27 @@
 						          Use my location
 					        </div>
 						</ion-col>
+					</ion-row> -->
+					<ion-row>
+						<ion-label stacked color="primary">Lokasi</ion-label>
 					</ion-row>
 					<ion-row>
 						<ion-col>
-							<ion-item no-padding>
-								<ion-input [(ngModel)]="lokasi" name="pasar" #pasar="ngModel" rows="6" required placeholder="Lokasi Pasar"></ion-input>
+							<button ion-button [color]="useManualLocationColor" small outline (click)="chooseLocation(1)">Masukkan manual</button>
+						</ion-col>
+						<ion-col>
+							<button ion-button [color]="useCurrentLocationColor" small outline (click)="chooseLocation(0)">Lokasi sekarang</button>
+						</ion-col>
+					</ion-row>
+					<div padding-left *ngIf="useCurrentLocation">{{lokasi.alamat}}</div>
+					<ion-row>
+						<ion-col>
+							<ion-item no-padding *ngIf="!useCurrentLocation">
+								<ion-input [(ngModel)]="inputAlamat" name="pasar" #pasar="ngModel" rows="6" required placeholder="Lokasi Pasar"></ion-input>
 							</ion-item>
 						</ion-col>
 					</ion-row>
-					<p ion-text [hidden]="pasar.valid || submitted === false" color="danger" padding-left>
+					<p ion-text [hidden]="inputAlamat || useCurrentLocation || submitted === false" color="danger" padding-left>
 						This field is required
 					</p>
 				</ion-col>
@@ -61,17 +73,17 @@
 				<ion-col>
 					<ion-item no-padding>
 						<ion-label stacked color="primary">Pesan</ion-label>
-						<ion-textarea [(ngModel)]="operasi.opini" name="opini" #opini="ngModel" rows="6" required placeholder="Pesan"></ion-textarea>
+						<ion-textarea [(ngModel)]="operasi.pesan" name="pesan" #pesan="ngModel" rows="6" required placeholder="Pesan"></ion-textarea>
 					</ion-item>
 				</ion-col>
 			</ion-row>
-			<p ion-text [hidden]="opini.valid || submitted === false" color="danger" padding-left>
+			<p ion-text [hidden]="pesan.valid || submitted === false" color="danger" padding-left>
 				This field is required
 			</p>
 		</ion-list>
 
 		<div padding>
-			<button ion-button block type="submit">Kirim</button>
+			<button ion-button block type="submit" (click)="submit(submitForm)">Kirim</button>
 		</div>
 	</form>
 </ion-content>

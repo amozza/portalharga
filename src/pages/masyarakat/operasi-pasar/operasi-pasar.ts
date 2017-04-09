@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController,ActionSheetController} from 'ionic-angular';
-import { Http,Headers,RequestOptions } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 import { KirimOperasiPasarPage } from '../kirim-operasi-pasar/kirim-operasi-pasar';
 import { EditOperasiPasarPage } from '../edit-operasi-pasar/edit-operasi-pasar';
+import { PendukungOperasiPasarPage } from '../pendukung-operasi-pasar/pendukung-operasi-pasar';
 
 /*
   Generated class for the OperasiPasar page.
@@ -20,11 +21,10 @@ export class OperasiPasarPage {
   submitted: boolean = false;
   operasi:{pasar?: string, subject?: string, opini?: string} = {};
   dataOperasi:any ;
-  options:any;
-  us_id:any;
+  user_id:any;
   constructor(
   	public navCtrl: NavController,
-  	public http: Http, 
+  	public authHttp: AuthHttp, 
   	public toastCtrl: ToastController,
     public userData: UserData,
   	public navParams: NavParams,
@@ -33,34 +33,52 @@ export class OperasiPasarPage {
 
   ionViewWillEnter() {
     this.userData.getId().then((value)=>{
-      this.us_id = value;
+      this.user_id = value;
     });
     this.getOperasi();
   }
 
   getOperasi() {
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.options = new RequestOptions({ headers: headers});
-      
-      this.http.get(this.userData.BASE_URL+'masyarakat/operasiku/'+this.us_id,this.options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        this.dataOperasi = a.data;
+    this.authHttp.get(this.userData.BASE_URL+'operasiPasar/get').subscribe(res => {
+        let response = res.json();
+        console.log(response);
+        this.dataOperasi = response.data;
       }, err => { console.log(err);
           this.showError(err);
       });
-    });
+  }
+  lihatPendukung(idOperasi){
+     this.navCtrl.push(PendukungOperasiPasarPage,idOperasi);
   }
   dukungOperasi(idOperasi){
+    let param = JSON.stringify({
+      operasiPasar_id : idOperasi
+    });
 
+    this.authHttp.post(this.userData.BASE_URL+'operasiPasar/pendukung/add',param).subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.getOperasi();
+        this.showAlert(response.message);
+      } 
+    }, err => { 
+        this.showError(err);
+    });
   }
   batalDukungOperasi(idOperasi){
-    
+    let param = JSON.stringify({
+      operasiPasar_id : idOperasi
+    });
+
+    this.authHttp.post(this.userData.BASE_URL+'operasiPasar/pendukung/delete',param).subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.getOperasi();
+        this.showAlert(response.message);
+      } 
+    }, err => { 
+        this.showError(err);
+    });
   }
   presentActionSheet(data) {
     let actionSheet = this.actionSheetCtrl.create({
@@ -78,11 +96,10 @@ export class OperasiPasarPage {
           role: 'hapusOperasiPasar',
           handler: () => {
                let param = JSON.stringify({
-                  us_id : this.us_id,
-                  aspirasi_id : data.operasiPasar_id
+                  operasiPasar_id : data.operasiPasar_id
                 });
                console.log(param);
-              this.http.post(this.userData.BASE_URL+'masyarakat/delOperasiPasar',param,this.options).subscribe(res => {
+              this.authHttp.post(this.userData.BASE_URL+'operasiPasar/delete',param).subscribe(res => {
                 let a = res.json();
                 console.log(a);
                 if(a.status == '200') {
@@ -103,11 +120,8 @@ export class OperasiPasarPage {
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
-
   showAlert(message: string){
     let toast = this.toastCtrl.create({
       message: message,

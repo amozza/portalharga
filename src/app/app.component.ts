@@ -26,6 +26,7 @@ export class MyApp {
     });
 
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
+      this.userData.getKomoditasFromServer();
       if(hasLoggedIn) {
         this.userData.getRole().then((value)=>{
           switch (value) {

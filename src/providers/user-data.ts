@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Events,ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { Http } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
 export class UserData {
@@ -15,7 +15,7 @@ export class UserData {
     public events: Events,
     public toastCtrl: ToastController,
     public storage: Storage,
-    public http:Http
+    public authHttp: AuthHttp
   ) {}
 
   login(data: string) {
@@ -35,6 +35,7 @@ export class UserData {
     this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove('user_data');
     this.storage.remove('token');
+    this.storage.remove('komoditas');
     this.events.publish('user:logout');
   };
 
@@ -94,27 +95,44 @@ export class UserData {
     });
   };
 
-  load() {
-  if (this.data) {
-    // already loaded data
-    return Promise.resolve(this.data);
+  getKomoditasFromServer(){
+    this.authHttp.get(this.BASE_URL+'komoditas/get').subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.storage.set('komoditas', response.data);
+      } else if(response.status == 204){
+        this.storage.set('komoditas', []);
+      }
+    });
   }
 
-  // don't have the data yet
-  return new Promise(resolve => {
-    // We're using Angular HTTP provider to request the data,
-    // then on the response, it'll map the JSON data to a parsed JS object.
-    // Next, we process the data and resolve the promise with the new data.
-    this.http.get('https://randomuser.me/api/')
-      .map(res => res.json())
-      .subscribe(data => {
-        // we've got back the raw data, now generate the core schedule data
-        // and save the data for later reference
-        this.data = data;
-        console.log(data);
-        resolve(this.data);
-      });
-  });
-}
+  getKomoditas(){
+    return this.storage.get('komoditas').then((value) => {
+      return value;
+    });
+  }
+
+//   load() {
+//   if (this.data) {
+//     // already loaded data
+//     return Promise.resolve(this.data);
+//   }
+
+//   // don't have the data yet
+//   return new Promise(resolve => {
+//     // We're using Angular HTTP provider to request the data,
+//     // then on the response, it'll map the JSON data to a parsed JS object.
+//     // Next, we process the data and resolve the promise with the new data.
+//     this.http.get('https://randomuser.me/api/')
+//       .map(res => res.json())
+//       .subscribe(data => {
+//         // we've got back the raw data, now generate the core schedule data
+//         // and save the data for later reference
+//         this.data = data;
+//         console.log(data);
+//         resolve(this.data);
+//       });
+//   });
+// }
 
 }

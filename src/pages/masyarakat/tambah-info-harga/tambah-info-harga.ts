@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { Geolocation} from 'ionic-native';
-import { Http ,Headers,RequestOptions} from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 import { NgForm } from '@angular/forms';
 
@@ -18,10 +18,9 @@ declare var google: any;
 })
 export class TambahInfoHargaPage {
   submitted = false;
-  post:{komoditas?: string, harga?: number, satuanHarga?: string} = {};
+  infoHarga:{komoditas?: string, harga?: number, satuan?: string} = {};
   lokasi:{lat?: number, lng?: number}={};
   dataKomoditas=[];
-  options: any;
   id: string;
   alamat: any;
 
@@ -29,33 +28,26 @@ export class TambahInfoHargaPage {
   	public navCtrl: NavController, 
   	public navParams: NavParams,
   	public userData: UserData,
-  	public http: Http,
+  	public authHttp: AuthHttp,
   	public toastCtrl: ToastController
   	) { }
 
   ionViewWillEnter() {
     this.getCurrentLocation();
-    this.getKomoditas();
     this.userData.getId().then((value) => {
       this.id = value;
     });
-  }
-  getKomoditas() {
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.options = new RequestOptions({ headers: headers});
-      
-      this.http.get(this.userData.BASE_URL+'setKomoditas/jenisKomoditas',this.options).subscribe(res => {
-        let a = res.json();
-        this.dataKomoditas = a.data;
-      }, err => { 
-          this.showError(err);
-      });
+    this.userData.getKomoditas().then((value) => {
+      this.dataKomoditas = value;
     });
+  }
+  changeKomoditas(idKomoditas){
+     for(let data of this.dataKomoditas){
+       if(data.komoditas_id == idKomoditas) {
+         this.infoHarga.satuan = 'per '+data.satuan;
+         break;
+       }
+     }
   }
   getAddress(){
     let geocoder = new google.maps.Geocoder();
@@ -82,22 +74,21 @@ export class TambahInfoHargaPage {
     if (form.valid) {
       this.submitted = false;
       let input = JSON.stringify({
-        jenis: this.post.komoditas,
-        harga: this.post.harga,
+        komoditas_id: this.infoHarga.komoditas,
+        harga: this.infoHarga.harga,
         latitude: this.lokasi.lat,
         longitude: this.lokasi.lng, 
-        us_id: this.id,
         alamat: this.alamat
       });
-      this.http.post(this.userData.BASE_URL+"masyarakat/addKom",input,this.options).subscribe(data => {
+      console.log(input);
+      this.authHttp.post(this.userData.BASE_URL+"infoHarga/add",input).subscribe(data => {
          let response = data.json();
          console.log(response);
-         if(response.status == '200') {
+         if(response.status == 200) {
             this.navCtrl.popToRoot();
             this.showAlert("Terima kasih telah mengirim info harga");
          }
       }, err => {
-        this.navCtrl.popToRoot();
         this.showError(err);
         });
     }
@@ -105,8 +96,6 @@ export class TambahInfoHargaPage {
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   showAlert(message: string){

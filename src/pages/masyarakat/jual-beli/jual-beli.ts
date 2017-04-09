@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController} from 'ionic-angular';
-import { Http ,Headers,RequestOptions} from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 
 /*
@@ -14,15 +14,12 @@ import { UserData } from '../../../providers/user-data';
   templateUrl: 'jual-beli.html'
 })
 export class JualBeliPage {
-  public jualan: any;
-  public id: string;
-  public token: string;
-  public options: any;
+  public dagangan: any;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
   	public userData: UserData,
-  	public http: Http,
+  	public authHttp: AuthHttp,
   	public toastCtrl: ToastController
   	) {}
 
@@ -30,33 +27,22 @@ export class JualBeliPage {
     this.getJualan();
   }
   getJualan() {
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.token = value;
-      this.options = new RequestOptions({ headers: headers});
-      
-      this.http.get(this.userData.BASE_URL+'jualan/getAll/',this.options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        if(a.status == 200) {
-        	this.jualan = a.data;
-        } else if(a.status == 404){
-        	this.jualan = [];
+    
+    this.authHttp.get(this.userData.BASE_URL+'dagangan/get').subscribe(res => {
+        let response = res.json();
+        console.log(response);
+        if(response.status == 200) {
+          this.dagangan = response.data;
+        } else if(response.status == 204){
+          this.dagangan = [];
         }
       }, err => { 
           this.showError(err);
       });
-    });
   }
-  showError(err: any){  
+   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   showAlert(message: string){

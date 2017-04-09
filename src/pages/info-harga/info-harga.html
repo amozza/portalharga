@@ -12,8 +12,9 @@
   </ion-navbar>
   <ion-item>
     <ion-label> pilih komoditas </ion-label>
-    <ion-select [(ngModel)]="komoditas" (ionChange)="showselected(komoditas)">
-      <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
+    <ion-select [(ngModel)]="choosedKomoditas" (ionChange)="showselected(choosedKomoditas)">
+      <ion-option value="All">All</ion-option>
+      <ion-option *ngFor="let data of dataKomoditas" value="{{data.komoditas_id}}">{{data.name}}</ion-option>
     </ion-select>
   </ion-item>
 </ion-header>
@@ -21,10 +22,10 @@
 <ion-content >
   <div #map id="map"></div> 
   <ion-card *ngFor="let post of dataHarga">
-    <div *ngIf="komoditas=='All'||post.jenis==komoditas">
+    <div *ngIf="komoditas=='All'||post.komoditas_id==choosedKomoditas">
       <ion-card-header> 
-        <h2>{{post.jenis}}</h2>
-        <h5>Rp. {{post.harga}} per Kg</h5>
+        <h2>{{post.name_komoditas}}</h2>
+        <h5>Rp. {{post.harga}} per {{post.satuan_komoditas}}</h5>
       </ion-card-header>
       <ion-card-content class="outer-content">
         <ion-icon name='pin'></ion-icon>
@@ -32,7 +33,7 @@
       </ion-card-content>
     </div>
   </ion-card>
-  <ion-fab bottom right #fab *ngIf="userRole==2">
+  <ion-fab bottom right #fab *ngIf="userRole==5">
     <button ion-fab (click)="postHargaKomoditas()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>

@@ -20,8 +20,8 @@
 				<ion-col>
 					<ion-item>
 					  <ion-label stacked color="primary">Komoditas </ion-label>
-					  <ion-select [(ngModel)]="post.komoditas" name="komoditas" #komoditas="ngModel" placeholder="pilih komoditas" required>
-					    <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
+					  <ion-select [(ngModel)]="infoHarga.komoditas" (ionChange)="changeKomoditas(infoHarga.komoditas)" name="komoditas" #komoditas="ngModel" placeholder="pilih komoditas" required>
+					    <ion-option *ngFor="let data of dataKomoditas" value="{{data.komoditas_id}}">{{data.name}}</ion-option>
 					  </ion-select>
 					</ion-item>
 				</ion-col>
@@ -33,8 +33,8 @@
 			<ion-row>
 				<ion-col >
 					<ion-item>
-						<ion-label stacked color="primary">Harga</ion-label>	
-						<ion-input [(ngModel)]="post.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Rp. ">
+						<ion-label stacked color="primary">Harga {{infoHarga.satuan}}</ion-label>	
+						<ion-input [(ngModel)]="infoHarga.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Rp. ">
 						</ion-input>
 					</ion-item>
 				</ion-col>
