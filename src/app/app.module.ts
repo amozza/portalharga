@@ -25,7 +25,16 @@ import { KirimOperasiPasarPage } from '../pages/masyarakat/kirim-operasi-pasar/k
 import { PendukungOperasiPasarPage } from '../pages/masyarakat/pendukung-operasi-pasar/pendukung-operasi-pasar';
 import { JualBeliPage } from '../pages/masyarakat/jual-beli/jual-beli';
 import { TambahInfoHargaPage } from '../pages/masyarakat/tambah-info-harga/tambah-info-harga';
+import { EditInfoHargaPage } from '../pages/masyarakat/edit-info-harga/edit-info-harga';
 import { ProfileMasyarakatPage } from '../pages/masyarakat/profile-masyarakat/profile-masyarakat';
+//pedagang
+import { TabsPedagangPage } from '../pages/pedagang/tabs-pedagang/tabs-pedagang';
+import { ProfilePedagangPage } from '../pages/pedagang/profile-pedagang/profile-pedagang';
+//penyuluh
+import { TabsPenyuluhPage } from '../pages/penyuluh/tabs-penyuluh/tabs-penyuluh';
+import { ListPetaniPage } from '../pages/penyuluh/list-petani/list-petani';
+import { TambahPetaniPage } from '../pages/penyuluh/tambah-petani/tambah-petani';
+import { ProfilePenyuluhPage } from '../pages/penyuluh/profile-penyuluh/profile-penyuluh';
 //General
 import { InfoHargaPage } from '../pages/info-harga/info-harga';
 import { PopoverPage } from '../pages/popover/popover';
@@ -85,7 +94,14 @@ export function getAuthHttp(http) {
     ProfileMasyarakatPage,
     EditAspirasiPage,
     EditStatusProduksiPage,
-    PendukungOperasiPasarPage
+    PendukungOperasiPasarPage,
+    EditInfoHargaPage,
+    TabsPedagangPage,
+    ProfilePedagangPage,
+    TabsPenyuluhPage,
+    ListPetaniPage,
+    TambahPetaniPage,
+    ProfilePenyuluhPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -121,7 +137,14 @@ export function getAuthHttp(http) {
     ProfileMasyarakatPage,
     EditAspirasiPage,
     EditStatusProduksiPage,
-    PendukungOperasiPasarPage
+    PendukungOperasiPasarPage,
+    EditInfoHargaPage,
+    TabsPedagangPage,
+    ProfilePedagangPage,
+    TabsPenyuluhPage,
+    ListPetaniPage,
+    TambahPetaniPage,
+    ProfilePenyuluhPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

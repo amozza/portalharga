@@ -29,23 +29,14 @@ export class TambahJualKomoditasPage {
     public userData: UserData) {
   }
   ionViewWillEnter() {
-    this.getKomoditas();
+    this.userData.getKomoditas().then((value) => {
+      this.dataKomoditas = value;
+    });
     this.userData.getId().then((value) => {
       this.user_id = value;
     });
   }
-  getKomoditas() {
-      this.authHttp.get(this.userData.BASE_URL+'komoditas/get').subscribe(res => {
-        let response = res.json();
-        if(response.status == 200) {
-          this.dataKomoditas = response.data;
-        } else if(response.status == 204){
-          this.dataKomoditas = [];
-        }
-      }, err => { 
-          this.showError(err);
-      });
-  }
+  
   changeKomoditas(idKomoditas){
      this.dagangan.komoditas_id = idKomoditas;
      for(let data of this.dataKomoditas){

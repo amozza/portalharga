@@ -16,52 +16,11 @@
 <ion-content>
 	<form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
 		<ion-list>
-			<ion-row>
-				<ion-col>
-					<ion-item>
-					  <ion-label stacked color="primary">Komoditas </ion-label>
-					  <ion-select [(ngModel)]="operasi.komoditas" name="komoditas" #komoditas="ngModel" placeholder="pilih komoditas" required>
-					    <ion-option *ngFor="let data of dataKomoditas">{{data}}</ion-option>
-					  </ion-select>
-					</ion-item>
-				</ion-col>
-			</ion-row>
-			<p ion-text [hidden]="komoditas.valid || submitted == false" color="danger" padding-left>
-				Pilih komoditas
-			</p>
-			<ion-row padding-left>
-				<ion-col>
-					<ion-row>
-						<ion-col>
-							<ion-label stacked color="primary">Lokasi Pasar</ion-label>
-						</ion-col>
-					</ion-row>
-					<ion-row>
-						<ion-col>
-							<div  (click)="getMyLocation()" >
-						        <ion-icon name='pin'></ion-icon>
-						          Use my location
-					        </div>
-						</ion-col>
-					</ion-row>
-					<ion-row>
-						<ion-col>
-							<ion-item no-padding>
-								<ion-input [(ngModel)]="lokasi" name="pasar" #pasar="ngModel" rows="6" required placeholder="Lokasi Pasar"></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<p ion-text [hidden]="pasar.valid || submitted === false" color="danger" padding-left>
-						This field is required
-					</p>
-				</ion-col>
-			</ion-row>
-
 			<ion-row padding-left>
 				<ion-col>
 					<ion-item no-padding>
 						<ion-label stacked color="primary">Pesan</ion-label>
-						<ion-textarea [(ngModel)]="operasi.opini" name="opini" #opini="ngModel" rows="6" required placeholder="Pesan"></ion-textarea>
+						<ion-textarea [(ngModel)]="operasi.pesan" name="opini" #opini="ngModel" rows="6" required placeholder="Pesan"></ion-textarea>
 					</ion-item>
 				</ion-col>
 			</ion-row>

@@ -1,28 +1,22 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
-import { Geolocation} from 'ionic-native';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 import { NgForm } from '@angular/forms';
-
 /*
-  Generated class for the TambahInfoHarga page.
+  Generated class for the EditInfoHarga page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
-declare var google: any;
 @Component({
-  selector: 'page-tambah-info-harga',
-  templateUrl: 'tambah-info-harga.html'
+  selector: 'page-edit-info-harga',
+  templateUrl: 'edit-info-harga.html'
 })
-export class TambahInfoHargaPage {
+export class EditInfoHargaPage {
   submitted = false;
-  infoHarga:{komoditas?: string, harga?: number, satuan?: string} = {};
-  lokasi:{lat?: number, lng?: number}={};
+  infoHarga:{id?: string, komoditas?: string, harga?: number, satuan?: string} = {};
   dataKomoditas=[];
-  id: string;
-  alamat: any;
 
   constructor(
   	public navCtrl: NavController, 
@@ -30,13 +24,14 @@ export class TambahInfoHargaPage {
   	public userData: UserData,
   	public authHttp: AuthHttp,
   	public toastCtrl: ToastController
-  	) { }
-
+  	) {
+  	let data = navParams.data;
+  	this.infoHarga.id = data.laporanHarga_id;
+  	this.infoHarga.komoditas = data.komoditas_id;
+  	this.infoHarga.harga = data.harga;
+  	this.changeKomoditas(this.infoHarga.komoditas);
+  }
   ionViewWillEnter() {
-    this.getCurrentLocation();
-    this.userData.getId().then((value) => {
-      this.id = value;
-    });
     this.userData.getKomoditas().then((value) => {
       this.dataKomoditas = value;
     });
@@ -49,44 +44,22 @@ export class TambahInfoHargaPage {
        }
      }
   }
-  getAddress(){
-    let geocoder = new google.maps.Geocoder();
-    let latlng = {lat: this.lokasi.lat, lng: this.lokasi.lng};
-    geocoder.geocode({'location': latlng},(results, status)=> {
-      if(status=='OK') {
-        this.alamat = results[0].formatted_address;
-      } else{
-        this.showAlert("Tidak dapat menemukan alamat Anda");
-      }
-    });
-  }
-  getCurrentLocation(){
-    Geolocation.getCurrentPosition().then((position) => {
-      this.lokasi.lng = position.coords.longitude;
-      this.lokasi.lat = position.coords.latitude;
-      this.getAddress();
-    }, (err) => {
-      console.log(err);
-    });
-  }
   submit(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
       this.submitted = false;
       let input = JSON.stringify({
+      	laporanHarga_id: this.infoHarga.id,
         komoditas_id: this.infoHarga.komoditas,
-        harga: this.infoHarga.harga,
-        latitude: this.lokasi.lat,
-        longitude: this.lokasi.lng, 
-        alamat: this.alamat
+        harga: this.infoHarga.harga
       });
       console.log(input);
-      this.authHttp.post(this.userData.BASE_URL+"laporanHarga/add",input).subscribe(data => {
+      this.authHttp.post(this.userData.BASE_URL+"laporanHarga/update",input).subscribe(data => {
          let response = data.json();
          console.log(response);
          if(response.status == 200) {
             this.navCtrl.popToRoot();
-            this.showAlert("Terima kasih telah mengirim info harga");
+            this.showAlert("Laporan harga komoditas anda telah diperbarui");
          }
       }, err => {
         this.showError(err);
@@ -105,4 +78,5 @@ export class TambahInfoHargaPage {
     });
     toast.present();
   }
+
 }

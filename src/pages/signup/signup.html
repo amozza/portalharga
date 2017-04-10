@@ -12,7 +12,7 @@
 	<form #signupForm="ngForm" novalidate>
 		<ion-list no-lines>
 		<ion-item href="#">
-		<h5>Daftar akun sebagai {{user.role==4? 'petani': user.role==5? 'masyarakat' : ''}}</h5>			
+		<h5>Daftar akun sebagai {{user.role==4? 'petani': user.role==5? 'masyarakat' : user.role==6? 'pedagang' : user.role==3? 'penyuluh' : ''}}</h5>			
 		</ion-item>
 			<ion-item>
 				<ion-label stacked color="primary">Nama Lengkap</ion-label>

@@ -7,6 +7,8 @@ import { Http,Headers,RequestOptions } from '@angular/http';
 import { SignupPilihanPage } from '../signup-pilihan/signup-pilihan';
 import { TabsPage } from '../petani/tabs-petani/tabs';
 import { TabsMasyarakatPage } from '../masyarakat/tabs-masyarakat/tabs-masyarakat';
+import { TabsPedagangPage } from '../pedagang/tabs-pedagang/tabs-pedagang';
+import { TabsPenyuluhPage } from '../penyuluh/tabs-penyuluh/tabs-penyuluh';
 import { UserData } from '../../providers/user-data';
 import { ForgetPasswordPage } from '../forget-password/forget-password';
 
@@ -53,11 +55,17 @@ export class LoginPage {
              this.userData.setToken(response.token);
              setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
              switch (response.data.role) {
+               case 3: //penyuluh
+                 this.navCtrl.setRoot(TabsPenyuluhPage);
+                 break;
                case 4: //petani
                  this.navCtrl.setRoot(TabsPage);
                  break;
                case 5: //masyarakat
                  this.navCtrl.setRoot(TabsMasyarakatPage);
+                 break;
+               case 6: //pedagang
+                 this.navCtrl.setRoot(TabsPedagangPage);
                  break;
                
                default:
@@ -65,8 +73,10 @@ export class LoginPage {
                  break;
              }
              // this.navCtrl.setRoot(TabsPage);
+             this.showAlert("Login berhasil");
+           } else {
+             this.showAlert(response.message);
            }
-           this.showAlert("Login berhasil");
         }, err => { 
            loading.dismiss();
            this.showError(err);

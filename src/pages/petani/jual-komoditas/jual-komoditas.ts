@@ -18,6 +18,7 @@ import { AuthHttp } from 'angular2-jwt';
 export class JualKomoditasPage {
   public jualanku: any;
   public user_id: string;
+  public role: string;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -30,12 +31,16 @@ export class JualKomoditasPage {
     this.userData.getId().then((value)=>{
       this.user_id = value;
     });
+    this.userData.getRole().then((value)=>{
+      this.role = value;
+    });
     this.getJualan();
   }
 
   getJualan() {
     this.authHttp.get(this.userData.BASE_URL+'dagangan/get').subscribe(res => {
       let response = res.json();
+      console.log(response);
       if(response.status == 200) {
         this.jualanku = response.data;
       } else if(response.status == 204){

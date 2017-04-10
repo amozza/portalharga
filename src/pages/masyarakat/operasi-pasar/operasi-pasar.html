@@ -17,12 +17,19 @@
 	<ion-card *ngFor="let data of dataOperasi">
       <ion-row>
         <ion-col text-left>
-          <ion-card-header>
-            <h2>{{data.komoditas}}</h2>
-            <h5>{{data.datePost}}</h5>
+          <ion-card-header no-padding>
+            <div ion-item>
+              <ion-avatar item-left>
+                  <img src="assets/icon/user.png" *ngIf="!data.picture">
+                  <img [src]="data.picture" *ngIf="data.picture">
+                </ion-avatar>
+              <h6>{{data.nama}}</h6>
+              <h6>{{data.namaKomoditas}}</h6>
+              <p>{{data.time}} {{data.time!='now'?'ago':''}}</p>
+            </div>
           </ion-card-header>
         </ion-col>
-        <div *ngIf="data.us_id == us_id">
+        <div *ngIf="data.user_id == user_id">
           <ion-col text-right>
             <button ion-button clear small  color="primary" (click)="presentActionSheet(data)">
               <ion-icon name='more'></ion-icon>
@@ -38,23 +45,23 @@
         <ion-row padding-left>
           <ion-col>
             <ion-icon name='pin'></ion-icon>
-            {{data.lokasi}}
+            {{data.alamat}}
           </ion-col>
         </ion-row>
         <ion-row no-padding>
           <ion-col text-left>
             <button ion-button clear small  color="primary" (click)="lihatPendukung(data.operasiPasar_id)">
-              {{data.total_pendukung}} Pendukung
+              {{data.totalPendukung}} Pendukung
             </button>
           </ion-col>
           <ion-col text-right>
-            <div *ngIf="data.us_id != us_id && data.status_voted == false">
+            <div *ngIf="data.user_id != user_id && data.status_voted == false">
               <button ion-button clear small color="primary" icon-left (click)="dukungOperasi(data.operasiPasar_id)" >
                 <ion-icon name='thumbs-up'></ion-icon>
                 Dukung
               </button>
           </div>
-          <div *ngIf="data.us_id != us_id && data.status_voted == true">
+          <div *ngIf="data.user_id != user_id && data.status_voted == true">
               <button ion-button clear small color="primary" icon-left (click)="batalDukungOperasi(data.operasiPasar_id)" >
                 <ion-icon name='thumbs-up'></ion-icon>
                 Batal Dukung

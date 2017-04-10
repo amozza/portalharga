@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, App, PopoverController, ToastController } from 'ionic-angular';
+import { NavController, AlertController, App, PopoverController, ToastController, ActionSheetController} from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
 import { ProfileEditPage } from '../../profile-edit/profile-edit';
 import { Storage } from '@ionic/storage';
 import { PopoverPage } from '../../popover/popover';
-import { Http,Headers,RequestOptions } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
+import { EditOperasiPasarPage } from '../edit-operasi-pasar/edit-operasi-pasar';
 
 /*
   Generated class for the ProfileMasyarakat page.
@@ -20,53 +21,85 @@ import { Http,Headers,RequestOptions } from '@angular/http';
 export class ProfileMasyarakatPage {
 
   nama: string;
-  profilePict: string;
+  profilePicture: string;
   dataOperasi:any ;
-  options:any;
-  us_id:any;
+  user_id:any;
 
   constructor(
   	public alertCtrl: AlertController, 
-  	public nav: NavController,
+  	public navCtrl: NavController,
     public app: App,
     public storage: Storage, 
   	public userData: UserData,
     public popoverCtrl: PopoverController,
-    public http: Http,
-    public toastCtrl: ToastController
+    public authHttp: AuthHttp,
+    public toastCtrl: ToastController,
+    public actionSheetCtrl: ActionSheetController
     ) {
 
-  }
-
-  ngAfterViewInit() {
   }
 
   ionViewWillEnter(){
     this.getName();
     this.getProfilePict();
-    this.userData.getId().then((value)=>{
-      this.us_id = value;
-    });
     this.getOperasi();
   }
   getOperasi() {
-    this.userData.getToken().then((value) => {
-      let headers = new Headers({ 
-        'Content-Type': 'application/json',
-        'token': value,
-        'login_type' : '1'
-      });
-      this.options = new RequestOptions({ headers: headers});
-      
-      this.http.get(this.userData.BASE_URL+'masyarakat/operasiku/'+this.us_id,this.options).subscribe(res => {
-        let a = res.json();
-        console.log(a);
-        this.dataOperasi = a.data;
+    this.userData.getId().then((value)=>{
+      this.user_id = value;
+      this.authHttp.get(this.userData.BASE_URL+'operasiPasar/operasi/get/'+this.user_id).subscribe(res => {
+        let response = res.json();
+        console.log(response);
+        if(response.status == 200) {
+          this.dataOperasi = response.data;
+        } else if(response.status == 204) {
+          this.dataOperasi = [];
+        }
       }, err => { console.log(err);
           this.showError(err);
       });
     });
+    
   }
+  hapusOperasiPasar(idOperasi){
+    let param = JSON.stringify({
+        operasiPasar_id : idOperasi
+      });
+     console.log(param);
+    this.authHttp.post(this.userData.BASE_URL+'operasiPasar/delete',param).subscribe(res => {
+      let response = res.json();
+      console.log(response);
+      if(response.status == 200) {
+        this.getOperasi();
+        this.showAlert(response.message);
+      }
+    }, err => { 
+      this.showError(err);
+    });
+  }
+  presentActionSheet(data) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Pilihan',
+      buttons: [
+        {
+          text: 'Edit operasi pasar',
+          role: 'editOperasiPasar',
+          handler: () => {
+            this.navCtrl.push(EditOperasiPasarPage,data);
+          }
+        },
+        {
+          text: 'Hapus operasi pasar',
+          role: 'hapusOperasiPasar',
+          handler: () => {
+             this.hapusOperasiPasar(data.operasiPasar_id);
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+  
   presentPopover(event: Event) {
     let popover = this.popoverCtrl.create(PopoverPage);
     popover.present({ ev: event });
@@ -78,22 +111,21 @@ export class ProfileMasyarakatPage {
   }
   getProfilePict() {
     this.userData.getProfilePict().then((values) => {
-      this.profilePict = values;
+      this.profilePicture = values;
     });
   }
   editProfile(){
-    this.nav.push(ProfileEditPage);
+    this.navCtrl.push(ProfileEditPage);
   }
 
   logout() {
     this.userData.logout();
     this.app.getRootNav().setRoot(LoginPage);
   }
+
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
-    err.status==403?
-    this.showAlert(err.message):
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
 

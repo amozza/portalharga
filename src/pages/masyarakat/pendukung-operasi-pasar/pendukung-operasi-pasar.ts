@@ -32,6 +32,7 @@ export class PendukungOperasiPasarPage {
   getData() {
     this.authHttp.get(this.userData.BASE_URL+'operasiPasar/pendukung/get/'+this.operasiPasar_id).subscribe(res => {
       let response = res.json();
+      console.log(response);
       this.pendukung = response.data;
     }, err => { console.log(err);
         this.showError(err);

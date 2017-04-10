@@ -42,7 +42,11 @@ export class OperasiPasarPage {
     this.authHttp.get(this.userData.BASE_URL+'operasiPasar/get').subscribe(res => {
         let response = res.json();
         console.log(response);
-        this.dataOperasi = response.data;
+        if(response.status == 200) {
+          this.dataOperasi = response.data;
+        } else if(response.status == 204) {
+          this.dataOperasi = [];
+        }
       }, err => { console.log(err);
           this.showError(err);
       });
@@ -80,6 +84,22 @@ export class OperasiPasarPage {
         this.showError(err);
     });
   }
+  hapusOperasiPasar(idOperasi){
+    let param = JSON.stringify({
+        operasiPasar_id : idOperasi
+      });
+     console.log(param);
+    this.authHttp.post(this.userData.BASE_URL+'operasiPasar/delete',param).subscribe(res => {
+      let response = res.json();
+      console.log(response);
+      if(response.status == 200) {
+        this.getOperasi();
+        this.showAlert(response.message);
+      }
+    }, err => { 
+      this.showError(err);
+    });
+  }
   presentActionSheet(data) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
@@ -95,21 +115,7 @@ export class OperasiPasarPage {
           text: 'Hapus operasi pasar',
           role: 'hapusOperasiPasar',
           handler: () => {
-               let param = JSON.stringify({
-                  operasiPasar_id : data.operasiPasar_id
-                });
-               console.log(param);
-              this.authHttp.post(this.userData.BASE_URL+'operasiPasar/delete',param).subscribe(res => {
-                let a = res.json();
-                console.log(a);
-                if(a.status == '200') {
-                  this.dataOperasi = [];
-                  this.getOperasi();
-                  this.showAlert(a.message);
-                }
-              }, err => { 
-                this.showError(err);
-              });
+             this.hapusOperasiPasar(data.operasiPasar_id);
           }
         }
       ]

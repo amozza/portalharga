@@ -41,20 +41,9 @@ export class EditJualKomoditasPage {
     this.userData.getId().then((value) => {
       this.user_id = value;
     });
-    this.getKomoditas();
-  }
-
-  getKomoditas() {
-      this.authHttp.get(this.userData.BASE_URL+'komoditas/get').subscribe(res => {
-        let response = res.json();
-        if(response.status == 200) {
-          this.dataKomoditas = response.data;
-        } else if(response.status == 204){
-          this.dataKomoditas = [];
-        }
-      }, err => { 
-          this.showError(err);
-      });
+    this.userData.getKomoditas().then((value) => {
+      this.dataKomoditas = value;
+    });
   }
 
   takePicture(){

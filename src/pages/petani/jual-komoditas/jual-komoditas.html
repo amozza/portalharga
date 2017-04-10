@@ -17,37 +17,50 @@
 	<ion-card *ngFor="let data of jualanku">
         <ion-row>
 			<ion-col text-left>
-				<ion-card-header>
+				<ion-card-header no-padding>
 				    <div ion-item>
-				        {{data.nama_komoditas}}
-						<h6>{{data.time}} {{data.time!='now'?'ago':''}}</h6>  
+              <ion-avatar item-left>
+                  <img src="assets/icon/user.png" *ngIf="!data.picture">
+                  <img [src]="data.picture" *ngIf="data.picture">
+              </ion-avatar>
+				    	<h6>{{data.nama}}</h6>
+				      <h6>{{data.nama_komoditas}}</h6>
+						  <p>{{data.time}} {{data.time!='now'?'ago':''}}</p>  
 				    </div>
 		        </ion-card-header>
 		    </ion-col>
-		    <ion-col text-right>
+		    <ion-col text-right *ngIf="data.user_id==user_id">
 				<button ion-button clear small  color="primary" (click)="presentActionSheet(data)">
 	        	 	<ion-icon name='more'></ion-icon>
 	        	 </button>
 			</ion-col>
 		</ion-row>
+	    <ion-row padding-left>
+          <ion-col>
+            <h5>Rp. {{data.harga}} per {{data.satuan_komoditas}}</h5>
+          </ion-col>
+          <ion-col>
+            <h5>Stok: {{data.stok}} {{data.satuan_komoditas}}</h5>
+          </ion-col>
+        </ion-row>
     	<img [src]="data.picture" *ngIf="data.picture">
     	<h6 padding>{{data.keterangan}}</h6>
         <ion-card-content class="outer-content">
         	<ion-row>
 	        	<h6>
-		        	<ion-icon name='pricetag'> </ion-icon>
-		        	Rp. {{data.harga}} per {{data.satuan_komoditas}}
+		        	<ion-icon name='call'> </ion-icon>
+		        	089xxx
 	        	</h6>
         	</ion-row>
         	<ion-row>
         		<h6>
-		        	<ion-icon name='cart'> </ion-icon>
-		        	{{data.stok}} {{data.satuan_komoditas}}
+		        	<ion-icon name='pin'> </ion-icon>
+		        	Jl x no y
 	        	</h6>
         	</ion-row>
         </ion-card-content>
     </ion-card>
-    <ion-fab bottom right #fab>
+    <ion-fab bottom right *ngIf="role!=5" #fab >
     	<button ion-fab (click)="tambahJualan()"><ion-icon name="add"></ion-icon></button>
   	</ion-fab>
 </ion-content>

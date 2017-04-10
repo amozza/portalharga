@@ -10,6 +10,14 @@
       Info Harga Hari Ini
     </ion-title>
   </ion-navbar>
+  <ion-segment [(ngModel)]="segment" (ionChange)="updateSegment()" *ngIf="userRole==5">
+      <ion-segment-button value="now">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="history">
+        Histori Laporan
+      </ion-segment-button>
+    </ion-segment>
   <ion-item>
     <ion-label> pilih komoditas </ion-label>
     <ion-select [(ngModel)]="choosedKomoditas" (ionChange)="showselected(choosedKomoditas)">
@@ -19,14 +27,23 @@
   </ion-item>
 </ion-header>
  
-<ion-content >
-  <div #map id="map"></div> 
+<ion-content padding-top>
+  <div #map id="map" [hidden]="segment!='now'"></div> 
   <ion-card *ngFor="let post of dataHarga">
-    <div *ngIf="komoditas=='All'||post.komoditas_id==choosedKomoditas">
-      <ion-card-header> 
-        <h2>{{post.name_komoditas}}</h2>
-        <h5>Rp. {{post.harga}} per {{post.satuan_komoditas}}</h5>
-      </ion-card-header>
+    <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
+      <ion-row>
+        <ion-col text-left>
+          <ion-card-header> 
+            <h2>{{post.namaKomoditas}}</h2>
+            <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
+          </ion-card-header>
+        </ion-col>
+        <ion-col text-right>
+          <button ion-button clear small  color="primary" (click)="presentActionSheet(post)" *ngIf="post.user_id == user_id">
+            <ion-icon name='more'></ion-icon>
+           </button>
+        </ion-col>
+      </ion-row>
       <ion-card-content class="outer-content">
         <ion-icon name='pin'></ion-icon>
         {{post.alamat}}

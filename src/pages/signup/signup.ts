@@ -7,6 +7,8 @@ import { Http,Headers,RequestOptions } from '@angular/http';
 import { TabsPage } from '../petani/tabs-petani/tabs';
 import { TabsMasyarakatPage } from '../masyarakat/tabs-masyarakat/tabs-masyarakat';
 import { UserData } from '../../providers/user-data';
+import { TabsPedagangPage } from '../pedagang/tabs-pedagang/tabs-pedagang';
+import { TabsPenyuluhPage } from '../penyuluh/tabs-penyuluh/tabs-penyuluh';
 
 
 @Component({
@@ -58,11 +60,17 @@ export class SignupPage {
              this.userData.setToken(response.token);
              setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
              switch (response.data.role) {
+               case 3: //penyuluh
+                 this.navCtrl.setRoot(TabsPenyuluhPage);
+                 break;
                case 4: //petani
                  this.navCtrl.setRoot(TabsPage);
                  break;
                case 5: //masyarakat
                  this.navCtrl.setRoot(TabsMasyarakatPage);
+                 break;
+               case 6: //pedagang
+                 this.navCtrl.setRoot(TabsPedagangPage);
                  break;
                
                default:
