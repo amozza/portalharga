@@ -20,8 +20,8 @@
 				<ion-card-header no-padding>
 				    <div ion-item>
               <ion-avatar item-left>
-                  <img src="assets/icon/user.png" *ngIf="!data.picture">
-                  <img [src]="data.picture" *ngIf="data.picture">
+                  <img src="assets/icon/user.png" *ngIf="!data.user_picture">
+                  <img [src]="data.user_picture" *ngIf="data.user_picture">
               </ion-avatar>
 				    	<h6>{{data.nama}}</h6>
 				      <h6>{{data.nama_komoditas}}</h6>
@@ -49,13 +49,13 @@
         	<ion-row>
 	        	<h6>
 		        	<ion-icon name='call'> </ion-icon>
-		        	089xxx
+		        	{{data.nomor_telepon}}
 	        	</h6>
         	</ion-row>
         	<ion-row>
         		<h6>
 		        	<ion-icon name='pin'> </ion-icon>
-		        	Jl x no y
+		        	{{data.address}}
 	        	</h6>
         	</ion-row>
         </ion-card-content>

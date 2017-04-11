@@ -50,10 +50,10 @@ export class UserData {
       return value;
     });
   }
-  updateProfilePict(prof_pict) {
+  updateProfilePict(picture) {
     this.storage.get('user_data').then((value) => {
       let data = value;
-      data.prof_pict=prof_pict;
+      data.picture = picture;
       this.storage.set('user_data', data);
     });
   }
@@ -69,7 +69,7 @@ export class UserData {
   };
   getProfilePict() {
     return this.storage.get('user_data').then((value) => {
-      return value.prof_pict;
+      return value.picture;
     });
   };
   getToken() {

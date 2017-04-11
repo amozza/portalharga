@@ -47,6 +47,7 @@ export class AspirasiPage {
   getAspirasi() {
     this.authHttp.get(this.userData.BASE_URL+'aspirasi/get').subscribe(res => {
       let response = res.json();
+      console.log(response);
       if(response.status == 200) {
         this.aspirasi = response.data;
       } else if(response.status == 204){

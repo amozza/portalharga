@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NavController, NavParams, ToastController, LoadingController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController} from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
 import {Camera} from 'ionic-native';
 import { AuthHttp } from 'angular2-jwt';
@@ -27,7 +27,8 @@ export class ProfileEditPage {
   	public userData: UserData,
   	public toastCtrl: ToastController,
   	public loadCtrl: LoadingController,
-    public authHttp: AuthHttp
+    public authHttp: AuthHttp,
+    public actionSheetCtrl: ActionSheetController
     ) {}
 
   ionViewWillEnter(){
@@ -36,15 +37,9 @@ export class ProfileEditPage {
       this.user.name = value.name;
       this.user.email = value.email;
       this.user.user_id = value.user_id;
-      this.user.picture = value.prof_pict;
+      this.user.picture = value.picture;
     });
 
-    this.loading = this.loadCtrl.create({
-        content: 'Uploading image...'
-    });
-  }
-  updatePicture() {
-    this.takePicture();
   }
   takePicture(){
     Camera.getPicture({
@@ -52,27 +47,69 @@ export class ProfileEditPage {
         targetWidth: 600,
         targetHeight: 600
     }).then((imageData) => {
-      this.loading.present();
       this.base64Image = imageData;
-      let param = JSON.stringify({
-        user_id : this.user.user_id,
-        picture: this.base64Image
-      });
-      this.authHttp.post(this.userData.BASE_URL+'user/uploadPhoto',param).subscribe(res => {
-        let response = res.json();
-        if(response.status==200) {
-          this.loading.dismiss();
-          this.userData.updateProfilePict(response.data.picture);
-          this.user.picture = response.data.picture;
-          this.showAlert("Berhasil mengubah foto profile"); 
-        }         
-      }, err => { 
-          this.loading.dismiss();
-          this.showError(err);
-      });
-    }, (err) => {
-        console.log(err);
+      this.postUpdatePicture();
+      }, (err) => {
     });
+  }
+  getPhotoFromGallery(){
+    Camera.getPicture({
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType     : Camera.PictureSourceType.PHOTOLIBRARY,
+        targetWidth: 600,
+        targetHeight: 600
+    }).then((imageData) => {
+      this.base64Image = imageData;
+      this.postUpdatePicture();
+      }, (err) => {
+    });
+  }
+
+  updatePicture() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Pilihan',
+      buttons: [
+        {
+          text: 'Ambil Gambar',
+          role: 'ambilGambar',
+          handler: () => {
+            this.takePicture();
+          }
+        },
+        {
+          text: 'Pilih Dari Galleri',
+          role: 'gallery',
+          handler: () => {
+            this.getPhotoFromGallery();
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  postUpdatePicture(){
+    this.loading = this.loadCtrl.create({
+        content: 'Uploading image...'
+    });
+    this.loading.present();
+    let param = JSON.stringify({
+      user_id : this.user.user_id,
+      picture: this.base64Image
+    });
+    this.authHttp.post(this.userData.BASE_URL+'user/uploadPhoto',param).subscribe(res => {
+      this.loading.dismiss();
+      let response = res.json();
+      if(response.status==200) {
+        this.userData.updateProfilePict(response.picture);
+        this.user.picture = response.picture;
+        this.showAlert("Berhasil mengubah foto profile"); 
+      }         
+    }, err => { 
+        this.loading.dismiss();
+        this.showError(err);
+    });
+    
   }
   onUpdate(form: NgForm) {
     this.submitted = true;
