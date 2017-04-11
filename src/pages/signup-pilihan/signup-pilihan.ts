@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
+import { TambahPetaniPage } from '../penyuluh/tambah-petani/tambah-petani';
 
 /*
   Generated class for the SignupPilihan page.
@@ -17,7 +18,7 @@ export class SignupPilihanPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   petani(){
-  	this.navCtrl.push(SignupPage,4);
+  	this.navCtrl.push(TambahPetaniPage);
   }
   masyarakat(){
   	this.navCtrl.push(SignupPage,5);

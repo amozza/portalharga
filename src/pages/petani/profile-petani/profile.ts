@@ -70,8 +70,18 @@ export class ProfilePetaniPage {
   }
 
   logout() {
-    this.userData.logout();
-    this.app.getRootNav().setRoot(LoginPage);
+    let param = JSON.stringify({ }); 
+    this.authHttp.post(this.userData.BASE_URL+'user/logout',param).subscribe(res => {
+      let response = res.json();
+      console.log(response);
+      if(response.status == 200) {
+        this.userData.logout();
+        this.app.getRootNav().setRoot(LoginPage);
+      }
+      this.showAlert(response.message);
+    }, err => { console.log(err);
+        this.showError(err);
+    });
   }
   getAspirasi() {
     this.authHttp.get(this.userData.BASE_URL+'aspirasi/get/'+this.id).subscribe(res => {

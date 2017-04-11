@@ -127,7 +127,11 @@ export class InfoHargaPage {
       let response = res.json();
       console.log(response);
       if(response.status == 200) {
-        this.getDataHarga();
+        if(this.segment == 'now') {
+          this.getDataHarga();
+        } else if(this.segment == 'history') {
+          this.getHistoryLaporanHarga();;
+        }
         this.showAlert(response.message);
       }
     }, err => { 

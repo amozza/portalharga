@@ -7,12 +7,86 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>tambah-petani</ion-title>
+    <ion-title>Register petani</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+	<form #signupForm="ngForm" novalidate>
+		<ion-list>
+			<ion-item>
+				<ion-label stacked color="primary">Nama Lengkap</ion-label>
+				<ion-input [(ngModel)]="user.name" name="nama" type="text" #nama="ngModel" placeholder="Nama Lengkap" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="nama.valid || submitted == false" color="danger" padding-left>
+				Nama lengkap is required
+			</p>
 
+			<ion-item>
+				<ion-label stacked color="primary">Email</ion-label>
+				<ion-input [(ngModel)]="user.email" name="email" type="email" #email="ngModel" placeholder="Email" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
+				Email is required
+			</p>
+			<ion-item>
+				<ion-label stacked color="primary">Nomor Telepon</ion-label>	
+				<ion-input [(ngModel)]="user.nomor_telepon" name="nomor_telepon" type="number" placeholder="Nomor Telepon" min="0" #nomor_telepon="ngModel" required >
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="nomor_telepon.valid || submitted == false" color="danger" padding-left>
+				Nomor telepon is required
+			</p> 
+
+			<ion-item>
+				<ion-label stacked color="primary">Username</ion-label>
+				<ion-input [(ngModel)]="user.username" name="username" type="text" #username="ngModel" placeholder="Username" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+				Username is required
+			</p>
+
+			<ion-item>
+				<ion-label stacked color="primary">Password</ion-label>
+				<ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" placeholder="Password" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+				Password is required
+			</p>
+
+			<ion-row>
+				<ion-col >
+					<ion-row padding-left>
+						<ion-label stacked color="primary">Lokasi</ion-label>
+					</ion-row>
+					<ion-row padding-left>
+						<ion-col>
+							<button ion-button [color]="useManualLocationColor" small outline (click)="chooseLocation(1)">Masukkan manual</button>
+						</ion-col>
+						<ion-col>
+							<button ion-button [color]="useCurrentLocationColor" small outline (click)="chooseLocation(0)">Lokasi sekarang</button>
+						</ion-col>
+					</ion-row>
+					<div padding-left *ngIf="useCurrentLocation">{{lokasi.alamat}}</div>
+					<ion-item *ngIf="!useCurrentLocation">	
+						<ion-input [(ngModel)]="inputAlamat" name="alamat" type="text" spellcheck="false" autocapitalize="off" required placeholder="Nama jalan, kota, provinsi">
+						</ion-input>
+					</ion-item>
+				</ion-col>
+			</ion-row>
+			<p ion-text [hidden]="inputAlamat || useCurrentLocation || submitted == false" color="danger" padding-left>
+				Lokasi is required
+			</p>
+		</ion-list>
+
+		<div padding>
+			<button ion-button (click)="onSignup(signupForm)" type="submit" block>Daftar</button>
+		</div>
+	</form>
 </ion-content>
