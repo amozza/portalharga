@@ -2,7 +2,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
-
+import { Transfer } from '@ionic-native/transfer';
+import { FileChooser } from '@ionic-native/file-chooser';
 import { MyApp } from './app.component';
 // Petani
 import { TabsPage } from '../pages/petani/tabs-petani/tabs';
@@ -29,10 +30,14 @@ import { EditInfoHargaPage } from '../pages/masyarakat/edit-info-harga/edit-info
 import { ProfileMasyarakatPage } from '../pages/masyarakat/profile-masyarakat/profile-masyarakat';
 //pedagang
 import { TabsPedagangPage } from '../pages/pedagang/tabs-pedagang/tabs-pedagang';
+import { TambahPedagangPage } from '../pages/pedagang/tambah-pedagang/tambah-pedagang';
 import { ProfilePedagangPage } from '../pages/pedagang/profile-pedagang/profile-pedagang';
 //penyuluh
 import { TabsPenyuluhPage } from '../pages/penyuluh/tabs-penyuluh/tabs-penyuluh';
 import { ListPetaniPage } from '../pages/penyuluh/list-petani/list-petani';
+import { MateriPage } from '../pages/penyuluh/materi/materi';
+import { TambahMateriPage } from '../pages/penyuluh/tambah-materi/tambah-materi';
+import { EditMateriPage } from '../pages/penyuluh/edit-materi/edit-materi';
 import { TambahPetaniPage } from '../pages/penyuluh/tambah-petani/tambah-petani';
 import { ProfilePenyuluhPage } from '../pages/penyuluh/profile-penyuluh/profile-penyuluh';
 //General
@@ -101,7 +106,11 @@ export function getAuthHttp(http) {
     TabsPenyuluhPage,
     ListPetaniPage,
     TambahPetaniPage,
-    ProfilePenyuluhPage
+    ProfilePenyuluhPage,
+    TambahPedagangPage,
+    TambahMateriPage,
+    EditMateriPage,
+    MateriPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -144,12 +153,18 @@ export function getAuthHttp(http) {
     TabsPenyuluhPage,
     ListPetaniPage,
     TambahPetaniPage,
-    ProfilePenyuluhPage
+    ProfilePenyuluhPage,
+    TambahPedagangPage,
+    TambahMateriPage,
+    EditMateriPage,
+    MateriPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   ConferenceData,
   UserData,
+  Transfer,
+  FileChooser,
   Storage,
     {
       provide: AuthHttp,

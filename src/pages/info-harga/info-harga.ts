@@ -202,7 +202,7 @@ export class InfoHargaPage {
           mapTypeId: google.maps.MapTypeId.ROADMAP
         }
         let infoWindow = new google.maps.InfoWindow({
-          content: '<h5>'+data.nama_komoditas+'</h5><h6>Rp. '+data.harga+' per Kg</h6>'
+          content: '<h5>'+data.namaKomoditas+'</h5><h6>Rp. '+data.harga+' per Kg</h6>'
         });
         let marker = new google.maps.Marker({
           position: latLng,

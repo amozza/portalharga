@@ -8,6 +8,7 @@ import { AuthHttp } from 'angular2-jwt';
 import { PendukungPage } from '../pendukung/pendukung';
 import { PopoverPage } from '../../popover/popover';
 import { EditAspirasiPage } from '../edit-aspirasi/edit-aspirasi';
+import { EditJualKomoditasPage } from '../edit-jual-komoditas/edit-jual-komoditas';
 
 
 /*
@@ -17,7 +18,7 @@ import { EditAspirasiPage } from '../edit-aspirasi/edit-aspirasi';
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-profile',
+  selector: 'page-profile-petani',
   templateUrl: 'profile.html'
 })
 export class ProfilePetaniPage {
@@ -26,7 +27,9 @@ export class ProfilePetaniPage {
   public aspirasi: any;
   public id: string;
   public loading: any;
-  
+  public segments:any;
+  public jualanku: any;
+
   constructor(
   	public alertCtrl: AlertController, 
   	public nav: NavController,
@@ -51,6 +54,7 @@ export class ProfilePetaniPage {
     this.loading = this.loadingCtrl.create({
         content: 'Tunggu sebentar...'
     });
+    this.segments = "aspirasi";
   }
   getDataProfile() {
     this.userData.getUsername().then((nama) => {
@@ -59,6 +63,7 @@ export class ProfilePetaniPage {
     this.userData.getId().then((value)=>{
       this.id = value;
       this.getAspirasi();
+      this.getJualan();
     });
     this.userData.getProfilePict().then((value) => {
       this.profilePicture = value;
@@ -83,6 +88,8 @@ export class ProfilePetaniPage {
         this.showError(err);
     });
   }
+
+  // Aspirasi
   getAspirasi() {
     this.authHttp.get(this.userData.BASE_URL+'aspirasi/get/'+this.id).subscribe(res => {
       let response = res.json();
@@ -118,7 +125,7 @@ export class ProfilePetaniPage {
   editAspirasi(dataAspirasi){
     this.nav.push(EditAspirasiPage,dataAspirasi);
   }
-  presentActionSheet(dataAspirasi) {
+  presentActionSheetAspirasi(dataAspirasi) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
       buttons: [
@@ -140,6 +147,64 @@ export class ProfilePetaniPage {
     });
     actionSheet.present();
   }
+  //End of aspirasi
+
+  //Dagangan
+  getJualan() {
+    this.authHttp.get(this.userData.BASE_URL+'dagangan/get/'+this.id).subscribe(res => {
+      let response = res.json();
+      console.log(response);
+      if(response.status == 200) {
+        this.jualanku = response.data;
+      } else if(response.status == 204){
+        this.jualanku = [];
+      }
+    }, err => { console.log(err);
+        this.showError(err);
+    });
+  }
+  editJualan(dataDagangan){
+    this.nav.push(EditJualKomoditasPage,dataDagangan);
+  }
+  hapusJualan(dataDagangan){
+    let param = JSON.stringify({
+      dagangan_id : dataDagangan.dagangan_id
+    });
+    this.authHttp.post(this.userData.BASE_URL+'dagangan/delete',param).subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.getJualan();
+        this.showAlert(response.message);
+      }
+    }, err => { 
+      console.log(err);
+      this.showError(err);
+    });
+  }
+  presentActionSheetDagangan(dataDagangan) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Pilihan',
+      buttons: [
+        {
+          text: 'Edit Penjualan',
+          role: 'editpenjualan',
+          handler: () => {
+            this.editJualan(dataDagangan);
+          }
+        },
+        {
+          text: 'Hapus Penjualan',
+          role: 'hapuspenjualan',
+          handler: () => {
+            this.hapusJualan(dataDagangan);
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+  //End of dagangan
+
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):

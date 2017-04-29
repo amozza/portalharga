@@ -20,7 +20,17 @@ declare var google: any;
 export class EditStatusProduksiPage {
   submitted: boolean = false;
   id: string;
-  produksi:{id?: string, komoditas_id?: string, alamat?: string, jumlah?: string, satuan?: string, waktu_panen?: any, keterangan?: string} = {};
+  produksi:{
+    id?: string, 
+    komoditas_id?: string, 
+    alamat?: string, 
+    jumlah?: string, 
+    satuan?: string, 
+    waktu_panen?: any, 
+    keterangan?: string, 
+    date_tanam?: string, 
+    luas_lahan?: number
+  } = {};
   lokasi:{lat?: number, lng?: number}={};
   inputAlamat: string;
   dataKomoditas = [];
@@ -47,6 +57,8 @@ export class EditStatusProduksiPage {
   	this.lokasi.lng = data.longitude;
   	this.produksi.satuan = data.satuan;
     this.produksi.komoditas_id = data.komoditas_id;
+    this.produksi.date_tanam = moment(data.date_tanam).format('YYYY-MM-DD');
+    this.produksi.luas_lahan = data.luas_lahan;
   }
 
   ionViewWillEnter() {
@@ -122,7 +134,8 @@ export class EditStatusProduksiPage {
     });
   }
   updateStatusProduksi(){
-    let date = new Date(this.produksi.waktu_panen).getTime();
+    let date_panen = new Date(this.produksi.waktu_panen).getTime();
+    let date_tanam = new Date(this.produksi.date_tanam).getTime();
     this.submitted = false;
       let input = JSON.stringify({
       	produksi_id: this.produksi.id,
@@ -132,7 +145,9 @@ export class EditStatusProduksiPage {
         longitude: this.lokasi.lng,
         jumlah: this.produksi.jumlah, 
         keterangan: this.produksi.keterangan,
-        date_panen: date
+        date_panen: date_panen,
+        date_tanam: date_tanam,
+        luas_lahan: this.produksi.luas_lahan
       });
       this.authHttp.post(this.userData.BASE_URL+"produksi/update",input).subscribe(data => {
          this.loading.dismiss();

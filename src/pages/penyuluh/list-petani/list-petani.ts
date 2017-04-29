@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, ActionSheetController, LoadingController} from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
+import { TambahPetaniPage } from '../tambah-petani/tambah-petani';
 /*
   Generated class for the ListPetani page.
 
@@ -14,12 +15,15 @@ import { AuthHttp } from 'angular2-jwt';
 })
 export class ListPetaniPage {
 	public userPetani = [];
+  public loading: any;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
     public authHttp: AuthHttp,
     public userData: UserData,
-    public toastCtrl: ToastController) {}
+    public toastCtrl: ToastController,
+    public actionSheetCtrl: ActionSheetController,
+    public loadCtrl: LoadingController) {}
 
   ionViewWillEnter(){
     this.getData();
@@ -36,6 +40,54 @@ export class ListPetaniPage {
     }, err => { console.log(err);
         this.showError(err);
     });
+  }
+  tambahPetani(){
+    this.navCtrl.push(TambahPetaniPage,2);
+  }
+  editPetani(data){
+
+  }
+  hapusPetani(user_id){
+    this.loading = this.loadCtrl.create({
+        content: 'Tunggu sebentar...'
+    });
+    this.loading.present();
+    let param = JSON.stringify({
+      user_id : user_id
+    });
+    this.authHttp.post(this.userData.BASE_URL+'aspirasi/delete',param).subscribe(res => {
+      this.loading.dismiss();
+      let response = res.json();
+      if(response.status == 200) {
+        this.getData();
+        this.showAlert(response.message);
+      }
+    }, err => { 
+      this.loading.dismiss();
+      this.showError(err);
+    });
+  }
+  presentActionSheet(dataPetani) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Pilihan',
+      buttons: [
+        {
+          text: 'Edit petani',
+          role: 'editPetani',
+          handler: () => {
+            this.editPetani(dataPetani);
+          }
+        },
+        {
+          text: 'Hapus petani',
+          role: 'hapusPetani',
+          handler: () => {
+            this.hapusPetani(dataPetani.user_id);
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
   showError(err: any){  
     err.status==0? 

@@ -8,7 +8,7 @@ import { AuthHttp } from 'angular2-jwt';
 export class UserData {
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
-  BASE_URL = 'http://yippytech.com:5000/';
+  BASE_URL = 'https://ph.yippytech.com:5000/';
   token:any;
   data:any;
   constructor(

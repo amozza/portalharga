@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
 import { TambahPetaniPage } from '../penyuluh/tambah-petani/tambah-petani';
+import { TambahPedagangPage } from '../pedagang/tambah-pedagang/tambah-pedagang';
 
 /*
   Generated class for the SignupPilihan page.
@@ -18,13 +19,13 @@ export class SignupPilihanPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   petani(){
-  	this.navCtrl.push(TambahPetaniPage);
+  	this.navCtrl.push(TambahPetaniPage,1);
   }
   masyarakat(){
   	this.navCtrl.push(SignupPage,5);
   }
   pedagang(){
-    this.navCtrl.push(SignupPage,6);
+    this.navCtrl.push(TambahPedagangPage);
   }
   penyuluh(){
     this.navCtrl.push(SignupPage,3);

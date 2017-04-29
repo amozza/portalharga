@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NavController, ToastController, NavParams, LoadingController } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { UserData } from '../../../providers/user-data';
-import { TabsPage } from '../../petani/tabs-petani/tabs';
+import { TabsPedagangPage } from '../tabs-pedagang/tabs-pedagang';
 
 declare var google: any;
 /*
@@ -13,15 +13,15 @@ declare var google: any;
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-tambah-petani',
-  templateUrl: 'tambah-petani.html'
+  selector: 'page-tambah-pedagang',
+  templateUrl: 'tambah-pedagang.html'
 })
-export class TambahPetaniPage {
+export class TambahPedagangPage {
   user: {username?: string, name?: string, email?: string, password?: string, nomor_telepon?: string, role?: any} = {};
   submitted = false;
   lokasi:{lat?: number, lng?: number, alamat?: string}={};
-  inputAlamat: string;
   dataKomoditas = [];
+  loading: any;
   provinsi: any;
   kabupaten: any;
   kecamatan: any;
@@ -34,8 +34,7 @@ export class TambahPetaniPage {
   namaKabupaten: string;
   namaKecamatan: string;
   namaKelurahan: string;
-  type: number;
-  loading: any;
+  inputAlamat: string;
   headers = new Headers({ 
                 'Content-Type': 'application/json'});
   options = new RequestOptions({ headers: this.headers});
@@ -45,12 +44,11 @@ export class TambahPetaniPage {
     public http: Http,
     public navParams: NavParams,
     public loadCtrl: LoadingController,
-    public userData: UserData) {this.type = this.navParams.data}
+    public userData: UserData) {}
   ionViewWillEnter() {
-    this.user.role = 4;
+    this.user.role = 6;
     this.getProvinsi();
   }
-
   // Get Location API
   getProvinsi(){
     this.http.get(this.userData.BASE_URL+"lokasi/provinsi",this.options).subscribe(data => {
@@ -129,6 +127,7 @@ export class TambahPetaniPage {
   }
 // End of get location
 
+// Get coordinate location
   getLatitudeLongitude(address){
     let geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address},(results, status)=> {
@@ -143,6 +142,8 @@ export class TambahPetaniPage {
       }
     });
   }
+
+  // Send to server
   postUser(){
   	let input = JSON.stringify({
         username: this.user.username, 
@@ -158,15 +159,10 @@ export class TambahPetaniPage {
 	       this.loading.dismiss();
 	       let response = data.json();
 	       if(response.status==200) {
-           if(this.type == 1){ // Signup from user
-	            this.userData.signup(response.data);
-              this.userData.setToken(response.token);
-              setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
-              this.navCtrl.setRoot(TabsPage);
-           } else if(this.type == 2){ //Signup from penyuluh
-              this.navCtrl.popToRoot();
-           }
-
+           this.userData.signup(response.data);
+           this.userData.setToken(response.token);
+           setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
+           this.navCtrl.setRoot(TabsPedagangPage);
 	       }
 	       this.showAlert(response.message);
 	    }, err => { 
@@ -174,6 +170,8 @@ export class TambahPetaniPage {
 	       this.showError(err);
 	    });
   }
+
+  // Signup clicked
   onSignup(form: NgForm) {
     this.submitted = true;
     this.loading = this.loadCtrl.create({

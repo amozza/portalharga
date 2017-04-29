@@ -18,7 +18,7 @@
 		<ion-list>
 			<ion-item>
 				<ion-label stacked color="primary">Subjek</ion-label>
-				<ion-input [(ngModel)]="aspirasi.subject" name="subject" type="text" #subject="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Subjek">
+				<ion-input [(ngModel)]="aspirasi.subject" name="subject" type="text" #subject="ngModel" spellcheck="false" autocapitalize="off" required >
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="subject.valid || submitted == false" color="danger" padding-left>
@@ -26,14 +26,13 @@
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="primary">Asprirasi kamu</ion-label>
-				<ion-textarea [(ngModel)]="aspirasi.isi" name="message" #message="ngModel" rows="6" required placeholder="Isi aspirasi"></ion-textarea>
+				<ion-label stacked color="primary">Isi aspirasi</ion-label>
+				<ion-textarea [(ngModel)]="aspirasi.isi" name="message" #message="ngModel" rows="6" required ></ion-textarea>
 			</ion-item>
+			<p ion-text [hidden]="message.valid || submitted === false" color="danger" padding-left>
+				Message is required
+			</p>
 		</ion-list>
-
-		<p ion-text [hidden]="message.valid || submitted === false" color="danger" padding-left>
-			Message is required
-		</p>
 
 		<div padding>
 			<button ion-button block type="submit">Update</button>

@@ -16,14 +16,14 @@
 	<ion-card *ngFor="let data of aspirasi" class="aspirasi">
 		<ion-row>
 			<ion-col text-left>
-				<ion-card-header>
+				<ion-card-header no-padding>
 					<div ion-item>
 				        <ion-avatar item-left>
 				          <img src="assets/icon/user.png" *ngIf="!data.picture">
 				          <img [src]="data.picture" *ngIf="data.picture">
 				        </ion-avatar>
-				        {{data.name}}
-	    				<h6>{{data.time}} {{data.time!='now'?'ago':''}}</h6>  
+				        <h6>{{data.name}}</h6>
+	    				<p>{{data.time}} {{data.time!='now'?'ago':''}}</p>  
 			        </div>
 			    </ion-card-header>
 			</ion-col> 

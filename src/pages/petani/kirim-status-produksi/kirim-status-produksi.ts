@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 import { Geolocation} from 'ionic-native';
-
+import * as moment from 'moment';
 /*
   Generated class for the KirimStatusProduksi page.
 
@@ -20,7 +20,16 @@ export class KirimStatusProduksiPage {
   
   submitted: boolean = false;
   id: string;
-  produksi:{komoditas_id?: string, alamat?: string, jumlah?: string, satuan?: string, waktu_panen?: any, keterangan?: string} = {};
+  produksi:{
+    komoditas_id?: string, 
+    alamat?: string, 
+    jumlah?: string, 
+    satuan?: string, 
+    waktu_panen?: any, 
+    keterangan?: string, 
+    date_tanam?: string, 
+    luas_lahan?: number
+  } = {};
   lokasi:{lat?: number, lng?: number}={};
   inputAlamat: string;
   dataKomoditas = [];
@@ -45,6 +54,10 @@ export class KirimStatusProduksiPage {
       this.id = value;
     });
     this.chooseLocation(1);
+    var now = moment();
+    this.produksi.waktu_panen = moment(now.format(), moment.ISO_8601).format();
+    this.produksi.date_tanam = moment(now.format(), moment.ISO_8601).format();
+    console.log(now.format());
   }
 
   changeKomoditas(idKomoditas){
@@ -110,7 +123,8 @@ export class KirimStatusProduksiPage {
     });
   }
   postStatusProduksi(){
-    let date = new Date(this.produksi.waktu_panen).getTime();
+    let date_panen = new Date(this.produksi.waktu_panen).getTime();
+    let date_tanam = new Date(this.produksi.date_tanam).getTime();
     this.submitted = false;
       let input = JSON.stringify({
         komoditas_id: this.produksi.komoditas_id,
@@ -119,7 +133,9 @@ export class KirimStatusProduksiPage {
         longitude: this.lokasi.lng,
         jumlah: this.produksi.jumlah, 
         keterangan: this.produksi.keterangan,
-        date_panen: date
+        date_panen: date_panen,
+        date_tanam: date_tanam,
+        luas_lahan: this.produksi.luas_lahan
       });
       this.authHttp.post(this.userData.BASE_URL+"produksi/add",input).subscribe(data => {
          this.loading.dismiss();

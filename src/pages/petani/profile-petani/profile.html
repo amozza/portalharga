@@ -21,8 +21,10 @@
 
 <ion-content>
 	<div padding-top text-center>
-	    <img [src]="profilePicture" *ngIf="profilePicture" alt="avatar">
-	    <img src="assets/icon/user.png" *ngIf="!profilePicture" alt="avatar">
+		<div class="profilePict">
+	    <img [src]="profilePicture" *ngIf="profilePicture" >
+	    <img src="assets/icon/user.png" *ngIf="!profilePicture" >
+		</div>
 	    <h2>{{nama}}</h2>
 	    <button ion-button outline color="primary" (click)="editProfile()" >
 			Edit profile
@@ -31,39 +33,104 @@
 			Logout
 		</button>
 	</div>
-	<h5 padding-left>Aspirasiku</h5>
-	<ion-card *ngFor="let data of aspirasi" class="aspirasi">
-		<ion-row>
-			<ion-col text-left>
-				<ion-card-header>
-					<div ion-item>
-				        <ion-avatar item-left>
-				          <img src="assets/icon/user.png" *ngIf="!data.picture">
-				          <img [src]="data.picture" *ngIf="data.picture">
-				        </ion-avatar>
-				        {{data.name}}
-	    				<h6>{{data.time}} {{data.time!='now'?'ago':''}}</h6>  
-			        </div>
-			    </ion-card-header>
-			</ion-col> 
-			<div *ngIf="data.user_id == user_id">
-				<ion-col text-right>
-					<button ion-button clear small  color="primary" (click)="presentActionSheet(data)">
-		        	 	<ion-icon name='more'></ion-icon>
-		        	 </button>
-				</ion-col>
-			</div>
-		</ion-row>
-	    <ion-card-content class="outer-content">
-	    	<h2 padding="true">{{data.subjek}}</h2>
-            <h3 padding="true">{{data.isi}}</h3>
-	    </ion-card-content>
-	    <ion-row no-padding>
-	      <ion-col text-left>
-	        <button ion-button clear small  color="primary" (click)="lihatPendukung(data.aspirasi_id)">
-	          {{data.total_pendukung}} Pendukung
-	        </button>
-	      </ion-col>
-	    </ion-row>
-	</ion-card>
+
+	<div padding>
+		<ion-segment [(ngModel)]="segments">
+			<ion-segment-button value="aspirasi">
+				Aspirasiku
+			</ion-segment-button>
+			<ion-segment-button value="dagangan">
+				Daganganku
+			</ion-segment-button>
+		</ion-segment>
+	</div>
+
+	<div [ngSwitch]="segments">
+		<div *ngSwitchCase="'aspirasi'">
+			<h5 padding-left>Aspirasiku</h5>
+			<ion-card *ngFor="let data of aspirasi">
+				<ion-row>
+					<ion-col text-left>
+						<ion-card-header no-padding>
+							<div ion-item>
+								<ion-avatar item-left>
+									<img src="assets/icon/user.png" *ngIf="!data.picture">
+									<img [src]="data.picture" *ngIf="data.picture">
+								</ion-avatar>
+								<h6>{{data.name}}</h6>
+								<p>{{data.time}} {{data.time!='now'?'ago':''}}</p>  
+							</div>
+							</ion-card-header>
+					</ion-col> 
+					<div *ngIf="data.user_id == user_id">
+						<ion-col text-right>
+							<button ion-button clear small  color="primary" (click)="presentActionSheetAspirasi(data)">
+										<ion-icon name='more'></ion-icon>
+									</button>
+						</ion-col>
+					</div>
+				</ion-row>
+					<ion-card-content class="outer-content">
+						<h2 padding="true">{{data.subjek}}</h2>
+								<h3 padding="true">{{data.isi}}</h3>
+					</ion-card-content>
+					<ion-row no-padding>
+						<ion-col text-left>
+							<button ion-button clear small  color="primary" (click)="lihatPendukung(data.aspirasi_id)">
+								{{data.total_pendukung}} Pendukung
+							</button>
+						</ion-col>
+					</ion-row>
+			</ion-card>
+		</div>
+		<div *ngSwitchCase="'dagangan'">
+			<h5 padding-left>Daganganku</h5>
+			<ion-card *ngFor="let data of jualanku">
+        <ion-row>
+					<ion-col text-left>
+						<ion-card-header no-padding>
+								<div ion-item>
+									<ion-avatar item-left>
+											<img src="assets/icon/user.png" *ngIf="!data.user_picture">
+											<img [src]="data.user_picture" *ngIf="data.user_picture">
+									</ion-avatar>
+									<h6>{{data.nama}}</h6>
+									<h6>{{data.nama_komoditas}}</h6>
+									<p>{{data.time}} {{data.time!='now'?'ago':''}}</p>  
+								</div>
+								</ion-card-header>
+					</ion-col>
+					<ion-col text-right *ngIf="data.user_id==user_id">
+						<button ion-button clear small  color="primary" (click)="presentActionSheetDagangan(data)">
+									<ion-icon name='more'></ion-icon>
+								</button>
+					</ion-col>
+				</ion-row>
+	    	<ion-row padding-left>
+          <ion-col>
+            <h5>Rp. {{data.harga}} per {{data.satuan_komoditas}}</h5>
+          </ion-col>
+          <ion-col>
+            <h5>Stok: {{data.stok}} {{data.satuan_komoditas}}</h5>
+          </ion-col>
+        </ion-row>
+    		<img [src]="data.picture" *ngIf="data.picture">
+    		<h6 padding>{{data.keterangan}}</h6>
+				<ion-card-content class="outer-content">
+					<ion-row>
+						<h6>
+							<ion-icon name='call'> </ion-icon>
+							{{data.user_nomor_telepon}}
+						</h6>
+					</ion-row>
+					<ion-row>
+						<h6>
+							<ion-icon name='pin'> </ion-icon>
+							{{data.address}}
+						</h6>
+					</ion-row>
+				</ion-card-content>
+    	</ion-card>
+		</div>
+	</div>
 </ion-content>
