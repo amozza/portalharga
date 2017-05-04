@@ -14,7 +14,33 @@
 
 
 <ion-content >
-	<input type="file" (change)="fileChange($event)" placeholder="Uploadd file" accept=".pdf">
-	<button ion-button (click)="uploadresume()" block>File</button>
-	<button ion-button (click)="getFile()" block>Lahh</button>
+	<form #submitForm="ngForm" novalidate >
+    <ion-list>
+      <ion-item>
+				<ion-label stacked color="primary">Judul</ion-label>	
+				<ion-input [(ngModel)]="materi.judul" placeholder="Judul" name="judul" type="text" #judul="ngModel" spellcheck="false" autocapitalize="off" required >
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="judul.valid || submitted == false" color="danger" padding-left>
+				Judul is required
+			</p> 
+
+			<ion-item>
+				<ion-label stacked color="primary">Keterangan</ion-label>
+				<ion-textarea [(ngModel)]="materi.keterangan" placeholder="Keterangan" name="deskripsi" #deskripsi="ngModel" rows="6" required></ion-textarea>
+			</ion-item>
+			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
+				Keterangan is required
+			</p>
+    </ion-list>
+    <ion-row>
+      <ion-col>
+        <button ion-button (click)="chooseFile()" >Pilih file pdf</button>
+      </ion-col>
+      <ion-col>
+        <p>{{uriFile}}</p>
+      </ion-col>
+    </ion-row>
+	
+	</form>
 </ion-content>

@@ -81,7 +81,6 @@ export class UserData {
   };
   getToken() {
     return this.storage.get('token').then((value) => {
-      console.log(value);
       return value;
     });
   };

@@ -19,6 +19,8 @@ export class JualKomoditasPage {
   public jualanku: any;
   public user_id: string;
   public role: string;
+  public choosedKomoditas: string = 'All';
+  public dataKomoditas = [];
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -33,6 +35,9 @@ export class JualKomoditasPage {
     });
     this.userData.getRole().then((value)=>{
       this.role = value;
+    });
+    this.userData.getKomoditas().then((value) => {
+      this.dataKomoditas = value;
     });
     this.getJualan();
   }

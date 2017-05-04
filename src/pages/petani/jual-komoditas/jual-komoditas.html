@@ -9,13 +9,20 @@
   <ion-navbar>
     <ion-title>Jual Komoditas</ion-title>
   </ion-navbar>
-
+	<ion-item no-lines >
+		<ion-label stacked>Komoditas</ion-label>
+		<ion-select [(ngModel)]="choosedKomoditas"  name="pilihKomoditas">
+			<ion-option value="All">Semua komoditas</ion-option>
+			<ion-option *ngFor="let data of dataKomoditas" value="{{data.komoditas_id}}">{{data.name}}</ion-option>
+		</ion-select>
+	</ion-item>
 </ion-header>
 
 
 <ion-content>
 	<ion-card *ngFor="let data of jualanku">
-        <ion-row>
+    <div *ngIf="choosedKomoditas=='All'||data.komoditas_id==choosedKomoditas">
+		<ion-row>
 			<ion-col text-left>
 				<ion-card-header no-padding>
 				    <div ion-item>
@@ -59,6 +66,7 @@
 	        	</h6>
         	</ion-row>
         </ion-card-content>
+    </div>
     </ion-card>
     <ion-fab bottom right *ngIf="role!=5" #fab >
     	<button ion-fab (click)="tambahJualan()"><ion-icon name="add"></ion-icon></button>

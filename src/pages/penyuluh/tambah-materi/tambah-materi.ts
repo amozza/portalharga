@@ -7,6 +7,7 @@ import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/trans
 import { FileChooser } from '@ionic-native/file-chooser';
 //import { File } from '@ionic-native/file';
 import {File} from 'ionic-native';
+import { NgForm } from '@angular/forms';
 
 declare var cordova: any
 /*
@@ -20,7 +21,10 @@ declare var cordova: any
   templateUrl: 'tambah-materi.html'
 })
 export class TambahMateriPage {
-
+	submitted: boolean = false;
+	token:string;
+	materi:{judul?: string, keterangan?: string} = {};
+	uriFile:any;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -32,8 +36,10 @@ export class TambahMateriPage {
     private toastCtrl: ToastController
   	) {}																		
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TambahMateriPage');
+  ionViewWillEnter() {
+    this.userData.getToken().then((value) => {
+      this.token = "Bearer "+value;
+    });
   }				
 
   fileChange(event) {
@@ -74,46 +80,74 @@ export class TambahMateriPage {
 	// 		.then(_ => console.log('Directory exists'))
 	// 		.catch(err => console.log('Directory doesnt exist'));
 	// }
-	uploadresume()
-  	{
-  		this.showAlert('clicked');
+	chooseFile()
+  {
       this.fileChooser.open()
       .then(uri => 
       {
-        alert(uri);
-         const fileTransfer: TransferObject = this.transfer.create();
-         this.showAlert('file chooser');
-
-    // regarding detailed description of this you cn just refere ionic 2 transfer plugin in official website
-	      let options1: FileUploadOptions = {
-	         fileKey: 'image_upload_file',
-	         fileName: 'name.pdf',
-	         headers: {},
-	         params: {"app_key":"Testappkey"},
-	         chunkedMode : false
-	      
-	      }
-	      this.http.post(this.userData.BASE_URL+'materi/add', uri)
-         .subscribe(res => {
-	      let response = res.json();
-	      console.log(response);
-	    }, err => {
-	    	console.log(err); 
-	    });   
-	      fileTransfer.upload(uri, this.userData.BASE_URL+'materi/add', options1)
-	       .then((data) => {
-	       	this.showAlert(data);
-	       // success 
-	       alert("success"+JSON.stringify(data));
-	       }, (err) => {
-	       // error
-	       alert("error"+JSON.stringify(err));
-	           });
-
+				this.uriFile = uri;
       })
       .catch(e => this.showAlert(e));
   }
+	submit(form: NgForm) {
+    this.submitted = true;
+    if(this.uriFile){
+      if (form.valid) {
+        this.submitted = false;
+        let param = JSON.stringify({
+          judul: this.materi.judul, 
+          keterangan: this.materi.keterangan
+        }); 
+        this.authHttp.post(this.userData.BASE_URL+"materi/add",param).subscribe(data => {
+          let response = data.json();
+          if(response.status == 200) {
+            this.uploadFile();
+          } else {
+            this.showAlert(response);
+          }
+        }, err => {
+          this.navCtrl.popToRoot();
+          this.showError(err);
+        });
+      }
+    } else {
+      this.showAlert("Silahkan pilih file pdf");
+    }
+  }
+	uploadFile(){
+		const fileTransfer: TransferObject = this.transfer.create();
 
+    // regarding detailed description of this you cn just refere ionic 2 transfer plugin in official website
+		let options1: FileUploadOptions = {
+				fileKey: 'file',
+				fileName: 'name.pdf',
+				headers: {"Authorization":this.token},
+				params: {},
+				chunkedMode : false
+		
+		}
+		fileTransfer.upload(this.uriFile, this.userData.BASE_URL+'materi/upload', options1)
+	       .then((data) => {
+	       	let responseData = JSON.parse(JSON.stringify(data));
+           alert(responseData);
+          let response = responseData.response;
+          alert(response);
+          if(response.status == 200) {
+            alert("masuk status 200");
+          } else {
+            this.showAlert(response);
+          }
+	       
+	       }, (err) => {
+	       // error
+	       alert("error"+JSON.stringify(err));
+	      });
+	}
+  showError(err: any){  
+    err.status==0? 
+    this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):
+    this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
+  }
   showAlert(message){
     let toast = this.toastCtrl.create({
       message: message,
