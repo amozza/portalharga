@@ -20,9 +20,11 @@
 
 <ion-content padding>
 	<div padding-top text-center>
+		<div class="profilePict">
 	    <img src="assets/icon/user.png" *ngIf="!user.picture">
 	    <img [src]="user.picture" *ngIf="user.picture" alt="avatar">
 	    <h5 (click)="updatePicture()">Ubah foto profile</h5>
+		</div>
 	</div>
 	<form #updateForm="ngForm" novalidate>
 		<ion-list no-lines>
@@ -44,13 +46,20 @@
 				Username is required
 			</p>
 			<ion-item>
-				<ion-label stacked color="primary">Password</ion-label>
-				<ion-input [(ngModel)]="user.password" name="password" type="password" #password="ngModel" required placeholder="Password">
+				<ion-label stacked color="primary">Email</ion-label>
+				<ion-input [(ngModel)]="user.email" disabled name="email" type="email" #email="ngModel" required >
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
-				Password is required
-			</p>
+			<div *ngIf="user.nomor_telepon">
+				<ion-item>
+					<ion-label stacked color="primary">Nomor telepon</ion-label>	
+					<ion-input [(ngModel)]="user.nomor_telepon" placeholder="Nomor telepon" name="nomor_telepon" type="tel" min="0" #nomor_telepon="ngModel" required >
+					</ion-input>
+				</ion-item>
+				<p ion-text [hidden]="nomor_telepon.valid || submitted == false" color="danger" padding-left>
+					Nomor telepon is required
+				</p>
+			</div> 
 		</ion-list>
 	</form>
 </ion-content>

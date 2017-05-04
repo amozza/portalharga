@@ -18,39 +18,60 @@
         Histori Laporan
       </ion-segment-button>
     </ion-segment>
-  <ion-item>
-    <ion-label> pilih komoditas </ion-label>
-    <ion-select [(ngModel)]="choosedKomoditas" (ionChange)="showselected(choosedKomoditas)">
-      <ion-option value="All">All</ion-option>
-      <ion-option *ngFor="let data of dataKomoditas" value="{{data.komoditas_id}}">{{data.name}}</ion-option>
-    </ion-select>
-  </ion-item>
+    <ion-row>
+      <ion-col no-padding>
+        <div class="filterKomoditas">
+          <ion-item no-lines >
+            <ion-label stacked>Komoditas</ion-label>
+            <ion-select [(ngModel)]="choosedKomoditas" (ionChange)="showselected(choosedKomoditas)" name="pilihKomoditas">
+              <ion-option value="All">Semua komoditas</ion-option>
+              <ion-option *ngFor="let data of dataKomoditas" value="{{data.komoditas_id}}">{{data.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </div>
+      </ion-col>
+      <ion-col no-padding [hidden]="segment=='now'">
+         <ion-item no-lines> 	
+           <ion-label stacked>Tanggal</ion-label>
+          <ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="dateFilter" (ionChange)="changeDateFilter(dateFilter)" name="date" max="2100" #date="ngModel" required placeholder="Perkiraan waktu panen">
+          </ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    
+
+  
+ 
 </ion-header>
  
 <ion-content padding-top>
   <div #map id="map" [hidden]="segment!='now'"></div> 
-  <ion-card *ngFor="let post of dataHarga">
-    <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
-      <ion-row>
-        <ion-col text-left>
-          <ion-card-header> 
-            <h2>{{post.namaKomoditas}}</h2>
-            <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
-          </ion-card-header>
-        </ion-col>
-        <ion-col text-right>
-          <button ion-button clear small  color="primary" (click)="presentActionSheet(post)" *ngIf="post.user_id == user_id">
-            <ion-icon name='more'></ion-icon>
-           </button>
-        </ion-col>
-      </ion-row>
-      <ion-card-content class="outer-content">
-        <ion-icon name='pin'> </ion-icon>
-        {{post.alamat}}
-      </ion-card-content>
-    </div>
-  </ion-card>
-  <ion-fab bottom right #fab *ngIf="userRole==5">
-    <button ion-fab (click)="postHargaKomoditas()"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+  <div class="content{{segment}}{{userRole}}">
+    <ion-card *ngFor="let post of dataHarga">
+      <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
+        <div *ngIf="segment=='now'||post.datePost==dateFormat">
+          <ion-row>
+            <ion-col text-left>
+              <ion-card-header> 
+                <h2>{{post.namaKomoditas}}</h2>
+                <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
+              </ion-card-header>
+            </ion-col>
+            <ion-col text-right>
+              <button ion-button clear small  color="primary" (click)="presentActionSheet(post)" *ngIf="post.user_id == user_id">
+                <ion-icon name='more'></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+          <ion-card-content class="outer-content">
+            <ion-icon name='pin'> </ion-icon>
+            {{post.alamat}}
+          </ion-card-content>
+        </div>
+      </div>
+    </ion-card>
+  </div>
+    <ion-fab bottom right #fab *ngIf="userRole==5">
+      <button ion-fab (click)="postHargaKomoditas()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
 </ion-content>

@@ -64,7 +64,7 @@
 			</ion-item>
 			<ion-item>
 				<ion-label stacked color="primary">Pilih provinsi </ion-label>
-				<ion-select [(ngModel)]="pilihProvinsi" (ionChange)="changeProvinsi(pilihProvinsi)" name="provinsi">
+				<ion-select [(ngModel)]="pilihProvinsi" disabled="!{{provinsi}}" (ionChange)="changeProvinsi(pilihProvinsi)" name="provinsi">
 					<ion-option *ngFor="let data of provinsi" value="{{data.id_prov}}">{{data.nama}}</ion-option>
 				</ion-select>
 			</ion-item>

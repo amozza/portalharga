@@ -20,8 +20,10 @@
 
 <ion-content>
 	<div padding-top text-center *ngIf="nama">
-      <img [src]="profilePicture" *ngIf="profilePicture" alt="avatar">
-      <img src="assets/icon/user.png" *ngIf="!profilePicture" alt="avatar">
+    <div class="profilePict">
+      <img [src]="profilePicture" *ngIf="profilePicture">
+      <img src="assets/icon/user.png" *ngIf="!profilePicture">
+    </div>
 	    <h2>{{nama}}</h2>
 	    <button ion-button outline color="primary" (click)="editProfile()" >
 			Edit profile

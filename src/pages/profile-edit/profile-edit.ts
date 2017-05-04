@@ -16,7 +16,7 @@ import { AuthHttp } from 'angular2-jwt';
   templateUrl: 'profile-edit.html'
 })
 export class ProfileEditPage {
-  user: {user_id?: string, username?: string, name?: string, email?: string, picture?: string, password?: string} = {};
+  user: {user_id?: string, username?: string, name?: string, email?: string, picture?: string, password?: string, nomor_telepon?: string} = {};
   base64Image: string;
   submitted = false;
   temp: any;
@@ -38,6 +38,7 @@ export class ProfileEditPage {
       this.user.email = value.email;
       this.user.user_id = value.user_id;
       this.user.picture = value.picture;
+      this.user.nomor_telepon = value.nomor_telepon;
     });
 
   }
@@ -94,7 +95,6 @@ export class ProfileEditPage {
     });
     this.loading.present();
     let param = JSON.stringify({
-      user_id : this.user.user_id,
       picture: this.base64Image
     });
     this.authHttp.post(this.userData.BASE_URL+'user/uploadPhoto',param).subscribe(res => {
@@ -123,7 +123,8 @@ export class ProfileEditPage {
         username : this.user.username,
         name : this.user.name,
         email : this.user.email,
-        password: this.user.password
+        password: this.user.password,
+        nomor_telepon: this.user.nomor_telepon
       });
       this.authHttp.post(this.userData.BASE_URL+'user/update',param).subscribe(res => {
       	loading.dismiss();

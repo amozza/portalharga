@@ -45,6 +45,13 @@ export class UserData {
   setToken(token: string){
      this.storage.set('token', token);
   }
+  setAddress(address: string){
+    this.storage.get('user_data').then((value) => {
+      let data = value;
+      data.address = address;
+      this.storage.set('user_data', data);
+    });
+  }
   getData() {
     return this.storage.get('user_data').then((value) => {
       return value;
@@ -86,6 +93,11 @@ export class UserData {
   getId(){
     return this.storage.get('user_data').then((value) => {
       return value.user_id;
+    });
+  }
+  getAddress(){
+    return this.storage.get('user_data').then((value) => {
+      return value.address;
     });
   }
   // return a promise

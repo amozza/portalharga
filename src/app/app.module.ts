@@ -50,6 +50,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { SignupPilihanPage } from '../pages/signup-pilihan/signup-pilihan';
 import { LoginPage } from '../pages/login/login';
 import { ForgetPasswordPage } from '../pages/forget-password/forget-password';
+import { EditAlamatPage } from '../pages/edit-alamat/edit-alamat';
 
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
@@ -110,7 +111,8 @@ export function getAuthHttp(http) {
     TambahPedagangPage,
     TambahMateriPage,
     EditMateriPage,
-    MateriPage
+    MateriPage,
+    EditAlamatPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -157,7 +159,8 @@ export function getAuthHttp(http) {
     TambahPedagangPage,
     TambahMateriPage,
     EditMateriPage,
-    MateriPage
+    MateriPage,
+    EditAlamatPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

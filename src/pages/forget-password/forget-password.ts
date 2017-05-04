@@ -31,9 +31,6 @@ export class ForgetPasswordPage {
   	public http: Http
   	) {this.success = false;}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ForgetPasswordPage');
-  }
   onSubmit(form: NgForm) {
     this.submitted = true;
     this.userNotFound = false;
@@ -46,7 +43,7 @@ export class ForgetPasswordPage {
       let input = JSON.stringify({
         username: this.user.username
       });
-      this.http.post(this.userData.BASE_URL+"user/forgetPassword",input,this.options).subscribe(data => {
+      this.http.post(this.userData.BASE_URL+"user/email/forgetPassword",input,this.options).subscribe(data => {
          let response = data.json();
          loading.dismiss();
          if(response.status == 200) {

@@ -6,6 +6,7 @@ import { TambahInfoHargaPage } from '../masyarakat/tambah-info-harga/tambah-info
 import { EditInfoHargaPage } from '../masyarakat/edit-info-harga/edit-info-harga';
 import { AuthHttp } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
+import * as moment from 'moment';
 /*
   Generated class for the InfoHarga page.
 
@@ -23,6 +24,8 @@ export class InfoHargaPage {
   @ViewChild('map') mapElement: ElementRef;
   map: GoogleMap;
   choosedKomoditas: string = 'All';
+  dateFilter:any;
+  dateFormat: string;
   lat: any;
   lng: any;
   userRole: number;
@@ -57,6 +60,9 @@ export class InfoHargaPage {
       }
     });
     this.getDataHarga();
+    var now = moment();
+    this.dateFilter = moment(now.format(), moment.ISO_8601).format();
+    console.log(new Date().getTime())
   }
   updateSegment(){
     if(this.segment == 'now') {
@@ -112,6 +118,10 @@ export class InfoHargaPage {
   {
     this.choosedKomoditas = selected_value;
     this.loadMarker();
+  }
+  changeDateFilter(date){
+    this.dateFormat = moment(date).format('YYYY-MM-DD');
+    console.log(this.dateFormat);
   }
   postHargaKomoditas(){
     this.navCtrl.push(TambahInfoHargaPage);

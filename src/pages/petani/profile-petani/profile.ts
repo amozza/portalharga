@@ -25,7 +25,7 @@ export class ProfilePetaniPage {
 	public nama: string;
   public profilePicture: string;
   public aspirasi: any;
-  public id: string;
+  public user_id: string;
   public loading: any;
   public segments:any;
   public jualanku: any;
@@ -61,7 +61,7 @@ export class ProfilePetaniPage {
       this.nama = nama;
     });
     this.userData.getId().then((value)=>{
-      this.id = value;
+      this.user_id = value;
       this.getAspirasi();
       this.getJualan();
     });
@@ -91,7 +91,7 @@ export class ProfilePetaniPage {
 
   // Aspirasi
   getAspirasi() {
-    this.authHttp.get(this.userData.BASE_URL+'aspirasi/get/'+this.id).subscribe(res => {
+    this.authHttp.get(this.userData.BASE_URL+'aspirasi/get/'+this.user_id).subscribe(res => {
       let response = res.json();
       if(response.status == 200) {
         this.aspirasi = response.data;
@@ -151,7 +151,7 @@ export class ProfilePetaniPage {
 
   //Dagangan
   getJualan() {
-    this.authHttp.get(this.userData.BASE_URL+'dagangan/get/'+this.id).subscribe(res => {
+    this.authHttp.get(this.userData.BASE_URL+'dagangan/get/'+this.user_id).subscribe(res => {
       let response = res.json();
       console.log(response);
       if(response.status == 200) {

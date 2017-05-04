@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { Geolocation} from 'ionic-native';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
@@ -23,17 +23,18 @@ export class TambahInfoHargaPage {
   dataKomoditas=[];
   id: string;
   alamat: any;
+  loading: any;
 
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
   	public userData: UserData,
   	public authHttp: AuthHttp,
-  	public toastCtrl: ToastController
+  	public toastCtrl: ToastController,
+    public loadCtrl: LoadingController
   	) { }
 
   ionViewWillEnter() {
-    this.getCurrentLocation();
     this.userData.getId().then((value) => {
       this.id = value;
     });
@@ -55,7 +56,9 @@ export class TambahInfoHargaPage {
     geocoder.geocode({'location': latlng},(results, status)=> {
       if(status=='OK') {
         this.alamat = results[0].formatted_address;
+        this.postHarga();
       } else{
+        this.loading.dismiss();
         this.showAlert("Tidak dapat menemukan alamat Anda");
       }
     });
@@ -66,32 +69,40 @@ export class TambahInfoHargaPage {
       this.lokasi.lat = position.coords.latitude;
       this.getAddress();
     }, (err) => {
-      console.log(err);
+      this.loading.dismiss();
+      this.showAlert("Tidak dapat menemukan alamat Anda");
     });
   }
   submit(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
       this.submitted = false;
-      let input = JSON.stringify({
-        komoditas_id: this.infoHarga.komoditas,
-        harga: this.infoHarga.harga,
-        latitude: this.lokasi.lat,
-        longitude: this.lokasi.lng, 
-        alamat: this.alamat
+      this.loading = this.loadCtrl.create({
+        content: 'Tunggu sebentar...'
       });
-      console.log(input);
-      this.authHttp.post(this.userData.BASE_URL+"laporanHarga/add",input).subscribe(data => {
-         let response = data.json();
-         console.log(response);
-         if(response.status == 200) {
-            this.navCtrl.popToRoot();
-            this.showAlert("Terima kasih telah mengirim info harga");
-         }
-      }, err => {
-        this.showError(err);
-        });
+    this.getCurrentLocation();
     }
+  }
+  postHarga(){
+    let input = JSON.stringify({
+      komoditas_id: this.infoHarga.komoditas,
+      harga: this.infoHarga.harga,
+      latitude: this.lokasi.lat,
+      longitude: this.lokasi.lng, 
+      alamat: this.alamat
+    });
+    this.authHttp.post(this.userData.BASE_URL+"laporanHarga/add",input).subscribe(data => {
+      this.loading.dismiss();
+      let response = data.json();
+      console.log(response);
+      if(response.status == 200) {
+        this.navCtrl.popToRoot();
+        this.showAlert("Terima kasih telah mengirim info harga");
+      }
+    }, err => {
+      this.loading.dismiss();
+      this.showError(err);
+      });
   }
   showError(err: any){  
     err.status==0? 

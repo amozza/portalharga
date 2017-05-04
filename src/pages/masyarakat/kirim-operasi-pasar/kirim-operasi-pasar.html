@@ -49,10 +49,10 @@
 					</ion-row>
 					<ion-row>
 						<ion-col>
-							<button ion-button [color]="useManualLocationColor" small outline (click)="chooseLocation(1)">Masukkan manual</button>
+							<button ion-button [color]="useManualLocationColor" small outline (click)="chooseLocation(1)">Input lokasi</button>
 						</ion-col>
 						<ion-col>
-							<button ion-button [color]="useCurrentLocationColor" small outline (click)="chooseLocation(0)">Lokasi sekarang</button>
+							<button ion-button [color]="useCurrentLocationColor" small outline (click)="chooseLocation(0)">Ambil dari peta</button>
 						</ion-col>
 					</ion-row>
 					<div padding-left *ngIf="useCurrentLocation">{{lokasi.alamat}}</div>

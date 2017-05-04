@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>profile</ion-title>
+    <ion-title>Profile</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
@@ -19,9 +19,11 @@
 
 
 <ion-content padding>
-	<div padding-top text-center *ngIf="nama">
+	<div padding-top text-center >
+    <div class="profilePict">
 	    <img src="assets/icon/user.png" *ngIf="!profilePict">
-		<img [src]="'https://ph.yippytech.com/'+profilePict" *ngIf="profilePict">
+		  <img [src]="profilePict" *ngIf="profilePict">
+    </div>
 	    <h2>{{nama}}</h2>
 	    <button ion-button outline color="primary" (click)="editProfile()" >
 			Edit profile

@@ -30,9 +30,6 @@ export class ProfilePage {
 
   }
 
-  ngAfterViewInit() {
-  }
-
   ionViewWillEnter(){
     this.getName();
     this.getProfilePict();
