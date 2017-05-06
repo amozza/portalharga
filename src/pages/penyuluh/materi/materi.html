@@ -14,6 +14,14 @@
 
 
 <ion-content>
+  <ion-card *ngFor="let data of materi">
+    <ion-item (click)="presentActionSheet(data)">
+      <ion-icon name="document" item-left></ion-icon>
+      <h2>{{data.judul}}</h2>
+      <p>{{data.keterangan}}</p>
+      <p style="font-size:10px;">Update terakhir: {{data.datePost}}</p>
+    </ion-item>
+  </ion-card>
 	<ion-fab bottom right #fab >
     	<button ion-fab (click)="tambahMateri()"><ion-icon name="add"></ion-icon></button>
   	</ion-fab>

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams , ToastController} from 'ionic-angular';
-import { Http, Headers,RequestOptions } from '@angular/http';
+import { NavController, NavParams , ToastController, LoadingController} from 'ionic-angular';
+import { Http } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
 //import { File } from '@ionic-native/file';
-import {File} from 'ionic-native';
+// import {File} from 'ionic-native';
 import { NgForm } from '@angular/forms';
 
 declare var cordova: any
@@ -25,6 +25,9 @@ export class TambahMateriPage {
 	token:string;
 	materi:{judul?: string, keterangan?: string} = {};
 	uriFile:any;
+  fileName:string;
+  fileExtension="";
+  loading:any;
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -33,116 +36,73 @@ export class TambahMateriPage {
   	public userData: UserData,
   	private transfer: Transfer,
     private fileChooser: FileChooser,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    public loadCtrl: LoadingController
   	) {}																		
 
   ionViewWillEnter() {
     this.userData.getToken().then((value) => {
       this.token = "Bearer "+value;
     });
-  }				
-
-  fileChange(event) {
-    let fileList: FileList = event.target.files;
-    console.log(fileList[0]);
-    // if(fileList.length > 0) {
-    //     let file: File = fileList[0];
-    //     console.log(file);
-    //     let formData:FormData = new FormData();
-    //     formData.append('file', file, file.name);
-    //     let headers = new Headers();
-    //     headers.append('Accept', 'application/json');
-    //     let options = new RequestOptions({ headers: headers });
-    //     this.http.post(this.userData.BASE_URL+'materi/add', formData, options)
-    //      .subscribe(res => {
-	   //    let response = res.json();
-	   //    console.log(response);
-	   //  }, err => {
-	   //  	console.log(err); 
-	   //  });   
-    // 	}
-	}
-
-	getFile(){
-		File.listDir(cordova.file.applicationDirectory, '/').then(
-		  (files) => {
-		    // do something
-		  }
-		).catch(
-		  (err) => {
-		    // do something
-		  }
-		);
-	}
-
-	// getFile(){
-	// 	this.file.checkDir(this.file.dataDirectory, 'mydir')
-	// 		.then(_ => console.log('Directory exists'))
-	// 		.catch(err => console.log('Directory doesnt exist'));
-	// }
+    
+  }	
 	chooseFile()
   {
       this.fileChooser.open()
       .then(uri => 
       {
 				this.uriFile = uri;
+        let temp = this.uriFile.split("/");
+        let filename = temp[temp.length-1];
+        this.fileName = filename.replace(/%20/g," ");
+        let tempEx = filename.split(".");
+        this.fileExtension = tempEx[tempEx.length-1];
       })
       .catch(e => this.showAlert(e));
   }
 	submit(form: NgForm) {
     this.submitted = true;
-    if(this.uriFile){
+    if(this.uriFile && this.fileExtension=='pdf'){
       if (form.valid) {
-        this.submitted = false;
-        let param = JSON.stringify({
-          judul: this.materi.judul, 
-          keterangan: this.materi.keterangan
-        }); 
-        this.authHttp.post(this.userData.BASE_URL+"materi/add",param).subscribe(data => {
-          let response = data.json();
-          if(response.status == 200) {
-            this.uploadFile();
-          } else {
-            this.showAlert(response);
-          }
-        }, err => {
-          this.navCtrl.popToRoot();
-          this.showError(err);
+        this.loading = this.loadCtrl.create({
+            content: 'Tunggu sebentar...'
         });
+        this.loading.present();
+        this.submitted = false;
+        const fileTransfer: TransferObject = this.transfer.create();
+    // regarding detailed description of this you cn just refere ionic 2 transfer plugin in official website
+        let options1: FileUploadOptions = {
+            fileKey: 'file',
+            fileName: this.fileName,
+            headers: {"Authorization":this.token},
+            params: {"judul":this.materi.judul,"keterangan":this.materi.keterangan},
+            chunkedMode : false
+        
+        }
+        fileTransfer.upload(this.uriFile, this.userData.BASE_URL+'materi/add', options1)
+	       .then((data) => {
+           this.loading.dismiss()
+	       	let responseData = JSON.parse(JSON.stringify(data));
+          let response = responseData.response;
+          let a = JSON.parse(response);
+          if(a.status==200) {
+            this.navCtrl.popToRoot();
+            this.showAlert(a.message);
+          } else {
+            this.showAlert(a.message);
+          }
+	       
+	       }, (err) => {
+           this.loading.dismiss()
+	       // error
+	      //  alert("error"+JSON.stringify(err));
+	      });
       }
     } else {
       this.showAlert("Silahkan pilih file pdf");
     }
   }
-	uploadFile(){
-		const fileTransfer: TransferObject = this.transfer.create();
-
-    // regarding detailed description of this you cn just refere ionic 2 transfer plugin in official website
-		let options1: FileUploadOptions = {
-				fileKey: 'file',
-				fileName: 'name.pdf',
-				headers: {"Authorization":this.token},
-				params: {},
-				chunkedMode : false
-		
-		}
-		fileTransfer.upload(this.uriFile, this.userData.BASE_URL+'materi/upload', options1)
-	       .then((data) => {
-	       	let responseData = JSON.parse(JSON.stringify(data));
-           alert(responseData);
-          let response = responseData.response;
-          alert(response);
-          if(response.status == 200) {
-            alert("masuk status 200");
-          } else {
-            this.showAlert(response);
-          }
-	       
-	       }, (err) => {
-	       // error
-	       alert("error"+JSON.stringify(err));
-	      });
-	}
+	
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):

@@ -33,14 +33,19 @@
 				Keterangan is required
 			</p>
     </ion-list>
-    <ion-row>
+    <ion-row padding>
       <ion-col>
-        <button ion-button (click)="chooseFile()" >Pilih file pdf</button>
+        <button ion-button (click)="chooseFile()">Pilih file pdf</button>
       </ion-col>
       <ion-col>
-        <p>{{uriFile}}</p>
+        <p>{{fileName}}</p>
       </ion-col>
     </ion-row>
-	
+    <p ion-text [hidden]="fileExtension=='' || fileExtension=='pdf' " color="danger" padding-left>
+				File harus PDF
+			</p>
+	<div padding>
+			<button ion-button (click)="submit(submitForm)" type="submit" block>Upload</button>
+		</div>
 	</form>
 </ion-content>
