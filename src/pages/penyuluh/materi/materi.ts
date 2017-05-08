@@ -3,6 +3,7 @@ import { NavController, NavParams, ToastController, ActionSheetController, Loadi
 import { TambahMateriPage } from '../tambah-materi/tambah-materi';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from "../../../providers/user-data";
+import { EditMateriPage } from "../edit-materi/edit-materi";
 /*
   Generated class for the Materi page.
 
@@ -74,6 +75,13 @@ export class MateriPage {
           role: 'unduhFile',
           handler: () => {
             window.open(dataMateri.file);
+          }
+        },
+        {
+          text: 'Edit materi',
+          role: 'editFile',
+          handler: () => {
+            this.navCtrl.push(EditMateriPage,dataMateri);
           }
         },
         {

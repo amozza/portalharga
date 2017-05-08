@@ -14,8 +14,8 @@
 
 
 <ion-content padding >
-	<h3 style="text-align: center;">Buat akun sebagai</h3>
-	<ion-item>
+	<h6 style="text-align: center;">Buat akun sebagai</h6>
+	<!--<ion-item>
 		<ion-row>
 			<ion-col>
 				<button (click)="pedagang()">
@@ -38,5 +38,25 @@
 				</button>
 			</ion-col>
 		</ion-row>
+	</ion-item>-->
+	<ion-row>
+		<ion-col>
+			<ion-item no-lines (click)="petani()" item-right>
+				<img src="assets/icon/petani.png" class="center" width="50%" height="50%">
+				<p ion-text style="text-align: center;">Petani</p>
+			</ion-item>
+		</ion-col>
+		<ion-col>
+			<ion-item no-lines (click)="masyarakat()">
+				<img src="assets/icon/masyarakat.ico" class="center" width="50%" height="50%">
+				<p ion-text style="text-align: center;">Masyarakat</p>
+			</ion-item>
+		</ion-col>
+	</ion-row>
+	
+	<ion-item no-lines (click)="pedagang()" item-left>
+		<img src="assets/icon/pedagang.png" class="center" width="25%" height="25%">
+		<p ion-text style="text-align: center;">Pedagang</p>
 	</ion-item>
+	
 </ion-content>

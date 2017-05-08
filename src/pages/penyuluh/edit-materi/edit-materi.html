@@ -13,6 +13,41 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+<form #submitForm="ngForm" novalidate >
+    <ion-list>
+      <ion-item>
+				<ion-label stacked color="primary">Judul</ion-label>	
+				<ion-input [(ngModel)]="materi.judul" placeholder="Judul" name="judul" type="text" #judul="ngModel" spellcheck="false" autocapitalize="off" required >
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="judul.valid || submitted == false" color="danger" padding-left>
+				Judul is required
+			</p> 
 
+			<ion-item>
+				<ion-label stacked color="primary">Keterangan</ion-label>
+				<ion-textarea [(ngModel)]="materi.keterangan" placeholder="Keterangan" name="deskripsi" #deskripsi="ngModel" rows="6" required></ion-textarea>
+			</ion-item>
+			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
+				Keterangan is required
+			</p>
+    </ion-list>
+    <ion-row padding>
+      <ion-col>
+        <p>Opsional</p>
+        <button ion-button (click)="chooseFile()">Pilih file pdf</button>
+      </ion-col>
+      <ion-col>
+        <p>{{fileName}}</p>
+      </ion-col>
+    </ion-row>
+    
+    <p ion-text [hidden]="fileExtension=='' || fileExtension=='pdf' " color="danger" padding-left>
+				File harus PDF
+			</p>
+	<div padding>
+			<button ion-button (click)="submit(submitForm)" type="submit" block>Upload</button>
+		</div>
+	</form>
 </ion-content>

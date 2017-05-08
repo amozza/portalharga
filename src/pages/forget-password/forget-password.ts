@@ -16,7 +16,7 @@ import { UserData } from '../../providers/user-data';
 })
 export class ForgetPasswordPage {
   success = false;
-  user: {username?: string} = {};
+  user: {username?: string,email?: string} = {};
   userNotFound = false;
   submitted = false;
   headers = new Headers({ 
@@ -48,6 +48,7 @@ export class ForgetPasswordPage {
          loading.dismiss();
          if(response.status == 200) {
          	this.success = true;
+           this.secreteEmail(response.data);
          } else{
          	this.userNotFound = true;
          }
@@ -56,6 +57,13 @@ export class ForgetPasswordPage {
          this.showError(err);
       });
     }
+  }
+  secreteEmail(email){
+    let a = email.split("@");
+    let bintang = "";
+   	let n=a[0].length-2;
+    while(n--) bintang+="*";
+    this.user.email = a[0][0]+bintang+a[0][a[0].length-1]+"@"+a[1];
   }
   showError(err: any){  
     err.status==0? 
