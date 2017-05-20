@@ -3,7 +3,7 @@ import { NavController, NavParams, ToastController, ActionSheetController, Loadi
 import { TambahMateriPage } from '../tambah-materi/tambah-materi';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from "../../../providers/user-data";
-import { EditMateriPage } from "../edit-materi/edit-materi";
+import { ViewMateriPage } from "../view-materi/view-materi";
 /*
   Generated class for the Materi page.
 
@@ -17,6 +17,7 @@ import { EditMateriPage } from "../edit-materi/edit-materi";
 export class MateriPage {
   materi:any;
   loading: any;
+  user_id: number;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -27,6 +28,9 @@ export class MateriPage {
     public loadCtrl: LoadingController) {}
 
   ionViewWillEnter() {
+    this.userData.getId().then((value) =>{
+      this.user_id = value;
+    });
     this.getMateri();
   }
 
@@ -67,33 +71,7 @@ export class MateriPage {
     });
   }
   presentActionSheet(dataMateri) {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Pilihan',
-      buttons: [
-        {
-          text: 'Unduh materi',
-          role: 'unduhFile',
-          handler: () => {
-            window.open(dataMateri.file);
-          }
-        },
-        {
-          text: 'Edit materi',
-          role: 'editFile',
-          handler: () => {
-            this.navCtrl.push(EditMateriPage,dataMateri);
-          }
-        },
-        {
-          text: 'Hapus materi',
-          role: 'hapusFile',
-          handler: () => {
-            this.hapusMateri(dataMateri.materi_id);
-          }
-        }
-      ]
-    });
-    actionSheet.present();
+    this.navCtrl.push(ViewMateriPage,dataMateri);
   }
   showError(err: any){  
     err.status==0? 

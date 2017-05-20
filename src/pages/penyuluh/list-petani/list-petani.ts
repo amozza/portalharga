@@ -3,6 +3,7 @@ import { NavController, NavParams, ToastController, ActionSheetController, Loadi
 import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
 import { TambahPetaniPage } from '../tambah-petani/tambah-petani';
+import { EditPetaniPage } from '../edit-petani/edit-petani';
 /*
   Generated class for the ListPetani page.
 
@@ -33,6 +34,7 @@ export class ListPetaniPage {
     this.authHttp.get(this.userData.BASE_URL+'user/get/role/4').subscribe(res => {
       let response = res.json();
       if(response.status == 200) {
+        console.log(response);
 	    this.userPetani = response.data;
       } else if(response.status == 204) {
       	this.userPetani = [];
@@ -45,7 +47,7 @@ export class ListPetaniPage {
     this.navCtrl.push(TambahPetaniPage,2);
   }
   editPetani(data){
-
+    this.navCtrl.push(EditPetaniPage,data);
   }
   hapusPetani(user_id){
     this.loading = this.loadCtrl.create({

@@ -31,6 +31,9 @@ export class InfoHargaPage {
   userRole: number;
   user_id: string;
   dataHarga = [];
+  dataHarga1 = [];
+  dataHarga2 = [];
+  dataHarga3 = [];
   marker = [];
   dataKomoditas=[];
   segment='now';
@@ -62,17 +65,109 @@ export class InfoHargaPage {
     this.getDataHarga();
     var now = moment();
     this.dateFilter = moment(now.format(), moment.ISO_8601).format();
-    console.log(new Date().getTime())
-  }
-  updateSegment(){
-    if(this.segment == 'now') {
-      this.dataHarga = this.dataLaporanNow;
-      this.getDataHarga();
-    } else if(this.segment == 'history') {
-      this.dataHarga = this.dataLaporanHistory;
-      this.getHistoryLaporanHarga();
+  } 
+  ionViewDidLoad() {
+    let latLng = new google.maps.LatLng(-6.560284, 106.7233045);
+    let mapOptions = {
+      center: latLng,
+      zoom: 12,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
     }
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.getCurrentLocation();
   }
+  // get lokasi sekarang
+  getCurrentLocation(){
+    Geolocation.getCurrentPosition().then((position) => {
+ 
+      this.lat = position.coords.latitude;
+      this.lng = position.coords.longitude;
+      let latLng = new google.maps.LatLng(this.lat, this.lng);
+      let mapOptions = {
+        center: latLng,
+        zoom: 12,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  //get semua daftar komoditas
+  getKomoditas() {
+    this.authHttp.get(this.userData.BASE_URL+'komoditas/get').subscribe(res => {
+      let response = res.json();
+      console.log(response);
+      if(response.status == 200) {
+        this.dataKomoditas = response.data;
+      } else if(response.status == 204){
+        this.dataKomoditas = [];
+      }
+    }, err => { 
+        this.showError(err);
+    });
+  }
+  //Get laporan harga hari ini
+  getDataHarga() {
+    this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/day/0').subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.dataHarga = response.data;
+        this.dataLaporanNow = response.data;
+      } else if(response.status == 204) {
+        this.dataHarga = [];
+        this.dataLaporanNow = [];
+      }
+      this.loadMarker();
+    }, err => { console.log(err);
+        this.showError(err);
+    });
+  }
+  //get data laporan harga 1 hari sebelumnya
+  getDataHarga1() {
+    this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/day/1').subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.dataHarga1 = response.data;
+      } else if(response.status == 204) {
+        this.dataHarga1 = [];
+      }
+      this.loadMarker();
+    }, err => { console.log(err);
+        this.showError(err);
+    });
+  }
+  //get data harga 2 hari sebelumya
+  getDataHarga2() {
+    this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/day/2').subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.dataHarga2 = response.data;
+      } else if(response.status == 204) {
+        this.dataHarga2 = [];
+      }
+      this.loadMarker();
+    }, err => { console.log(err);
+        this.showError(err);
+    });
+  }
+  //get data harga 3 hari sebelumnya
+  getDataHarga3() {
+    this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/day/3').subscribe(res => {
+      let response = res.json();
+      if(response.status == 200) {
+        this.dataHarga3 = response.data;
+      } else if(response.status == 204) {
+        this.dataHarga3 = [];
+      }
+      this.loadMarker();
+    }, err => { console.log(err);
+        this.showError(err);
+    });
+  }
+  //get semua laporan harga per user
   getHistoryLaporanHarga(){
     this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/laporan/'+this.user_id).subscribe(res => {
       let response = res.json();
@@ -88,54 +183,42 @@ export class InfoHargaPage {
         this.showError(err);
     });
   }
-  getDataHarga() {
-    this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/day/0').subscribe(res => {
-      let response = res.json();
-      console.log(response);
-      if(response.status == 200) {
-        this.dataHarga = response.data;
-        this.dataLaporanNow = response.data;
-      } else if(response.status == 204) {
-        this.dataHarga = [];
-        this.dataLaporanNow = [];
-      }
-      this.loadMarker();
-    }, err => { console.log(err);
-        this.showError(err);
-    });
-  }
-  ionViewDidLoad() {
-    let latLng = new google.maps.LatLng(-6.560284, 106.7233045);
-    let mapOptions = {
-      center: latLng,
-      zoom: 12,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+
+  //update segemen untuk role masyarakat
+  updateSegment(){
+    if(this.segment == 'now') {
+      this.dataHarga = this.dataLaporanNow;
+      this.getDataHarga();
+    } else if(this.segment == 'history') {
+      this.dataHarga = this.dataLaporanHistory;
+      this.getHistoryLaporanHarga();
+    } else if(this.segment == 'trend'){
+      this.getDataHarga1();
+      this.getDataHarga2();
+      this.getDataHarga3();
     }
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    this.getCurrentLocation();
   }
+  //on change dropdown list komoditas 
   showselected(selected_value)
   {
     this.choosedKomoditas = selected_value;
     this.loadMarker();
   }
+  // ubah format date hari ini untuk filter date
   changeDateFilter(date){
     this.dateFormat = moment(date).format('YYYY-MM-DD');
-    console.log(this.dateFormat);
   }
-  postHargaKomoditas(){
-    this.navCtrl.push(TambahInfoHargaPage);
-  }
+  // pindah ke halaman edit laporan harga
   editLaporanHarga(dataLaporanHarga){
     this.navCtrl.push(EditInfoHargaPage,dataLaporanHarga);
   }
+  // hapus laporan harga
   hapusLaporanHarga(idLaporanHarga){
     let param = JSON.stringify({
         laporanHarga_id : idLaporanHarga
     });
     this.authHttp.post(this.userData.BASE_URL+'laporanHarga/delete',param).subscribe(res => {
       let response = res.json();
-      console.log(response);
       if(response.status == 200) {
         if(this.segment == 'now') {
           this.getDataHarga();
@@ -148,6 +231,7 @@ export class InfoHargaPage {
       this.showError(err);
     });
   }
+  // show pilihan menu ketika laporan harga ditekan 
   presentActionSheet(data) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Pilihan',
@@ -170,37 +254,8 @@ export class InfoHargaPage {
     });
     actionSheet.present();
   }
-  getCurrentLocation(){
-    Geolocation.getCurrentPosition().then((position) => {
- 
-      this.lat = position.coords.latitude;
-      this.lng = position.coords.longitude;
-      let latLng = new google.maps.LatLng(this.lat, this.lng);
-      let mapOptions = {
-        center: latLng,
-        zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
-    }, (err) => {
-      console.log(err);
-    });
-  }
-  getKomoditas() {
-    this.authHttp.get(this.userData.BASE_URL+'komoditas/get').subscribe(res => {
-      let response = res.json();
-      console.log(response);
-      if(response.status == 200) {
-        this.dataKomoditas = response.data;
-      } else if(response.status == 204){
-        this.dataKomoditas = [];
-      }
-    }, err => { 
-        this.showError(err);
-    });
-  }
-
+  
+  //buat marker google maps
   loadMarker(){
     this.clearMarker();
     for(let data of this.dataHarga){
@@ -227,11 +282,17 @@ export class InfoHargaPage {
       }
     }
   }
+  //hapus semua marker
   clearMarker(){
     for(let data of this.marker){
       data.setMap(null);
     }
     this.marker = [];
+  }
+
+  // pindah halaman tambah laporan harga
+  postHargaKomoditas(){
+    this.navCtrl.push(TambahInfoHargaPage);
   }
   
   showError(err: any){  

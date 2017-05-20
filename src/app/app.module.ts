@@ -35,7 +35,9 @@ import { ProfilePedagangPage } from '../pages/pedagang/profile-pedagang/profile-
 //penyuluh
 import { TabsPenyuluhPage } from '../pages/penyuluh/tabs-penyuluh/tabs-penyuluh';
 import { ListPetaniPage } from '../pages/penyuluh/list-petani/list-petani';
+import { EditPetaniPage } from '../pages/penyuluh/edit-petani/edit-petani';
 import { MateriPage } from '../pages/penyuluh/materi/materi';
+import { ViewMateriPage } from '../pages/penyuluh/view-materi/view-materi';
 import { TambahMateriPage } from '../pages/penyuluh/tambah-materi/tambah-materi';
 import { EditMateriPage } from '../pages/penyuluh/edit-materi/edit-materi';
 import { TambahPetaniPage } from '../pages/penyuluh/tambah-petani/tambah-petani';
@@ -58,6 +60,8 @@ import { ConferenceData } from '../providers/conference-data';
 
 import { Http } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
+
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 let storage = new Storage();
 
@@ -114,7 +118,10 @@ export function getAuthHttp(http) {
     EditMateriPage,
     MateriPage,
     EditAlamatPage,
-    VerifikasiAkunPage
+    VerifikasiAkunPage,
+    ViewMateriPage,
+    PdfViewerComponent,
+    EditPetaniPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -163,7 +170,9 @@ export function getAuthHttp(http) {
     EditMateriPage,
     MateriPage,
     EditAlamatPage,
-    VerifikasiAkunPage
+    VerifikasiAkunPage,
+    ViewMateriPage,
+    EditPetaniPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

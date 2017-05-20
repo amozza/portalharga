@@ -4,11 +4,7 @@ import { NgForm } from '@angular/forms';
 import { NavController, ToastController, NavParams, LoadingController } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 
-import { TabsPage } from '../petani/tabs-petani/tabs';
-import { TabsMasyarakatPage } from '../masyarakat/tabs-masyarakat/tabs-masyarakat';
 import { UserData } from '../../providers/user-data';
-import { TabsPedagangPage } from '../pedagang/tabs-pedagang/tabs-pedagang';
-import { TabsPenyuluhPage } from '../penyuluh/tabs-penyuluh/tabs-penyuluh';
 import { VerifikasiAkunPage } from "../verifikasi-akun/verifikasi-akun";
 
 @Component({
@@ -57,31 +53,7 @@ export class SignupPage {
            let response = data.json();
            if(response.status == 200){
               this.navCtrl.setRoot(VerifikasiAkunPage,response.data);
-
            }
-          //  if(response.status==200) {
-          //    this.userData.signup(response.data);
-          //    this.userData.setToken(response.token);
-          //    setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
-          //    switch (response.data.role) {
-          //      case 3: //penyuluh
-          //        this.navCtrl.setRoot(TabsPenyuluhPage);
-          //        break;
-          //      case 4: //petani
-          //        this.navCtrl.setRoot(TabsPage);
-          //        break;
-          //      case 5: //masyarakat
-          //        this.navCtrl.setRoot(TabsMasyarakatPage);
-          //        break;
-          //      case 6: //pedagang
-          //        this.navCtrl.setRoot(TabsPedagangPage);
-          //        break;
-               
-          //      default:
-          //        // code...
-          //        break;
-          //    }
-          //  }
            this.showAlert(response.message);
         }, err => { 
            loading.dismiss();

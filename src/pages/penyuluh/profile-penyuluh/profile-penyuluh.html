@@ -32,4 +32,13 @@
 			Logout
 		</button>
 	 </div>
+   <h6 padding-left>Materi Anda</h6>
+   <ion-card *ngFor="let data of materi">
+    <ion-item *ngIf="user_id == data.user_id" (click)="presentActionSheet(data)">
+      <ion-icon name="document" item-left></ion-icon>
+      <h2>{{data.judul}}</h2>
+      <p>{{data.keterangan}}</p>
+      <p style="font-size:10px;">Update terakhir: {{data.datePost}}</p>
+    </ion-item>
+  </ion-card>
 </ion-content>

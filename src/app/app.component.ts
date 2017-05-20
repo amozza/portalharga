@@ -19,19 +19,18 @@ export class MyApp {
     platform: Platform,
     public userData: UserData) {
     platform.ready().then(() => {
+      Splashscreen.hide();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      // StatusBar.styleDefault();
-    StatusBar.overlaysWebView(true);
-    StatusBar.backgroundColorByHexString('#ffffff'); // set status bar to white
-      Splashscreen.hide();
+      StatusBar.styleDefault();
+    // StatusBar.overlaysWebView(true);
+    // StatusBar.backgroundColorByHexString('#ffffff'); // set status bar to white
     });
 
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
       if(hasLoggedIn) {
         this.userData.getKomoditasFromServer();
         this.userData.getRole().then((value)=>{
-          console.log(value);
           switch (value) {
             case 3:
              this.rootPage = TabsPenyuluhPage;

@@ -80,6 +80,7 @@ export class TambahInfoHargaPage {
       this.loading = this.loadCtrl.create({
         content: 'Tunggu sebentar...'
       });
+      this.loading.present();
     this.getCurrentLocation();
     }
   }

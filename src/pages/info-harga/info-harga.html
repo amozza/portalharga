@@ -7,17 +7,31 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Info Harga Hari Ini
+      <div *ngIf="userRole==3||userRole==4">
+        Info Harga Hari Ini
+      </div>
+      <div *ngIf="userRole==5||userRole==6">
+        Info Harga
+      </div>
     </ion-title>
   </ion-navbar>
   <ion-segment [(ngModel)]="segment" (ionChange)="updateSegment()" *ngIf="userRole==5">
       <ion-segment-button value="now">
-        All
+        Hari Ini
       </ion-segment-button>
       <ion-segment-button value="history">
         Histori Laporan
       </ion-segment-button>
     </ion-segment>
+  <ion-segment [(ngModel)]="segment" (ionChange)="updateSegment()" *ngIf="userRole==6">
+      <ion-segment-button value="now">
+        Hari Ini
+      </ion-segment-button>
+      <ion-segment-button value="trend">
+        Trend harga
+      </ion-segment-button>
+    </ion-segment>
+    
     <ion-row>
       <ion-col no-padding>
         <div class="filterKomoditas">
@@ -30,7 +44,7 @@
           </ion-item>
         </div>
       </ion-col>
-      <ion-col no-padding [hidden]="segment=='now'">
+      <ion-col no-padding *ngIf="segment=='history'">
          <ion-item no-lines> 	
            <ion-label stacked>Tanggal</ion-label>
           <ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="dateFilter" (ionChange)="changeDateFilter(dateFilter)" name="date" max="2100" #date="ngModel" required placeholder="Perkiraan waktu panen">
@@ -38,15 +52,12 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    
-
-  
- 
 </ion-header>
  
 <ion-content padding-top>
   <div #map id="map" [hidden]="segment!='now'"></div> 
-  <div class="content{{segment}}{{userRole}}">
+  <!--segment info harga hari ini dan history laporan harga-->
+  <div *ngIf="segment=='now'||segment=='history'" class="content{{segment}}{{userRole}}">
     <ion-card *ngFor="let post of dataHarga">
       <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
         <div *ngIf="segment=='now'||post.datePost==dateFormat">
@@ -68,6 +79,65 @@
             {{post.alamat}}
           </ion-card-content>
         </div>
+      </div>
+    </ion-card>
+  </div>
+
+
+  <!--segment trend user pedagang-->
+  <div *ngIf="segment=='trend'">
+    <!--1 hari sebelumnya-->
+    <h6 padding-left padding-top>1 hari sebelumnya</h6>
+    <ion-card *ngFor="let post of dataHarga1">
+      <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
+        <ion-row>
+          <ion-col text-left>
+            <ion-card-header> 
+              <h2>{{post.namaKomoditas}}</h2>
+              <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
+            </ion-card-header>
+          </ion-col>
+        </ion-row>
+        <ion-card-content class="outer-content">
+          <ion-icon name='pin'> </ion-icon>
+          {{post.alamat}}
+        </ion-card-content>
+      </div>
+    </ion-card>
+    <!--2 hari sebelumnya-->
+    <h6 padding-left>2 hari sebelumnya</h6>
+    <ion-card *ngFor="let post of dataHarga2">
+      <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
+        <ion-row>
+          <ion-col text-left>
+            <ion-card-header> 
+              <h2>{{post.namaKomoditas}}</h2>
+              <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
+            </ion-card-header>
+          </ion-col>
+        </ion-row>
+        <ion-card-content class="outer-content">
+          <ion-icon name='pin'> </ion-icon>
+          {{post.alamat}}
+        </ion-card-content>
+      </div>
+    </ion-card>
+    <!--3 hari sebelumnya-->
+    <h6 padding-left>3 hari sebelumnya</h6>
+    <ion-card *ngFor="let post of dataHarga3">
+      <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
+        <ion-row>
+          <ion-col text-left>
+            <ion-card-header> 
+              <h2>{{post.namaKomoditas}}</h2>
+              <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
+            </ion-card-header>
+          </ion-col>
+        </ion-row>
+        <ion-card-content class="outer-content">
+          <ion-icon name='pin'> </ion-icon>
+          {{post.alamat}}
+        </ion-card-content>
       </div>
     </ion-card>
   </div>

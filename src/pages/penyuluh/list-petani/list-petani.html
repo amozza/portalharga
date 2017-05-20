@@ -15,25 +15,16 @@
 
 <ion-content>
 	<ion-card *ngFor="let data of userPetani">
-		<ion-row>
-			<ion-col text-left>
-				<ion-card-header>
-					<div ion-item>
-				        <ion-avatar item-left>
-				          <img src="assets/icon/user.png" *ngIf="!data.picture">
-				          <img [src]="data.picture" *ngIf="data.picture">
-				        </ion-avatar>
-				        {{data.name}}
-			        </div>
-			    </ion-card-header>
-			</ion-col> 
-			<div>
-				<ion-col text-right>
-					<button ion-button clear small  color="primary" (click)="presentActionSheet(data)">
-		        	 	<ion-icon name='more'></ion-icon>
-		        	 </button>
-				</ion-col>
-			</div>
+		<ion-row (click)="presentActionSheet(data)">
+			<ion-card-header>
+				<div ion-item>
+					<ion-avatar item-left>
+						<img src="assets/icon/user.png" *ngIf="!data.picture">
+						<img [src]="data.picture" *ngIf="data.picture">
+					</ion-avatar>
+						{{data.name}}
+				</div>
+			</ion-card-header>
 		</ion-row>
 	</ion-card>
 	<ion-fab bottom right #fab >
