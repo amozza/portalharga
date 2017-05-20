@@ -91,7 +91,7 @@ export class ProfilePetaniPage {
 
   // Aspirasi
   getAspirasi() {
-    this.authHttp.get(this.userData.BASE_URL+'aspirasi/get/'+this.user_id).subscribe(res => {
+    this.authHttp.get(this.userData.BASE_URL+'aspirasi/get/user/'+this.user_id).subscribe(res => {
       let response = res.json();
       if(response.status == 200) {
         this.aspirasi = response.data;
@@ -151,7 +151,7 @@ export class ProfilePetaniPage {
 
   //Dagangan
   getJualan() {
-    this.authHttp.get(this.userData.BASE_URL+'dagangan/get/'+this.user_id).subscribe(res => {
+    this.authHttp.get(this.userData.BASE_URL+'dagangan/get/user/'+this.user_id).subscribe(res => {
       let response = res.json();
       console.log(response);
       if(response.status == 200) {

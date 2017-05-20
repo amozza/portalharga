@@ -32,12 +32,12 @@ export class StatusProduksiPage {
   ionViewWillEnter() {
     this.userData.getId().then((value)=>{
       this.id = value;
+      this.getDataProduksi();
     });
-    this.getDataProduksi();
   }
 
   getDataProduksi() {
-    this.authHttp.get(this.userData.BASE_URL+'produksi/get').subscribe(res => {
+    this.authHttp.get(this.userData.BASE_URL+'produksi/get/user/'+this.id).subscribe(res => {
       let response = res.json();
       console.log(response);
       if (response.status == 200){
