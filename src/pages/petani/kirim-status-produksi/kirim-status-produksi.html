@@ -48,24 +48,42 @@
 
 			<ion-item>
 				<ion-label stacked color="primary">Luas lahan (m2)</ion-label>	
-				<ion-input [(ngModel)]="produksi.luas_lahan" name="luasLahan" type="number" min="0" #luasLahan="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Luas lahan Produksi">
+				<ion-input [(ngModel)]="produksi.luas_lahan" name="luasLahan" type="tel" pattern="[0-9]{1,}" min="0" #luasLahan="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Luas lahan Produksi">
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="luasLahan.valid || submitted == false" color="danger" padding-left>
-				Luas lahan is required
-			</p> 
+			<div [hidden]="luasLahan.valid || submitted == false" padding-left>
+				<p ion-text color="danger" *ngIf="!produksi.luas_lahan">Luas lahan is required</p>
+				<p ion-text color="danger" *ngIf="produksi.luas_lahan">Luas lahan is not valid</p>
+			</div> 
 
 			<ion-item>
 				<ion-label stacked color="primary">Jumlah Produksi {{produksi.satuan}}</ion-label>	
-				<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="number" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Jumlah Produksi">
+				<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="tel" pattern="[0-9]{1,}" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Jumlah Produksi">
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="jumlah.valid || submitted == false" color="danger" padding-left>
-				Jumlah is required
-			</p> 
-
+			<div [hidden]="jumlah.valid || submitted == false" padding-left>
+				<p ion-text color="danger" *ngIf="!produksi.jumlah">Jumlah is required</p>
+				<p ion-text color="danger" *ngIf="produksi.jumlah">Jumlah is not valid</p>
+			</div> 
 			<ion-item>
-				<ion-label stacked color="primary">Waktu tanam</ion-label>	
+				<ion-label stacked color="primary">Waktu tanam</ion-label>
+				<ion-input type="date" [(ngModel)]="produksi.date_tanam" name="waktuTanam" #waktuTanam="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="waktuTanam.valid || submitted == false" color="danger" padding-left>
+				Waktu tanam is required
+			</p>
+			<ion-item>
+				<ion-label stacked color="primary">Perkiraan waktu panen</ion-label>	
+				<ion-input type="date" [(ngModel)]="produksi.waktu_panen" name="waktuPanen" #waktuPanen="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="waktuPanen.valid || submitted == false" color="danger" padding-left>
+				Perkiraan waktu panen is required
+			</p>
+
+			<!--<ion-item>
+				<ion-label stacked color="primary">Waktu tanam</ion-label>
 				<ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="produksi.date_tanam" name="waktuTanam" max="2100" #waktuTanam="ngModel" required placeholder="Perkiraan waktu panen">
 				</ion-datetime>
 			</ion-item>
@@ -80,7 +98,7 @@
 			</ion-item>
 			<p ion-text [hidden]="waktuPanen.valid || submitted == false" color="danger" padding-left>
 				Waktu panen is required
-			</p>
+			</p>-->
 
 			<ion-item>
 				<ion-label stacked color="primary">Keterangan</ion-label>

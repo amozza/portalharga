@@ -47,7 +47,6 @@ export class AspirasiPage {
   getAspirasi() {
     this.authHttp.get(this.userData.BASE_URL+'aspirasi/get').subscribe(res => {
       let response = res.json();
-      console.log(response);
       if(response.status == 200) {
         this.aspirasi = response.data;
       } else if(response.status == 204){
@@ -56,12 +55,6 @@ export class AspirasiPage {
     }, err => { console.log(err);
         this.showError(err);
     });
-    // this.authHttp.get(this.userData.BASE_URL+'aspirasi/get')
-    // .subscribe(
-    //   data => console.log(data.json()),
-    //   err => console.log(err),
-    //   () => console.log('Request Complete')
-    // );
   }
 
   dukungAspirasi(aspirasi_id){

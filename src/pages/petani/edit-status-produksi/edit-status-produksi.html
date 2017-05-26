@@ -65,21 +65,20 @@
 			</p> 
 
 			<ion-item>
-				<ion-label stacked color="primary">Waktu tanam</ion-label>	
-				<ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="produksi.date_tanam" name="waktuTanam" max="2100" #waktuTanam="ngModel" required placeholder="Perkiraan waktu panen">
-				</ion-datetime>
+				<ion-label stacked color="primary">Waktu tanam</ion-label>
+				<ion-input type="date" [(ngModel)]="produksi.date_tanam" name="waktuTanam" #waktuTanam="ngModel" required>
+				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="waktuTanam.valid || submitted == false" color="danger" padding-left>
 				Waktu tanam is required
-			</p> 
-
+			</p>
 			<ion-item>
 				<ion-label stacked color="primary">Perkiraan waktu panen</ion-label>	
-				<ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="produksi.waktu_panen" name="waktuPanen" max="2100" #waktuPanen="ngModel" required placeholder="Perkiraan waktu panen">
-				</ion-datetime>
+				<ion-input type="date" [(ngModel)]="produksi.waktu_panen" name="waktuPanen" #waktuPanen="ngModel" required>
+				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="waktuPanen.valid || submitted == false" color="danger" padding-left>
-				Waktu panen is required
+				Perkiraan waktu panen is required
 			</p>
 
 			<ion-item>

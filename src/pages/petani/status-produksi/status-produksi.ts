@@ -39,7 +39,6 @@ export class StatusProduksiPage {
   getDataProduksi() {
     this.authHttp.get(this.userData.BASE_URL+'produksi/get/user/'+this.id).subscribe(res => {
       let response = res.json();
-      console.log(response);
       if (response.status == 200){
         this.produksi = response.data;
       } else if(response.status == 204){

@@ -45,7 +45,6 @@ export class JualKomoditasPage {
   getJualan() {
     this.authHttp.get(this.userData.BASE_URL+'dagangan/get').subscribe(res => {
       let response = res.json();
-      console.log(response);
       if(response.status == 200) {
         this.jualanku = response.data;
       } else if(response.status == 204){

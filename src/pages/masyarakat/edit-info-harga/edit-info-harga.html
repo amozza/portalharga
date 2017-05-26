@@ -34,7 +34,7 @@
 				<ion-col >
 					<ion-item>
 						<ion-label stacked color="primary">Harga {{infoHarga.satuan}}</ion-label>	
-						<ion-input [(ngModel)]="infoHarga.harga" name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Rp. ">
+						<ion-input [(ngModel)]="infoHarga.harga" name="harga" type="tel" pattern="[0-9]{1,}" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Rp. ">
 						</ion-input>
 					</ion-item>
 				</ion-col>

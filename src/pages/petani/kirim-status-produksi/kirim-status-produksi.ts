@@ -37,6 +37,7 @@ export class KirimStatusProduksiPage {
   useCurrentLocationColor: string;
   useManualLocationColor: string;
   loading: any;
+  date1:string;
   constructor(
   	public navCtrl: NavController,
     public toastCtrl: ToastController, 
@@ -54,10 +55,8 @@ export class KirimStatusProduksiPage {
       this.id = value;
     });
     this.chooseLocation(1);
-    var now = moment();
-    this.produksi.waktu_panen = moment(now.format(), moment.ISO_8601).format();
-    this.produksi.date_tanam = moment(now.format(), moment.ISO_8601).format();
-    console.log(now.format());
+    this.produksi.waktu_panen = moment(new Date()).format("YYYY-MM-DD");
+    this.produksi.date_tanam = moment(new Date()).format("YYYY-MM-DD");
   }
 
   changeKomoditas(idKomoditas){

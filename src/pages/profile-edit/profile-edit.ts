@@ -16,7 +16,7 @@ import { AuthHttp } from 'angular2-jwt';
   templateUrl: 'profile-edit.html'
 })
 export class ProfileEditPage {
-  user: {user_id?: string, username?: string, name?: string, email?: string, picture?: string, password?: string, nomor_telepon?: string} = {};
+  user: {user_id?: string, username?: string, name?: string, email?: string, picture?: string, password?: string, nomor_telepon?: string, role?: string} = {};
   base64Image: string;
   submitted = false;
   temp: any;
@@ -39,6 +39,7 @@ export class ProfileEditPage {
       this.user.user_id = value.user_id;
       this.user.picture = value.picture;
       this.user.nomor_telepon = value.nomor_telepon;
+      this.user.role = value.role;
     });
 
   }

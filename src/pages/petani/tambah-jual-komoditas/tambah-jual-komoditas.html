@@ -28,21 +28,23 @@
 
 			<ion-item>
 				<ion-label stacked color="primary">Harga (per {{dagangan.satuan}})</ion-label>	
-				<ion-input [(ngModel)]="dagangan.harga" placeholder="Rp. " name="harga" type="number" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required>
+				<ion-input [(ngModel)]="dagangan.harga" placeholder="Rp. " name="harga" type="tel" pattern="[0-9]{1,}" min="0" #harga="ngModel" spellcheck="false" autocapitalize="off" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="harga.valid || submitted == false" color="danger" padding-left>
-				Jumlah is required
-			</p> 
+			<div [hidden]="harga.valid || submitted == false" padding-left>
+				<p ion-text color="danger" *ngIf="!dagangan.harga">Harga is required</p>
+				<p ion-text color="danger" *ngIf="dagangan.harga">Harga is not valid</p>
+			</div> 
 
 			<ion-item>
 				<ion-label stacked color="primary">Stok Tersedia ({{dagangan.satuan}})</ion-label>	
-				<ion-input [(ngModel)]="dagangan.stok" placeholder="Stok" name="stok" type="number" min="0" #stok="ngModel" spellcheck="false" autocapitalize="off" required >
+				<ion-input [(ngModel)]="dagangan.stok" placeholder="Stok" name="stok" type="tel" pattern="[0-9]{1,}" min="0" #stok="ngModel" spellcheck="false" autocapitalize="off" required >
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="stok.valid || submitted == false" color="danger" padding-left>
-				Jumlah is required
-			</p> 
+			<div [hidden]="stok.valid || submitted == false" padding-left>
+				<p ion-text color="danger" *ngIf="!dagangan.stok">Stok is required</p>
+				<p ion-text color="danger" *ngIf="dagangan.stok">Stok is not valid</p>
+			</div> 
 
 			<ion-item>
 				<ion-label stacked color="primary">Keterangan</ion-label>

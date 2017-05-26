@@ -50,15 +50,16 @@
 				<ion-input [(ngModel)]="user.email" disabled name="email" type="email" #email="ngModel" required >
 				</ion-input>
 			</ion-item>
-			<div *ngIf="user.nomor_telepon">
+			<div *ngIf="user.role==4||user.role==6">
 				<ion-item>
 					<ion-label stacked color="primary">Nomor telepon</ion-label>	
-					<ion-input [(ngModel)]="user.nomor_telepon" placeholder="Nomor telepon" name="nomor_telepon" type="tel" min="0" #nomor_telepon="ngModel" required >
+					<ion-input [(ngModel)]="user.nomor_telepon" type="tel" pattern="[0]{1}[0-9]{9}[0-9]{1,}" maxlength="13" placeholder="Nomor telepon" name="nomor_telepon" #nomor_telepon="ngModel" required >
 					</ion-input>
 				</ion-item>
-				<p ion-text [hidden]="nomor_telepon.valid || submitted == false" color="danger" padding-left>
-					Nomor telepon is required
-				</p>
+				<div [hidden]="nomor_telepon.valid || submitted == false" padding-left>
+					<p ion-text color="danger" *ngIf="!user.nomor_telepon">Nomor telepon is required</p>
+					<p ion-text color="danger" *ngIf="user.nomor_telepon">Nomor telepon is not valid</p>
+				</div> 
 			</div> 
 		</ion-list>
 	</form>
