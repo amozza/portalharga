@@ -22,15 +22,15 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="subject.valid || submitted == false" color="danger" padding-left>
-				Subject is required
+				Subjek harus diisi
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="primary">Isi aspirasi</ion-label>
+				<ion-label stacked color="primary">Isi Aspirasi</ion-label>
 				<ion-textarea [(ngModel)]="aspirasi.isi" name="message" #message="ngModel" rows="6" required ></ion-textarea>
 			</ion-item>
 			<p ion-text [hidden]="message.valid || submitted === false" color="danger" padding-left>
-				Message is required
+				Isi aspirasi harus diisi
 			</p>
 		</ion-list>
 

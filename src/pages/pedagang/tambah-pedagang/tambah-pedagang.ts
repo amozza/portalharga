@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NavController, ToastController, NavParams, LoadingController } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { UserData } from '../../../providers/user-data';
-import { TabsPedagangPage } from '../tabs-pedagang/tabs-pedagang';
+import { VerifikasiAkunPage } from '../../verifikasi-akun/verifikasi-akun';
 
 declare var google: any;
 /*
@@ -61,6 +61,9 @@ export class TambahPedagangPage {
 	    });
   }
   changeProvinsi(prov){
+    this.kabupaten = null;
+    this.kecamatan = null;
+    this.kelurahan = null;
     this.getKabupaten(prov);
     for(let data of this.provinsi){
       if(data.id_prov == prov) {
@@ -80,6 +83,8 @@ export class TambahPedagangPage {
 	    });
   }
   changeKabupaten(kab){
+    this.kecamatan = null;
+    this.kelurahan = null;
     this.getKecamatan(kab);
     for(let data of this.kabupaten){
       if(data.id_kab == kab) {
@@ -99,6 +104,7 @@ export class TambahPedagangPage {
 	    });
   }
   changeKecamatan(kec){
+    this.kelurahan = null;
     this.getKelurahan(kec);
     for(let data of this.kecamatan){
       if(data.id_kec == kec) {
@@ -127,26 +133,10 @@ export class TambahPedagangPage {
   }
 // End of get location
 
-// Get coordinate location
-  getLatitudeLongitude(address){
-    let geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'address': address},(results, status)=> {
-      if(status=='OK') {
-        let lokasi = results[0];
-        this.lokasi.alamat = address;
-        this.lokasi.lat = lokasi.geometry.location.lat();
-        this.lokasi.lng = lokasi.geometry.location.lng();
-        this.postUser();
-      } else{
-        this.loading.dismiss();
-      }
-    });
-  }
-
   // Send to server
   postUser(){
   	let input = JSON.stringify({
-        username: this.user.username, 
+        username: this.user.username.toLowerCase(), 
         name: this.user.name, 
         email: this.user.email, 
         password: this.user.password, 
@@ -159,10 +149,7 @@ export class TambahPedagangPage {
 	       this.loading.dismiss();
 	       let response = data.json();
 	       if(response.status==200) {
-           this.userData.signup(response.data);
-           this.userData.setToken(response.token);
-           setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
-           this.navCtrl.setRoot(TabsPedagangPage);
+           this.navCtrl.setRoot(VerifikasiAkunPage,response.data);
 	       }
 	       this.showAlert(response.message);
 	    }, err => { 
@@ -181,7 +168,7 @@ export class TambahPedagangPage {
     if (form.valid) {
       this.loading.present();
       this.lokasi.alamat = this.inputAlamat+" "+this.namaKelurahan+" "+this.namaKecamatan+" "+this.namaKabupaten+" "+this.namaProvinsi;
-      this.getLatitudeLongitude(this.lokasi.alamat);
+      this.postUser();
     }
   }
   showError(err: any){  

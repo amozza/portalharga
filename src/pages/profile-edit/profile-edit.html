@@ -34,7 +34,7 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="nama.valid || submitted == false" color="danger" padding-left>
-				Nama lengkap is required
+				Nama lengkap harus diisi
 			</p>
 
 			<ion-item>
@@ -43,7 +43,7 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
-				Username is required
+				Username harus diisi
 			</p>
 			<ion-item>
 				<ion-label stacked color="primary">Email</ion-label>
@@ -57,8 +57,8 @@
 					</ion-input>
 				</ion-item>
 				<div [hidden]="nomor_telepon.valid || submitted == false" padding-left>
-					<p ion-text color="danger" *ngIf="!user.nomor_telepon">Nomor telepon is required</p>
-					<p ion-text color="danger" *ngIf="user.nomor_telepon">Nomor telepon is not valid</p>
+					<p ion-text color="danger" *ngIf="!user.nomor_telepon">Nomor telepon harus diisi</p>
+					<p ion-text color="danger" *ngIf="user.nomor_telepon">Nomor telepon tidak valid</p>
 				</div> 
 			</div> 
 		</ion-list>

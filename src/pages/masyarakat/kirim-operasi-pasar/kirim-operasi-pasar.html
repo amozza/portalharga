@@ -45,7 +45,7 @@
 						</ion-col>
 					</ion-row> -->
 					<ion-row>
-						<ion-label stacked color="primary">Lokasi</ion-label>
+						<ion-label stacked color="primary">Lokasi Pasar</ion-label>
 					</ion-row>
 					<ion-row>
 						<ion-col>
@@ -56,18 +56,42 @@
 						</ion-col>
 					</ion-row>
 					<div padding-left *ngIf="useCurrentLocation">{{lokasi.alamat}}</div>
-					<ion-row>
-						<ion-col>
-							<ion-item no-padding *ngIf="!useCurrentLocation">
-								<ion-input [(ngModel)]="inputAlamat" name="pasar" #pasar="ngModel" rows="6" required placeholder="Lokasi Pasar"></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<p ion-text [hidden]="inputAlamat || useCurrentLocation || submitted === false" color="danger" padding-left>
-						This field is required
-					</p>
 				</ion-col>
 			</ion-row>
+			<div *ngIf="!useCurrentLocation">
+				<ion-item>
+					<ion-label stacked color="primary">Pilih provinsi </ion-label>
+					<ion-select [(ngModel)]="pilihProvinsi" [disabled]="!provinsi" (ionChange)="changeProvinsi(pilihProvinsi)" name="provinsi">
+						<ion-option *ngFor="let data of provinsi" value="{{data.id_prov}}">{{data.nama}}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked color="primary">Pilih kabupaten </ion-label>
+					<ion-select [(ngModel)]="pilihKabupaten" [disabled]="!kabupaten" (ionChange)="changeKabupaten(pilihKabupaten)" name="kabupaten">
+						<ion-option *ngFor="let data of kabupaten" value="{{data.id_kab}}">{{data.nama}}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked color="primary">Pilih kecamatan </ion-label>
+					<ion-select [(ngModel)]="pilihKecamatan" [disabled]="!kecamatan" (ionChange)="changeKecamatan(pilihKecamatan)" name="kecamatan">
+						<ion-option *ngFor="let data of kecamatan" value="{{data.id_kec}}">{{data.nama}}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked color="primary">Pilih kelurahan </ion-label>
+					<ion-select [(ngModel)]="pilihKelurahan" [disabled]="!kelurahan" (ionChange)="changeKelurahan(pilihKelurahan)" name="kelurahan">
+						<ion-option *ngFor="let data of kelurahan" value="{{data.id_kel}}">{{data.nama}}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked color="primary">Alamat</ion-label>
+					<ion-input [(ngModel)]="inputAlamat" placeholder="Alamat" name="alamat" type="text" #alamat="ngModel" required>
+					</ion-input>
+				</ion-item>
+				<p ion-text [hidden]="alamat.valid || submitted == false" color="danger" padding-left>
+					Alamat harus diisi
+				</p>
+			</div> 
 
 			<ion-row padding-left>
 				<ion-col>
@@ -78,7 +102,7 @@
 				</ion-col>
 			</ion-row>
 			<p ion-text [hidden]="pesan.valid || submitted === false" color="danger" padding-left>
-				This field is required
+				Pesan harus diisi
 			</p>
 		</ion-list>
 

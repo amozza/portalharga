@@ -62,6 +62,9 @@ export class EditAlamatPage {
 	    });
   }
   changeProvinsi(prov){
+    this.kabupaten = null;
+    this.kecamatan = null;
+    this.kelurahan = null;
     this.getKabupaten(prov);
     for(let data of this.provinsi){
       if(data.id_prov == prov) {
@@ -81,6 +84,8 @@ export class EditAlamatPage {
 	    });
   }
   changeKabupaten(kab){
+    this.kecamatan = null;
+    this.kelurahan = null;
     this.getKecamatan(kab);
     for(let data of this.kabupaten){
       if(data.id_kab == kab) {
@@ -100,6 +105,7 @@ export class EditAlamatPage {
 	    });
   }
   changeKecamatan(kec){
+    this.kelurahan = null;
     this.getKelurahan(kec);
     for(let data of this.kecamatan){
       if(data.id_kec == kec) {

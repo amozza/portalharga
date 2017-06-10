@@ -41,7 +41,7 @@ export class SignupPage {
     if (form.valid) {
       loading.present();
       let input = JSON.stringify({
-        username: this.user.username, 
+        username: this.user.username.toLowerCase(), 
         name: this.user.name, 
         email: this.user.email, 
         password: this.user.password, 

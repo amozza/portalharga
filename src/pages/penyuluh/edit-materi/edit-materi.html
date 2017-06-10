@@ -22,7 +22,7 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="judul.valid || submitted == false" color="danger" padding-left>
-				Judul is required
+				Judul harus diisi
 			</p> 
 
 			<ion-item>
@@ -30,7 +30,7 @@
 				<ion-textarea [(ngModel)]="materi.keterangan" placeholder="Keterangan" name="deskripsi" #deskripsi="ngModel" rows="6" required></ion-textarea>
 			</ion-item>
 			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
-				Keterangan is required
+				Keterangan harus diisi
 			</p>
     </ion-list>
     <ion-row padding>

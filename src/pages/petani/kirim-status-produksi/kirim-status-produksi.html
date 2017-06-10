@@ -26,8 +26,62 @@
 				Pilih komoditas
 			</p>
 			
+			<ion-item>
+				<ion-label stacked color="primary">Luas lahan (m2)</ion-label>	
+				<ion-input [(ngModel)]="produksi.luas_lahan" name="luasLahan" type="tel" pattern="[0-9]{1,}" min="0" #luasLahan="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Luas lahan Produksi">
+				</ion-input>
+			</ion-item>
+			<div [hidden]="luasLahan.valid || submitted == false" padding-left>
+				<p ion-text color="danger" *ngIf="!produksi.luas_lahan">Luas lahan harus diisi</p>
+				<p ion-text color="danger" *ngIf="produksi.luas_lahan">Luas lahan tidak valid</p>
+			</div> 
+
+			<ion-item>
+				<ion-label stacked color="primary">Jumlah Produksi {{produksi.satuan}}</ion-label>	
+				<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="tel" pattern="[0-9]{1,}" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Jumlah Produksi">
+				</ion-input>
+			</ion-item>
+			<div [hidden]="jumlah.valid || submitted == false" padding-left>
+				<p ion-text color="danger" *ngIf="!produksi.jumlah">Jumlah harus diisi</p>
+				<p ion-text color="danger" *ngIf="produksi.jumlah">Jumlah tidak valid</p>
+			</div> 
+			<ion-item>
+				<ion-label stacked color="primary">Waktu tanam</ion-label>
+				<ion-input type="date" [(ngModel)]="produksi.date_tanam" name="waktuTanam" #waktuTanam="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="waktuTanam.valid || submitted == false" color="danger" padding-left>
+				Waktu tanam harus diisi
+			</p>
+			<ion-item>
+				<ion-label stacked color="primary">Perkiraan waktu panen</ion-label>	
+				<ion-input type="date" [(ngModel)]="produksi.waktu_panen" name="waktuPanen" #waktuPanen="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="waktuPanen.valid || submitted == false" color="danger" padding-left>
+				Perkiraan waktu panen harus diisi
+			</p>
+
+			<!--<ion-item>
+				<ion-label stacked color="primary">Waktu tanam</ion-label>
+				<ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="produksi.date_tanam" name="waktuTanam" max="2100" #waktuTanam="ngModel" required placeholder="Perkiraan waktu panen">
+				</ion-datetime>
+			</ion-item>
+			<p ion-text [hidden]="waktuTanam.valid || submitted == false" color="danger" padding-left>
+				Waktu tanam harus diisi
+			</p> 
+
+			<ion-item>
+				<ion-label stacked color="primary">Perkiraan waktu panen</ion-label>	
+				<ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="produksi.waktu_panen" name="waktuPanen" max="2100" #waktuPanen="ngModel" required placeholder="Perkiraan waktu panen">
+				</ion-datetime>
+			</ion-item>
+			<p ion-text [hidden]="waktuPanen.valid || submitted == false" color="danger" padding-left>
+				Waktu panen harus diisi
+			</p>-->
+
 			<ion-row padding-left>
-				<ion-label stacked color="primary">Lokasi</ion-label>
+				<ion-label stacked color="primary">Lokasi Produksi</ion-label>
 			</ion-row>
 			<ion-row padding-left>
 				<ion-col>
@@ -38,75 +92,56 @@
 				</ion-col>
 			</ion-row>
 			<div padding-left *ngIf="useCurrentLocation">{{produksi.alamat}}</div>
-			<ion-item *ngIf="!useCurrentLocation">	
+			<!--<ion-item *ngIf="!useCurrentLocation">	
 				<ion-input [(ngModel)]="inputAlamat" name="alamat" type="text" spellcheck="false" autocapitalize="off" required placeholder="Nama jalan, kota, provinsi">
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="inputAlamat || useCurrentLocation || submitted == false" color="danger" padding-left>
-				Lokasi is required
-			</p> 
-
-			<ion-item>
-				<ion-label stacked color="primary">Luas lahan (m2)</ion-label>	
-				<ion-input [(ngModel)]="produksi.luas_lahan" name="luasLahan" type="tel" pattern="[0-9]{1,}" min="0" #luasLahan="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Luas lahan Produksi">
-				</ion-input>
-			</ion-item>
-			<div [hidden]="luasLahan.valid || submitted == false" padding-left>
-				<p ion-text color="danger" *ngIf="!produksi.luas_lahan">Luas lahan is required</p>
-				<p ion-text color="danger" *ngIf="produksi.luas_lahan">Luas lahan is not valid</p>
-			</div> 
-
-			<ion-item>
-				<ion-label stacked color="primary">Jumlah Produksi {{produksi.satuan}}</ion-label>	
-				<ion-input [(ngModel)]="produksi.jumlah" name="jumlah" type="tel" pattern="[0-9]{1,}" min="0" #jumlah="ngModel" spellcheck="false" autocapitalize="off" required placeholder="Jumlah Produksi">
-				</ion-input>
-			</ion-item>
-			<div [hidden]="jumlah.valid || submitted == false" padding-left>
-				<p ion-text color="danger" *ngIf="!produksi.jumlah">Jumlah is required</p>
-				<p ion-text color="danger" *ngIf="produksi.jumlah">Jumlah is not valid</p>
-			</div> 
-			<ion-item>
-				<ion-label stacked color="primary">Waktu tanam</ion-label>
-				<ion-input type="date" [(ngModel)]="produksi.date_tanam" name="waktuTanam" #waktuTanam="ngModel" required>
-				</ion-input>
-			</ion-item>
-			<p ion-text [hidden]="waktuTanam.valid || submitted == false" color="danger" padding-left>
-				Waktu tanam is required
-			</p>
-			<ion-item>
-				<ion-label stacked color="primary">Perkiraan waktu panen</ion-label>	
-				<ion-input type="date" [(ngModel)]="produksi.waktu_panen" name="waktuPanen" #waktuPanen="ngModel" required>
-				</ion-input>
-			</ion-item>
-			<p ion-text [hidden]="waktuPanen.valid || submitted == false" color="danger" padding-left>
-				Perkiraan waktu panen is required
-			</p>
-
-			<!--<ion-item>
-				<ion-label stacked color="primary">Waktu tanam</ion-label>
-				<ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="produksi.date_tanam" name="waktuTanam" max="2100" #waktuTanam="ngModel" required placeholder="Perkiraan waktu panen">
-				</ion-datetime>
-			</ion-item>
-			<p ion-text [hidden]="waktuTanam.valid || submitted == false" color="danger" padding-left>
-				Waktu tanam is required
-			</p> 
-
-			<ion-item>
-				<ion-label stacked color="primary">Perkiraan waktu panen</ion-label>	
-				<ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="produksi.waktu_panen" name="waktuPanen" max="2100" #waktuPanen="ngModel" required placeholder="Perkiraan waktu panen">
-				</ion-datetime>
-			</ion-item>
-			<p ion-text [hidden]="waktuPanen.valid || submitted == false" color="danger" padding-left>
-				Waktu panen is required
-			</p>-->
+				Lokasi harus diisi
+			</p> -->
+			<div *ngIf="!useCurrentLocation">
+				<ion-item>
+					<ion-label stacked color="primary">Pilih provinsi </ion-label>
+					<ion-select [(ngModel)]="pilihProvinsi" [disabled]="!provinsi" (ionChange)="changeProvinsi(pilihProvinsi)" name="provinsi">
+						<ion-option *ngFor="let data of provinsi" value="{{data.id_prov}}">{{data.nama}}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked color="primary">Pilih kabupaten </ion-label>
+					<ion-select [(ngModel)]="pilihKabupaten" [disabled]="!kabupaten" (ionChange)="changeKabupaten(pilihKabupaten)" name="kabupaten">
+						<ion-option *ngFor="let data of kabupaten" value="{{data.id_kab}}">{{data.nama}}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked color="primary">Pilih kecamatan </ion-label>
+					<ion-select [(ngModel)]="pilihKecamatan" [disabled]="!kecamatan" (ionChange)="changeKecamatan(pilihKecamatan)" name="kecamatan">
+						<ion-option *ngFor="let data of kecamatan" value="{{data.id_kec}}">{{data.nama}}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked color="primary">Pilih kelurahan </ion-label>
+					<ion-select [(ngModel)]="pilihKelurahan" [disabled]="!kelurahan" (ionChange)="changeKelurahan(pilihKelurahan)" name="kelurahan">
+						<ion-option *ngFor="let data of kelurahan" value="{{data.id_kel}}">{{data.nama}}</ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item>
+					<ion-label stacked color="primary">Alamat</ion-label>
+					<ion-input [(ngModel)]="inputAlamat" placeholder="Alamat" name="alamat" type="text" #alamat="ngModel" required>
+					</ion-input>
+				</ion-item>
+				<p ion-text [hidden]="alamat.valid || submitted == false" color="danger" padding-left>
+					Alamat harus diisi
+				</p>
+			</div>
 
 			<ion-item>
 				<ion-label stacked color="primary">Keterangan</ion-label>
 				<ion-textarea [(ngModel)]="produksi.keterangan" name="keterangan" #keterangan="ngModel" rows="6" required placeholder="Keterangan"></ion-textarea>
 			</ion-item>
 			<p ion-text [hidden]="keterangan.valid || submitted === false" color="danger" padding-left>
-			Keterangan is required
+			Keterangan harus diisi
 			</p>
+			
 		</ion-list>
 
 		<div padding>

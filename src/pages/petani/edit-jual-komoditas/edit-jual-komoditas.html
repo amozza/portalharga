@@ -42,8 +42,8 @@
 				</ion-col>
 			</ion-row>
 			<div [hidden]="harga.valid || submitted == false" padding-left>
-				<p ion-text color="danger" *ngIf="!dagangan.harga">Harga is required</p>
-				<p ion-text color="danger" *ngIf="dagangan.harga">Harga is not valid</p>
+				<p ion-text color="danger" *ngIf="!dagangan.harga">Harga harus diisi</p>
+				<p ion-text color="danger" *ngIf="dagangan.harga">Harga tidak valid</p>
 			</div> 
 
 			<ion-row>
@@ -56,8 +56,8 @@
 				</ion-col>
 			</ion-row>
 			<div [hidden]="stok.valid || submitted == false" padding-left>
-				<p ion-text color="danger" *ngIf="!dagangan.stok">Stok is required</p>
-				<p ion-text color="danger" *ngIf="dagangan.stok">Stok is not valid</p>
+				<p ion-text color="danger" *ngIf="!dagangan.stok">Stok harus diisi</p>
+				<p ion-text color="danger" *ngIf="dagangan.stok">Stok tidak valid</p>
 			</div> 
 
 			<ion-row>
@@ -69,7 +69,7 @@
 				</ion-col>
 			</ion-row>
 			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
-				Deskripsi is required
+				Deskripsi harus diisi
 			</p>
 
 			<ion-row>
@@ -92,10 +92,10 @@
 						</ion-col>
 					</ion-row>
 						
-					<ion-item *ngIf="dagangan.foto">
-						<img [src]="'data:image/jpeg;base64,'+dagangan.foto" >
+					<ion-item *ngIf="dagangan.picture">
+						<img [src]="'data:image/jpeg;base64,'+dagangan.picture" >
 					</ion-item>
-					<ion-item *ngIf="!dagangan.foto && image">
+					<ion-item *ngIf="!dagangan.picture && image">
 						<img [src]="image" >
 					</ion-item>
 				</ion-col>

@@ -13,35 +13,37 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="nama.valid || submitted == false" color="danger" padding-left>
-				Nama lengkap is required
+				Nama lengkap harus diisi
 			</p>
 
 			<ion-item>
 				<ion-label stacked color="primary">Email</ion-label>
-				<ion-input [(ngModel)]="user.email" placeholder="Email" name="email" type="email" #email="ngModel" required>
+				<ion-input [(ngModel)]="user.email" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" placeholder="Email" name="email" type="email" #email="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
-				Email is required
-			</p>
+			<div [hidden]="email.valid || submitted == false" padding-left>
+				<p ion-text color="danger" *ngIf="!user.email">Email harus diisi</p>
+				<p ion-text color="danger" *ngIf="user.email">Email tidak valid</p>
+			</div>
 
 			<ion-item>
 				<ion-label stacked color="primary">Username</ion-label>
-				<ion-input [(ngModel)]="user.username" placeholder="Username" name="username" type="text" #username="ngModel" required>
+				<ion-input [(ngModel)]="user.username" pattern="[A-Za-z_0-9]{1,}" placeholder="Username" name="username" type="text" #username="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
-				Username is required
-			</p>
-
+			<div padding-left [hidden]="username.valid || submitted == false">
+				<p ion-text color="danger" *ngIf="!user.username" >Username harus diisi</p>
+				<p ion-text color="danger" *ngIf="user.username" >Username mengandung karakter yang tidak valid</p>
+			</div>
 			<ion-item>
 				<ion-label stacked color="primary">Password</ion-label>
-				<ion-input [(ngModel)]="user.password" placeholder="Password" name="password" type="password" #password="ngModel" required>
+				<ion-input [(ngModel)]="user.password" pattern=".{6,}" placeholder="Password" name="password" type="password" #password="ngModel" required>
 				</ion-input>
 			</ion-item>
-			<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
-				Password is required
-			</p>
+			<div [hidden]="password.valid || submitted == false" padding-left>
+				<p ion-text color="danger" *ngIf="!user.password">Password harus diisi</p>
+				<p ion-text color="danger" *ngIf="user.password">Password minimal 6 karakter</p>
+			</div>
 		</ion-list>
 
 		<div padding>

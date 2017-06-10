@@ -57,7 +57,7 @@ export class ListPetaniPage {
     let param = JSON.stringify({
       user_id : user_id
     });
-    this.authHttp.post(this.userData.BASE_URL+'aspirasi/delete',param).subscribe(res => {
+    this.authHttp.post(this.userData.BASE_URL+'user/delete',param).subscribe(res => {
       this.loading.dismiss();
       let response = res.json();
       if(response.status == 200) {

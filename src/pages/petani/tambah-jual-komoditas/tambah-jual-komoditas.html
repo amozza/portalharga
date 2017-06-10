@@ -32,8 +32,8 @@
 				</ion-input>
 			</ion-item>
 			<div [hidden]="harga.valid || submitted == false" padding-left>
-				<p ion-text color="danger" *ngIf="!dagangan.harga">Harga is required</p>
-				<p ion-text color="danger" *ngIf="dagangan.harga">Harga is not valid</p>
+				<p ion-text color="danger" *ngIf="!dagangan.harga">Harga harus diisi</p>
+				<p ion-text color="danger" *ngIf="dagangan.harga">Harga tidak valid</p>
 			</div> 
 
 			<ion-item>
@@ -42,8 +42,8 @@
 				</ion-input>
 			</ion-item>
 			<div [hidden]="stok.valid || submitted == false" padding-left>
-				<p ion-text color="danger" *ngIf="!dagangan.stok">Stok is required</p>
-				<p ion-text color="danger" *ngIf="dagangan.stok">Stok is not valid</p>
+				<p ion-text color="danger" *ngIf="!dagangan.stok">Stok harus diisi</p>
+				<p ion-text color="danger" *ngIf="dagangan.stok">Stok tidak valid</p>
 			</div> 
 
 			<ion-item>
@@ -51,7 +51,7 @@
 				<ion-textarea [(ngModel)]="dagangan.keterangan" placeholder="Keterangan" name="deskripsi" #deskripsi="ngModel" rows="6" required></ion-textarea>
 			</ion-item>
 			<p ion-text [hidden]="deskripsi.valid || submitted == false" color="danger" padding-left>
-				Keterangan is required
+				Keterangan harus diisi
 			</p>
 
 			<ion-row>

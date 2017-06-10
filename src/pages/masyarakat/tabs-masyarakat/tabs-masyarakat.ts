@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { ProfileMasyarakatPage } from '../profile-masyarakat/profile-masyarakat';
 import { InfoHargaPage } from '../../info-harga/info-harga';
 import { OperasiPasarPage } from '../operasi-pasar/operasi-pasar';
-// import { JualBeliPage } from '../jual-beli/jual-beli';
 import { JualKomoditasPage } from '../../petani/jual-komoditas/jual-komoditas';
 
 @Component({

@@ -41,6 +41,7 @@
     <preference name="SplashScreenDelay" value="300" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="false" />
+    <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -51,4 +52,10 @@
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
     <plugin name="cordova-plugin-camera" spec="~2.4.0" />
     <plugin name="cordova-plugin-statusbar" spec="~2.2.1" />
+    <plugin name="ionic-plugin-deeplinks" spec="~1.0.15">
+        <variable name="URL_SCHEME" value="myapp" />
+        <variable name="DEEPLINK_SCHEME" value="https" />
+        <variable name="DEEPLINK_HOST" value="ph.yippytech.com" />
+        <variable name="ANDROID_PATH_PREFIX" value="/" />
+    </plugin>
 </widget>

@@ -38,6 +38,20 @@ export class KirimStatusProduksiPage {
   useManualLocationColor: string;
   loading: any;
   date1:string;
+
+  provinsi: any;
+  kabupaten: any;
+  kecamatan: any;
+  kelurahan: any;
+  pilihProvinsi:string;
+  pilihKabupaten: string;
+  pilihKecamatan: string;
+  pilihKelurahan: string;
+  namaProvinsi:string;
+  namaKabupaten: string;
+  namaKecamatan: string;
+  namaKelurahan: string;
+
   constructor(
   	public navCtrl: NavController,
     public toastCtrl: ToastController, 
@@ -72,6 +86,7 @@ export class KirimStatusProduksiPage {
       this.useCurrentLocation = false;
       this.useCurrentLocationColor = "dark";
       this.useManualLocationColor = "default";
+      this.getProvinsi();
     } else if(target == 0) {
       this.getCurrentLocation();
       this.useCurrentLocation = true;
@@ -79,6 +94,91 @@ export class KirimStatusProduksiPage {
       this.useManualLocationColor = "dark";
     }
   }
+
+  // Get Location API
+  getProvinsi(){
+    this.authHttp.get(this.userData.BASE_URL+"lokasi/provinsi").subscribe(data => {
+	       let response = data.json();
+	       if(response.status==200) {
+           this.provinsi = response.data;
+	       }
+	    }, err => { 
+	       this.showError(err);
+	    });
+  }
+  changeProvinsi(prov){
+    this.kabupaten = null;
+    this.kecamatan = null;
+    this.kelurahan = null;
+    this.getKabupaten(prov);
+    for(let data of this.provinsi){
+      if(data.id_prov == prov) {
+        this.namaProvinsi = data.nama;
+        break;
+      }
+    }
+  }
+  getKabupaten(idProvinsi){
+    this.authHttp.get(this.userData.BASE_URL+"lokasi/kabupaten/"+idProvinsi).subscribe(data => {
+	       let response = data.json();
+	       if(response.status==200) {
+           this.kabupaten = response.data;
+	       }
+	    }, err => { 
+	       this.showError(err);
+	    });
+  }
+  changeKabupaten(kab){
+    this.kecamatan = null;
+    this.kelurahan = null;
+    this.getKecamatan(kab);
+    for(let data of this.kabupaten){
+      if(data.id_kab == kab) {
+        this.namaKabupaten = data.nama;
+        break;
+      }
+    }
+  }
+  getKecamatan(idKabupaten){
+    this.authHttp.get(this.userData.BASE_URL+"lokasi/kecamatan/"+idKabupaten).subscribe(data => {
+	       let response = data.json();
+	       if(response.status==200) {
+           this.kecamatan = response.data;
+	       }
+	    }, err => { 
+	       this.showError(err);
+	    });
+  }
+  changeKecamatan(kec){
+    this.kelurahan = null;
+    this.getKelurahan(kec);
+    for(let data of this.kecamatan){
+      if(data.id_kec == kec) {
+        this.namaKecamatan = data.nama;
+        break;
+      }
+    }
+  }
+  getKelurahan(idKecamatan){
+    this.authHttp.get(this.userData.BASE_URL+"lokasi/kelurahan/"+idKecamatan).subscribe(data => {
+	       let response = data.json();
+	       if(response.status==200) {
+           this.kelurahan = response.data;
+	       }
+	    }, err => { 
+	       this.showError(err);
+	    });
+  }
+  changeKelurahan(kel){
+    for(let data of this.kelurahan){
+      if(data.id_kel == kel) {
+        this.namaKelurahan = data.nama;
+        break;
+      }
+    }
+  }
+// End of get location
+
   getLatitudeLongitude(address){
     let geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address},(results, status)=> {
@@ -159,7 +259,7 @@ export class KirimStatusProduksiPage {
       if(this.useCurrentLocation) {
         this.postStatusProduksi();
       } else{
-        this.getLatitudeLongitude(this.inputAlamat);
+        this.getLatitudeLongitude(this.inputAlamat+" "+this.namaKelurahan+" "+this.namaKecamatan+" "+this.namaKabupaten+" "+this.namaProvinsi);
       }
     }
   }

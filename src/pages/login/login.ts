@@ -31,7 +31,6 @@ export class LoginPage {
     public loadCtrl: LoadingController,
     public userData: UserData) { }
   ionViewWillEnter(){
-    
   }
   onLogin(form: NgForm) {
     this.submitted = true;
@@ -42,7 +41,7 @@ export class LoginPage {
     if (form.valid) {
     loading.present();
       let input = JSON.stringify({
-        username: this.login.username, 
+        username: this.login.username.toLowerCase(), 
         password: this.login.password,
         login_type: 1
       });
