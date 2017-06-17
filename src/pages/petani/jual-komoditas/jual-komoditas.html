@@ -44,7 +44,7 @@
 		</ion-row>
 	    <ion-row padding-left>
           <ion-col>
-            <h5>Rp. {{data.harga}} per {{data.satuan_komoditas}}</h5>
+            <h5>{{formatCurrency(data.harga,'Rp.')}} /{{data.satuan_komoditas}}</h5>
           </ion-col>
           <ion-col>
             <h5>Stok: {{data.stok}} {{data.satuan_komoditas}}</h5>

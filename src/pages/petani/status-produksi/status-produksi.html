@@ -18,10 +18,26 @@
 	<div *ngIf="post.user_id == id">
 		<ion-row>
 			<ion-col text-left>
-				<ion-card-header>
-					<h3>{{post.nama_komoditas}}</h3>
-					<h3>{{post.jumlah}} {{post.satuan_komoditas}}</h3>
-					<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  
+				<ion-card-header no-padding>
+					<ion-grid>
+						<ion-row >
+							<ion-col col-1>
+								<img  style="max-height:40px;max-width:40px" src="assets/maps-icon/{{post.nama_komoditas.toLowerCase()}}.png">
+							</ion-col>
+							<ion-col col-10>
+								<p style="padding-top:5px;font-weight:bold;font-size:110%" color="primary">{{post.nama_komoditas}}</p>
+							</ion-col>
+							<ion-col>
+							</ion-col>
+							<ion-col>
+							</ion-col>
+							<ion-col>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+					<!--<h3>{{post.nama_komoditas}}</h3>-->
+					<h3 padding-left>{{post.jumlah}} {{post.satuan_komoditas}}</h3>
+					<!--<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  -->
 			    </ion-card-header>
 			</ion-col>
 			<div *ngIf="post.user_id == id">
@@ -33,9 +49,9 @@
 			</div>
 		</ion-row>
 	    <ion-card-content class="outer-content">
-            <h6>Waktu tanam {{post.date_tanam}}</h6>
-            <h6>Akan panen pada {{post.date_panen}}</h6>
-            <h6>Luas lahan {{post.luas_lahan}} m2</h6>
+            <p><ion-icon name="calendar"></ion-icon> Tanam {{post.date_tanam}}</p>
+            <p><ion-icon name="calendar"></ion-icon> Panen {{post.date_panen}}</p>
+            <p><ion-icon name="grid"></ion-icon> Luas lahan {{post.luas_lahan}} m2</p>
             <h3 padding-top>{{post.keterangan}}</h3>
 		    <p padding-top>
 		      <ion-icon name='pin'> </ion-icon>

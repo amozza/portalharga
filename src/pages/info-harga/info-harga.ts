@@ -114,6 +114,8 @@ export class InfoHargaPage {
     this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/day/0').subscribe(res => {
       let response = res.json();
       if(response.status == 200) {
+        console.log(response);
+        
         this.dataHarga = response.data;
         this.dataLaporanNow = response.data;
       } else if(response.status == 204) {
@@ -272,7 +274,7 @@ export class InfoHargaPage {
         let marker = new google.maps.Marker({
           position: latLng,
           map: this.map,
-          icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+          icon: 'assets/maps-icon/'+data.namaKomoditas.toLowerCase()+'.png',
           title: "Pasar 1"
         });
         this.marker.push(marker);
@@ -294,7 +296,10 @@ export class InfoHargaPage {
   postHargaKomoditas(){
     this.navCtrl.push(TambahInfoHargaPage);
   }
-  
+  //format uang (pemisah ribuan dengan koma)
+  formatCurrency(n, currency):string {
+    return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+  }
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):

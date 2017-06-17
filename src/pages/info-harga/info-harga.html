@@ -63,9 +63,20 @@
         <div *ngIf="segment=='now'||post.datePost==dateFormat">
           <ion-row>
             <ion-col text-left>
-              <ion-card-header> 
-                <h2>{{post.namaKomoditas}}</h2>
-                <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
+              <ion-card-header no-padding>
+                <ion-grid>
+                  <ion-row >
+                    <ion-col col-1>
+                      <img  style="max-height:40px;max-width:40px" src="assets/maps-icon/{{post.namaKomoditas.toLowerCase()}}.png">
+                    </ion-col>
+                    <ion-col col-10>
+                      <p style="padding-top:5px;font-weight:bold;font-size:120%" color="primary">{{post.namaKomoditas}}</p>
+                    </ion-col>
+                    <ion-col>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+                <h1 style="padding-left:10px">{{formatCurrency(post.harga,'Rp.')}} /{{post.satuan}}</h1>
               </ion-card-header>
             </ion-col>
             <ion-col text-right>
