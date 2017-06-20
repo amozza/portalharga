@@ -1,5 +1,5 @@
 <!--
-  Generated template for the PendukungOperasiPasar page.
+  Generated template for the TanggapanAspirasi page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,20 +7,23 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Pendukung</ion-title>
+    <ion-title>Tanggapan Aspirasi</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-	<div *ngFor="let data of pendukung">
-		<div ion-item>
+  <div *ngFor="let data of tanggapan">
+		<ion-item>
 			<ion-avatar item-left>
 				<img src="assets/icon/user.png" *ngIf="!data.picture">
 				<img [src]="data.picture" *ngIf="data.picture">
 			</ion-avatar>
-			{{data.name}}
-		</div>
+        <div class="line-break">
+        <h6><b>{{data.name}}</b></h6><p>{{data.isi}}</p>
+        </div>
+        <p><small>{{data.datePost}}</small></p>
+    </ion-item>
 	</div>
 </ion-content>

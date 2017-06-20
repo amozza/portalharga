@@ -43,8 +43,8 @@
 											<img [src]="data.user_picture" *ngIf="data.user_picture">
 									</ion-avatar>
 									<h6>{{data.nama}}</h6>
-									<h6>{{data.nama_komoditas}}</h6>
-									<p>{{data.time}} {{data.time!='now'?'ago':''}}</p>  
+									<h6 color="primary">{{data.nama_komoditas}}</h6>
+									<p><small>{{data.time}} {{data.time!='now'?'ago':''}}</small></p>  
 								</div>
 								</ion-card-header>
 					</ion-col>
@@ -56,7 +56,7 @@
 				</ion-row>
 	    	<ion-row padding-left>
           <ion-col>
-            <h5>Rp. {{data.harga}} per {{data.satuan_komoditas}}</h5>
+            <h5>{{formatCurrency(data.harga,'Rp.')}} /{{data.satuan_komoditas}}</h5>
           </ion-col>
           <ion-col>
             <h5>Stok: {{data.stok}} {{data.satuan_komoditas}}</h5>
@@ -67,14 +67,14 @@
 				<ion-card-content class="outer-content">
 					<ion-row>
 						<h6>
-							<ion-icon name='call'> </ion-icon>
-							{{data.user_nomor_telepon}}
+							<small><ion-icon name='call'> </ion-icon>
+							{{data.user_nomor_telepon}}</small>
 						</h6>
 					</ion-row>
 					<ion-row>
 						<h6>
-							<ion-icon name='pin'> </ion-icon>
-							{{data.address}}
+							<small><ion-icon name='pin'> </ion-icon>
+							{{data.address}}</small>
 						</h6>
 					</ion-row>
 				</ion-card-content>

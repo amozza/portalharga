@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 // Petani
 import { TabsPage } from '../pages/petani/tabs-petani/tabs';
 import { AspirasiPage } from '../pages/petani/aspirasi/aspirasi';
+import { TanggapanAspirasiPage } from '../pages/petani/tanggapan-aspirasi/tanggapan-aspirasi';
 import { EditAspirasiPage } from '../pages/petani/edit-aspirasi/edit-aspirasi';
 import { TambahAspirasiPage } from '../pages/petani/tambah-aspirasi/tambah-aspirasi';
 import { KirimStatusProduksiPage } from '../pages/petani/kirim-status-produksi/kirim-status-produksi';
@@ -21,6 +22,7 @@ import { EditJualKomoditasPage } from '../pages/petani/edit-jual-komoditas/edit-
 // Masyarakat
 import { TabsMasyarakatPage } from '../pages/masyarakat/tabs-masyarakat/tabs-masyarakat';
 import { OperasiPasarPage } from '../pages/masyarakat/operasi-pasar/operasi-pasar';
+import { TanggapanOperasiPasarPage } from '../pages/masyarakat/tanggapan-operasi-pasar/tanggapan-operasi-pasar';
 import { EditOperasiPasarPage } from '../pages/masyarakat/edit-operasi-pasar/edit-operasi-pasar';
 import { KirimOperasiPasarPage } from '../pages/masyarakat/kirim-operasi-pasar/kirim-operasi-pasar';
 import { PendukungOperasiPasarPage } from '../pages/masyarakat/pendukung-operasi-pasar/pendukung-operasi-pasar';
@@ -119,7 +121,9 @@ export function getAuthHttp(http) {
     VerifikasiAkunPage,
     ViewMateriPage,
     PdfViewerComponent,
-    EditPetaniPage
+    EditPetaniPage,
+    TanggapanAspirasiPage,
+    TanggapanOperasiPasarPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -169,7 +173,9 @@ export function getAuthHttp(http) {
     EditAlamatPage,
     VerifikasiAkunPage,
     ViewMateriPage,
-    EditPetaniPage
+    EditPetaniPage,
+    TanggapanAspirasiPage,
+    TanggapanOperasiPasarPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

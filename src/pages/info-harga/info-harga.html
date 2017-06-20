@@ -7,15 +7,15 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      <div *ngIf="userRole==3||userRole==4">
+      <!--<div *ngIf="userRole==4">
         Info Harga Hari Ini
-      </div>
-      <div *ngIf="userRole==5||userRole==6">
+      </div>-->
+      <div>
         Info Harga
       </div>
     </ion-title>
   </ion-navbar>
-  <ion-segment [(ngModel)]="segment" (ionChange)="updateSegment()" *ngIf="userRole==5">
+  <ion-segment [(ngModel)]="segment" (ionChange)="updateSegment()" *ngIf="userRole==3||userRole==4||userRole==5">
       <ion-segment-button value="now">
         Hari Ini
       </ion-segment-button>
@@ -29,6 +29,9 @@
       </ion-segment-button>
       <ion-segment-button value="trend">
         Trend harga
+      </ion-segment-button>
+      <ion-segment-button value="history">
+        Histori Laporan
       </ion-segment-button>
     </ion-segment>
     
@@ -58,9 +61,12 @@
   <div #map id="map" [hidden]="segment!='now'"></div> 
   <!--segment info harga hari ini dan history laporan harga-->
   <div *ngIf="segment=='now'||segment=='history'" class="content{{segment}}{{userRole}}">
-    <ion-card *ngFor="let post of dataHarga">
-      <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
-        <div *ngIf="segment=='now'||post.datePost==dateFormat">
+    <!--looping data-->
+    <div *ngFor="let post of dataHarga">
+      <!--buat filter komoditas-->
+      <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas"> 
+        <!--buat filter tanggal post-->
+        <ion-card *ngIf="segment=='now'||post.datePost==dateFormat">
           <ion-row>
             <ion-col text-left>
               <ion-card-header no-padding>
@@ -81,7 +87,7 @@
             </ion-col>
             <ion-col text-right>
               <button ion-button clear small  color="primary" (click)="presentActionSheet(post)" *ngIf="post.user_id == user_id">
-                <ion-icon name='more'></ion-icon>
+                <ion-icon name='ios-arrow-down-outline'></ion-icon>
               </button>
             </ion-col>
           </ion-row>
@@ -89,70 +95,118 @@
             <ion-icon name='pin'> </ion-icon>
             {{post.alamat}}
           </ion-card-content>
-        </div>
+        </ion-card>
       </div>
-    </ion-card>
+    </div>
   </div>
 
 
   <!--segment trend user pedagang-->
   <div *ngIf="segment=='trend'">
     <!--1 hari sebelumnya-->
-    <h6 padding-left padding-top>1 hari sebelumnya</h6>
+    <h4 padding-left padding-top><b>1 hari sebelumnya</b></h4>
     <ion-card *ngFor="let post of dataHarga1">
       <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
         <ion-row>
-          <ion-col text-left>
-            <ion-card-header> 
-              <h2>{{post.namaKomoditas}}</h2>
-              <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
-            </ion-card-header>
-          </ion-col>
-        </ion-row>
-        <ion-card-content class="outer-content">
-          <ion-icon name='pin'> </ion-icon>
-          {{post.alamat}}
-        </ion-card-content>
+            <ion-col text-left>
+              <ion-card-header no-padding>
+                <ion-grid>
+                  <ion-row >
+                    <ion-col col-1>
+                      <img  style="max-height:40px;max-width:40px" src="assets/maps-icon/{{post.namaKomoditas.toLowerCase()}}.png">
+                    </ion-col>
+                    <ion-col col-10>
+                      <p style="padding-top:5px;font-weight:bold;font-size:120%" color="primary">{{post.namaKomoditas}}</p>
+                    </ion-col>
+                    <ion-col>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+                <h1 style="padding-left:10px">{{formatCurrency(post.harga,'Rp.')}} /{{post.satuan}}</h1>
+              </ion-card-header>
+            </ion-col>
+            <ion-col text-right>
+              <button ion-button clear small  color="primary" (click)="presentActionSheet(post)" *ngIf="post.user_id == user_id">
+                <ion-icon name='ios-arrow-down-outline'></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+          <ion-card-content class="outer-content">
+            <ion-icon name='pin'> </ion-icon>
+            {{post.alamat}}
+          </ion-card-content>
       </div>
     </ion-card>
     <!--2 hari sebelumnya-->
-    <h6 padding-left>2 hari sebelumnya</h6>
+    <h4 padding-left><b>2 hari sebelumnya</b></h4>
     <ion-card *ngFor="let post of dataHarga2">
       <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
         <ion-row>
-          <ion-col text-left>
-            <ion-card-header> 
-              <h2>{{post.namaKomoditas}}</h2>
-              <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
-            </ion-card-header>
-          </ion-col>
-        </ion-row>
-        <ion-card-content class="outer-content">
-          <ion-icon name='pin'> </ion-icon>
-          {{post.alamat}}
-        </ion-card-content>
+            <ion-col text-left>
+              <ion-card-header no-padding>
+                <ion-grid>
+                  <ion-row >
+                    <ion-col col-1>
+                      <img  style="max-height:40px;max-width:40px" src="assets/maps-icon/{{post.namaKomoditas.toLowerCase()}}.png">
+                    </ion-col>
+                    <ion-col col-10>
+                      <p style="padding-top:5px;font-weight:bold;font-size:120%" color="primary">{{post.namaKomoditas}}</p>
+                    </ion-col>
+                    <ion-col>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+                <h1 style="padding-left:10px">{{formatCurrency(post.harga,'Rp.')}} /{{post.satuan}}</h1>
+              </ion-card-header>
+            </ion-col>
+            <ion-col text-right>
+              <button ion-button clear small  color="primary" (click)="presentActionSheet(post)" *ngIf="post.user_id == user_id">
+                <ion-icon name='ios-arrow-down-outline'></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+          <ion-card-content class="outer-content">
+            <ion-icon name='pin'> </ion-icon>
+            {{post.alamat}}
+          </ion-card-content>
       </div>
     </ion-card>
     <!--3 hari sebelumnya-->
-    <h6 padding-left>3 hari sebelumnya</h6>
+    <h4 padding-left><b>3 hari sebelumnya</b></h4>
     <ion-card *ngFor="let post of dataHarga3">
       <div *ngIf="choosedKomoditas=='All'||post.komoditas_id==choosedKomoditas">
         <ion-row>
-          <ion-col text-left>
-            <ion-card-header> 
-              <h2>{{post.namaKomoditas}}</h2>
-              <h5>Rp. {{post.harga}} per {{post.satuan}}</h5>
-            </ion-card-header>
-          </ion-col>
-        </ion-row>
-        <ion-card-content class="outer-content">
-          <ion-icon name='pin'> </ion-icon>
-          {{post.alamat}}
-        </ion-card-content>
+            <ion-col text-left>
+              <ion-card-header no-padding>
+                <ion-grid>
+                  <ion-row >
+                    <ion-col col-1>
+                      <img  style="max-height:40px;max-width:40px" src="assets/maps-icon/{{post.namaKomoditas.toLowerCase()}}.png">
+                    </ion-col>
+                    <ion-col col-10>
+                      <p style="padding-top:5px;font-weight:bold;font-size:120%" color="primary">{{post.namaKomoditas}}</p>
+                    </ion-col>
+                    <ion-col>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+                <h1 style="padding-left:10px">{{formatCurrency(post.harga,'Rp.')}} /{{post.satuan}}</h1>
+              </ion-card-header>
+            </ion-col>
+            <ion-col text-right>
+              <button ion-button clear small  color="primary" (click)="presentActionSheet(post)" *ngIf="post.user_id == user_id">
+                <ion-icon name='ios-arrow-down-outline'></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+          <ion-card-content class="outer-content">
+            <ion-icon name='pin'> </ion-icon>
+            {{post.alamat}}
+          </ion-card-content>
       </div>
     </ion-card>
   </div>
-    <ion-fab bottom right #fab *ngIf="userRole==5">
+    <ion-fab bottom right #fab >
       <button ion-fab (click)="postHargaKomoditas()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
 </ion-content>

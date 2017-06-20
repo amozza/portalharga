@@ -49,6 +49,9 @@ export class InfoHargaPage {
     ) {}
 
   ionViewWillEnter() {
+    var date = new Date();
+    this.dateFilter = moment(date).format('YYYY-MM-DD');
+    this.dateFormat = this.dateFilter;
     this.userData.getRole().then((value)=>{
       this.userRole = value;
     });
@@ -63,8 +66,6 @@ export class InfoHargaPage {
       }
     });
     this.getDataHarga();
-    var now = moment();
-    this.dateFilter = moment(now.format(), moment.ISO_8601).format();
   } 
   ionViewDidLoad() {
     let latLng = new google.maps.LatLng(-6.560284, 106.7233045);

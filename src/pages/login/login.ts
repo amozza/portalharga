@@ -79,8 +79,13 @@ export class LoginPage {
              this.showAlert(response.message);
            }
         }, err => { 
-           loading.dismiss();
-           this.showError(err);
+            loading.dismiss();
+            let data = err.json();
+            if(err.status == 400){
+              this.showAlert(data.message);
+            } else{
+              this.showError(err);
+            }
         });
       
     }

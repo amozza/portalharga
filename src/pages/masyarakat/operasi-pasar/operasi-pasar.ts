@@ -5,7 +5,7 @@ import { UserData } from '../../../providers/user-data';
 import { KirimOperasiPasarPage } from '../kirim-operasi-pasar/kirim-operasi-pasar';
 import { EditOperasiPasarPage } from '../edit-operasi-pasar/edit-operasi-pasar';
 import { PendukungOperasiPasarPage } from '../pendukung-operasi-pasar/pendukung-operasi-pasar';
-
+import { TanggapanOperasiPasarPage } from "../tanggapan-operasi-pasar/tanggapan-operasi-pasar";
 /*
   Generated class for the OperasiPasar page.
 
@@ -53,6 +53,9 @@ export class OperasiPasarPage {
   }
   lihatPendukung(idOperasi){
      this.navCtrl.push(PendukungOperasiPasarPage,idOperasi);
+  }
+  lihatTanggapan(idOperasi){
+     this.navCtrl.push(TanggapanOperasiPasarPage,idOperasi);
   }
   dukungOperasi(idOperasi){
     let param = JSON.stringify({

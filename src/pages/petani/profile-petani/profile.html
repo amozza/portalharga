@@ -58,14 +58,14 @@
 									<img [src]="data.picture" *ngIf="data.picture">
 								</ion-avatar>
 								<h6>{{data.name}}</h6>
-								<p>{{data.time}} {{data.time!='now'?'ago':''}}</p>  
+								<p><small>{{data.time}} {{data.time!='now'?'ago':''}}</small></p>  
 							</div>
 							</ion-card-header>
 					</ion-col> 
 					<div *ngIf="data.user_id == user_id">
 						<ion-col text-right>
 							<button ion-button clear small  color="primary" (click)="presentActionSheetAspirasi(data)">
-										<ion-icon name='more'></ion-icon>
+										<ion-icon name='ios-arrow-down-outline'></ion-icon>
 									</button>
 						</ion-col>
 					</div>
@@ -95,14 +95,14 @@
 											<img [src]="data.user_picture" *ngIf="data.user_picture">
 									</ion-avatar>
 									<h6>{{data.nama}}</h6>
-									<h6>{{data.nama_komoditas}}</h6>
-									<p>{{data.time}} {{data.time!='now'?'ago':''}}</p>  
+									<h6 color="primary"><b>{{data.nama_komoditas}}</b></h6>
+									<p><small>{{data.time}} {{data.time!='now'?'ago':''}}</small></p>  
 								</div>
 								</ion-card-header>
 					</ion-col>
 					<ion-col text-right *ngIf="data.user_id==user_id">
 						<button ion-button clear small  color="primary" (click)="presentActionSheetDagangan(data)">
-									<ion-icon name='more'></ion-icon>
+									<ion-icon name='ios-arrow-down-outline'></ion-icon>
 								</button>
 					</ion-col>
 				</ion-row>
@@ -119,14 +119,14 @@
 				<ion-card-content class="outer-content">
 					<ion-row>
 						<h6>
-							<ion-icon name='call'> </ion-icon>
-							{{data.user_nomor_telepon}}
+							<small><ion-icon name='call'> </ion-icon>
+							{{data.user_nomor_telepon}}</small>
 						</h6>
 					</ion-row>
 					<ion-row>
 						<h6>
-							<ion-icon name='pin'> </ion-icon>
-							{{data.address}}
+							<small><ion-icon name='pin'> </ion-icon>
+							{{data.address}}</small>
 						</h6>
 					</ion-row>
 				</ion-card-content>

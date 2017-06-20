@@ -14,15 +14,13 @@
 
 
 <ion-content>
-	<ion-card *ngFor="let data of pendukung">
-		<ion-card-header>
-			<div ion-item>
-		        <ion-avatar item-left>
-		          <img src="assets/icon/user.png" *ngIf="!data.picture">
-		          <img [src]="data.picture" *ngIf="data.picture">
-		        </ion-avatar>
-		        {{data.name}}
-	        </div>
-	    </ion-card-header>
-	</ion-card>
+	<div *ngFor="let data of pendukung">
+		<div ion-item>
+			<ion-avatar item-left>
+				<img src="assets/icon/user.png" *ngIf="!data.picture">
+				<img [src]="data.picture" *ngIf="data.picture">
+			</ion-avatar>
+			{{data.name}}
+			</div>
+	</div>
 </ion-content>

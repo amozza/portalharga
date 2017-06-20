@@ -14,19 +14,20 @@
 
 
 <ion-content>
-	<ion-card *ngFor="let data of userPetani">
+	<div *ngFor="let data of userPetani">
 		<ion-row (click)="presentActionSheet(data)">
-			<ion-card-header>
-				<div ion-item>
-					<ion-avatar item-left>
-						<img src="assets/icon/user.png" *ngIf="!data.picture">
-						<img [src]="data.picture" *ngIf="data.picture">
-					</ion-avatar>
-						{{data.name}}
+			<div ion-item>
+				<ion-avatar item-left>
+					<img src="assets/icon/user.png" *ngIf="!data.picture">
+					<img [src]="data.picture" *ngIf="data.picture">
+				</ion-avatar>
+				<h5>{{data.name}}</h5>
+				<div class="line-break">
+					<p><small>{{data.address}}</small></p>
 				</div>
-			</ion-card-header>
+			</div>
 		</ion-row>
-	</ion-card>
+	</div>
 	<ion-fab bottom right #fab >
     	<button ion-fab (click)="tambahPetani()"><ion-icon name="add"></ion-icon></button>
   	</ion-fab>

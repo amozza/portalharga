@@ -125,6 +125,10 @@ export class ProfilePedagangPage {
         this.showError(err);
     });
   }
+  //format uang (pemisah ribuan dengan koma)
+  formatCurrency(n, currency):string {
+    return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+  }
   showError(err: any){  
     err.status==0? 
     this.showAlert("Tidak ada koneksi. Cek kembali sambungan Internet perangkat Anda"):

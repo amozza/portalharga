@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Request Operasi Pasar</ion-title>
+    <ion-title>Operasi Pasar</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -24,15 +24,15 @@
                   <img [src]="data.picture" *ngIf="data.picture">
                 </ion-avatar>
               <h6>{{data.nama}}</h6>
-              <h6>{{data.namaKomoditas}}</h6>
-              <p>{{data.time}} {{data.time!='now'?'ago':''}}</p>
+              <h6 color="primary" ><b>{{data.namaKomoditas}}</b></h6>
+              <p><small>{{data.time}} {{data.time!='now'?'ago':''}}</small></p>
             </div>
           </ion-card-header>
         </ion-col>
         <div *ngIf="data.user_id == user_id">
           <ion-col text-right>
             <button ion-button clear small  color="primary" (click)="presentActionSheet(data)">
-              <ion-icon name='more'></ion-icon>
+              <ion-icon name='ios-arrow-down-outline'></ion-icon>
              </button>
           </ion-col>
         </div>
@@ -44,27 +44,32 @@
         </ion-row>
         <ion-row padding-left>
           <ion-col>
-            <ion-icon name='pin'></ion-icon>
-            {{data.alamat}}
+            <small><ion-icon name='pin'></ion-icon>
+            {{data.alamat}}</small>
           </ion-col>
         </ion-row>
         <ion-row no-padding>
           <ion-col text-left>
             <button ion-button clear small  color="primary" (click)="lihatPendukung(data.operasiPasar_id)">
-              {{data.totalPendukung}} Pendukung
+              <small>{{data.totalPendukung}} Pendukung</small>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button clear small  color="primary" (click)="lihatTanggapan(data.operasiPasar_id)">
+              <small>{{data.totalTanggapan}} Tanggapan</small>
             </button>
           </ion-col>
           <ion-col text-right>
             <div *ngIf="data.user_id != user_id && data.status_voted == false">
               <button ion-button clear small color="primary" icon-left (click)="dukungOperasi(data.operasiPasar_id)" >
-                <ion-icon name='thumbs-up'></ion-icon>
-                Dukung
+                <small><ion-icon name='thumbs-up'></ion-icon>
+                Dukung</small>
               </button>
           </div>
           <div *ngIf="data.user_id != user_id && data.status_voted == true">
               <button ion-button clear small color="primary" icon-left (click)="batalDukungOperasi(data.operasiPasar_id)" >
-                <ion-icon name='thumbs-up'></ion-icon>
-                Batal Dukung
+                <small><ion-icon name='thumbs-up'></ion-icon>
+                Batal Dukung</small>
               </button>
           </div>
           </ion-col>

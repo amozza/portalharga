@@ -36,26 +36,26 @@
 						</ion-row>
 					</ion-grid>
 					<!--<h3>{{post.nama_komoditas}}</h3>-->
-					<h3 padding-left>{{post.jumlah}} {{post.satuan_komoditas}}</h3>
+					<h1 padding-left>{{post.jumlah}} {{post.satuan_komoditas}}</h1>
 					<!--<h6>{{post.time}} {{post.time!='now'?'ago':''}}</h6>  -->
 			    </ion-card-header>
 			</ion-col>
 			<div *ngIf="post.user_id == id">
 			<ion-col text-right>
 				<button ion-button clear small  color="primary" (click)="presentActionSheet(post)">
-	        	 	<ion-icon name='more'></ion-icon>
+	        	 	<ion-icon name='ios-arrow-down-outline'></ion-icon>
 	        	 </button>
 			</ion-col>
 			</div>
 		</ion-row>
 	    <ion-card-content class="outer-content">
-            <p><ion-icon name="calendar"></ion-icon> Tanam {{post.date_tanam}}</p>
-            <p><ion-icon name="calendar"></ion-icon> Panen {{post.date_panen}}</p>
-            <p><ion-icon name="grid"></ion-icon> Luas lahan {{post.luas_lahan}} m2</p>
+            <p><b><ion-icon name="calendar"></ion-icon> Tanam</b> {{post.date_tanam}}</p>
+            <p><b><ion-icon name="calendar"></ion-icon> Panen</b> {{post.date_panen}}</p>
+            <p><b><ion-icon name="grid"></ion-icon> Luas lahan</b> {{post.luas_lahan}} m<sup>2</sup></p>
             <h3 padding-top>{{post.keterangan}}</h3>
 		    <p padding-top>
-		      <ion-icon name='pin'> </ion-icon>
-	        	{{post.alamat}}
+		      <small><ion-icon name='pin'> </ion-icon>
+	        	{{post.alamat}}</small>
 	        </p>
 	    </ion-card-content>
 	 </div>

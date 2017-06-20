@@ -41,7 +41,7 @@ export class ForgetPasswordPage {
     if (form.valid) {
       loading.present();
       let input = JSON.stringify({
-        username: this.user.username
+        username: this.user.username.toLowerCase()
       });
       this.http.post(this.userData.BASE_URL+"user/email/forgetPassword",input,this.options).subscribe(data => {
          let response = data.json();

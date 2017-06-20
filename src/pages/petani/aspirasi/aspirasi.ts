@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ActionSheetController, NavParams, ToastController,LoadingController} from 'ionic-angular';
 import { TambahAspirasiPage } from '../tambah-aspirasi/tambah-aspirasi';
 import { PendukungPage } from '../pendukung/pendukung';
+import { TanggapanAspirasiPage } from "../tanggapan-aspirasi/tanggapan-aspirasi";
 import { EditAspirasiPage } from '../edit-aspirasi/edit-aspirasi';
 import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
@@ -47,6 +48,7 @@ export class AspirasiPage {
   getAspirasi() {
     this.authHttp.get(this.userData.BASE_URL+'aspirasi/get').subscribe(res => {
       let response = res.json();
+      console.log(response);
       if(response.status == 200) {
         this.aspirasi = response.data;
       } else if(response.status == 204){
@@ -139,6 +141,9 @@ export class AspirasiPage {
   }
   lihatPendukung(aspirasi_id) {
      this.navCtrl.push(PendukungPage,aspirasi_id);
+  }
+  lihatTanggapan(aspirasi_id) {
+     this.navCtrl.push(TanggapanAspirasiPage,aspirasi_id);
   }
 
   showAlert(message: string){
