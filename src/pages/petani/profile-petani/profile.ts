@@ -9,6 +9,7 @@ import { PendukungPage } from '../pendukung/pendukung';
 import { PopoverPage } from '../../popover/popover';
 import { EditAspirasiPage } from '../edit-aspirasi/edit-aspirasi';
 import { EditJualKomoditasPage } from '../edit-jual-komoditas/edit-jual-komoditas';
+import { TanggapanAspirasiPage } from "../tanggapan-aspirasi/tanggapan-aspirasi";
 
 
 /*
@@ -104,6 +105,9 @@ export class ProfilePetaniPage {
   }
   lihatPendukung(idAspirasi) {
      this.nav.push(PendukungPage,idAspirasi);
+  }
+  lihatTanggapan(aspirasi_id) {
+     this.nav.push(TanggapanAspirasiPage,aspirasi_id);
   }
   hapusAspirasi(aspirasi_id){
     this.loading.present();

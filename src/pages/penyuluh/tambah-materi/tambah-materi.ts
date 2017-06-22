@@ -77,25 +77,20 @@ export class TambahMateriPage {
             headers: {"Authorization":this.token},
             params: {"judul":this.materi.judul,"keterangan":this.materi.keterangan},
             chunkedMode : false
-        
         }
         fileTransfer.upload(this.uriFile, this.userData.BASE_URL+'materi/add', options1)
 	       .then((data) => {
-           this.loading.dismiss()
-	       	let responseData = JSON.parse(JSON.stringify(data));
-          let response = responseData.response;
-          let a = JSON.parse(response);
-          if(a.status==200) {
-            this.navCtrl.popToRoot();
+            this.loading.dismiss()
+            let responseData = JSON.parse(JSON.stringify(data));
+            let response = responseData.response;
+            let a = JSON.parse(response);
             this.showAlert(a.message);
-          } else {
-            this.showAlert(a.message);
-          }
-	       
+            if(a.status==200) {
+              this.navCtrl.popToRoot();
+            }
 	       }, (err) => {
            this.loading.dismiss()
-	       // error
-	      //  alert("error"+JSON.stringify(err));
+	          alert("error"+JSON.stringify(err));
 	      });
       }
     } else {

@@ -71,14 +71,21 @@
 					</div>
 				</ion-row>
 					<ion-card-content class="outer-content">
-						<h2 padding="true">{{data.subjek}}</h2>
-								<h3 padding="true">{{data.isi}}</h3>
+						<h2 >{{data.subjek}}</h2>
+						<h3 padding-top>{{data.isi}}</h3>
 					</ion-card-content>
 					<ion-row no-padding>
 						<ion-col text-left>
 							<button ion-button clear small  color="primary" (click)="lihatPendukung(data.aspirasi_id)">
-								{{data.total_pendukung}} Pendukung
+								<small>{{data.total_pendukung}} Pendukung</small>
 							</button>
+						</ion-col>
+						<ion-col>
+							<button ion-button clear small  color="primary" (click)="lihatTanggapan(data.aspirasi_id)">
+								<small>{{data.total_tanggapan}} Tanggapan</small>
+							</button>
+						</ion-col>
+						<ion-col text-right>
 						</ion-col>
 					</ion-row>
 			</ion-card>

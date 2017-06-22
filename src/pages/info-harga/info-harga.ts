@@ -119,9 +119,6 @@ export class InfoHargaPage {
         
         this.dataHarga = response.data;
         this.dataLaporanNow = response.data;
-      } else if(response.status == 204) {
-        this.dataHarga = [];
-        this.dataLaporanNow = [];
       }
       this.loadMarker();
     }, err => { console.log(err);
@@ -134,8 +131,6 @@ export class InfoHargaPage {
       let response = res.json();
       if(response.status == 200) {
         this.dataHarga1 = response.data;
-      } else if(response.status == 204) {
-        this.dataHarga1 = [];
       }
       this.loadMarker();
     }, err => { console.log(err);
@@ -148,8 +143,6 @@ export class InfoHargaPage {
       let response = res.json();
       if(response.status == 200) {
         this.dataHarga2 = response.data;
-      } else if(response.status == 204) {
-        this.dataHarga2 = [];
       }
       this.loadMarker();
     }, err => { console.log(err);
@@ -162,8 +155,6 @@ export class InfoHargaPage {
       let response = res.json();
       if(response.status == 200) {
         this.dataHarga3 = response.data;
-      } else if(response.status == 204) {
-        this.dataHarga3 = [];
       }
       this.loadMarker();
     }, err => { console.log(err);
@@ -178,9 +169,6 @@ export class InfoHargaPage {
       if(response.status == 200) {
         this.dataHarga = response.data;
         this.dataLaporanHistory = response.data;
-      } else if(response.status == 204) {
-        this.dataHarga = [];
-        this.dataLaporanHistory = [];
       }
     }, err => { console.log(err);
         this.showError(err);

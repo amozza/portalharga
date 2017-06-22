@@ -7,6 +7,8 @@ import { Storage } from '@ionic/storage';
 import { PopoverPage } from '../../popover/popover';
 import { AuthHttp } from 'angular2-jwt';
 import { EditOperasiPasarPage } from '../edit-operasi-pasar/edit-operasi-pasar';
+import { PendukungOperasiPasarPage } from '../pendukung-operasi-pasar/pendukung-operasi-pasar';
+import { TanggapanOperasiPasarPage } from "../tanggapan-operasi-pasar/tanggapan-operasi-pasar";
 
 /*
   Generated class for the ProfileMasyarakat page.
@@ -116,6 +118,12 @@ export class ProfileMasyarakatPage {
   }
   editProfile(){
     this.navCtrl.push(ProfileEditPage);
+  }
+  lihatPendukung(idOperasi){
+     this.navCtrl.push(PendukungOperasiPasarPage,idOperasi);
+  }
+  lihatTanggapan(idOperasi){
+     this.navCtrl.push(TanggapanOperasiPasarPage,idOperasi);
   }
 
   logout() {
