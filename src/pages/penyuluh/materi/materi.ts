@@ -15,9 +15,11 @@ import { ViewMateriPage } from "../view-materi/view-materi";
   templateUrl: 'materi.html'
 })
 export class MateriPage {
-  materi:any;
-  loading: any;
-  user_id: number;
+  public materi = [];
+  public originalMateri = [];
+  public loading: any;
+  public user_id: number;
+  public searchTerm: string = '';
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -34,6 +36,16 @@ export class MateriPage {
     this.getMateri();
   }
 
+  onSearchInput(){
+        this.materi = this.filterItems(this.searchTerm);
+  }
+
+  filterItems(searchTerm){
+      return this.originalMateri.filter((item) => {
+          return item.judul.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || item.keterangan.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 ;
+      });     
+  }
+
   tambahMateri(){
     this.navCtrl.push(TambahMateriPage);
   }
@@ -46,6 +58,7 @@ export class MateriPage {
       } else if(response.status == 204){
         this.materi = [];
       }
+      this.originalMateri = this.materi;
     }, err => { console.log(err);
         this.showError(err);
     });

@@ -3,7 +3,7 @@ import { NavController, NavParams, ToastController, ActionSheetController, Loadi
 import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
 import { TambahPetaniPage } from '../tambah-petani/tambah-petani';
-import { EditPetaniPage } from '../edit-petani/edit-petani';
+import { ViewPetaniPage } from '../view-petani/view-petani';
 /*
   Generated class for the ListPetani page.
 
@@ -16,7 +16,9 @@ import { EditPetaniPage } from '../edit-petani/edit-petani';
 })
 export class ListPetaniPage {
 	public userPetani = [];
+  public originalUserPetani = [];
   public loading: any;
+  public searchTerm: string = '';
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -29,6 +31,16 @@ export class ListPetaniPage {
   ionViewWillEnter(){
     this.getData();
   }
+  
+  onSearchInput(){
+        this.userPetani = this.filterItems(this.searchTerm);
+  }
+
+  filterItems(searchTerm){
+      return this.originalUserPetani.filter((item) => {
+          return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+      });     
+  }
 
   getData() {
     this.authHttp.get(this.userData.BASE_URL+'user/get/role/4').subscribe(res => {
@@ -39,6 +51,7 @@ export class ListPetaniPage {
       } else if(response.status == 204) {
       	this.userPetani = [];
       }
+      this.originalUserPetani = this.userPetani;
     }, err => { console.log(err);
         this.showError(err);
     });
@@ -46,50 +59,9 @@ export class ListPetaniPage {
   tambahPetani(){
     this.navCtrl.push(TambahPetaniPage,2);
   }
-  editPetani(data){
-    this.navCtrl.push(EditPetaniPage,data);
-  }
-  hapusPetani(user_id){
-    this.loading = this.loadCtrl.create({
-        content: 'Tunggu sebentar...'
-    });
-    this.loading.present();
-    let param = JSON.stringify({
-      user_id : user_id
-    });
-    this.authHttp.post(this.userData.BASE_URL+'user/delete',param).subscribe(res => {
-      this.loading.dismiss();
-      let response = res.json();
-      if(response.status == 200) {
-        this.getData();
-        this.showAlert(response.message);
-      }
-    }, err => { 
-      this.loading.dismiss();
-      this.showError(err);
-    });
-  }
+  
   presentActionSheet(dataPetani) {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Pilihan',
-      buttons: [
-        {
-          text: 'Edit petani',
-          role: 'editPetani',
-          handler: () => {
-            this.editPetani(dataPetani);
-          }
-        },
-        {
-          text: 'Hapus petani',
-          role: 'hapusPetani',
-          handler: () => {
-            this.hapusPetani(dataPetani.user_id);
-          }
-        }
-      ]
-    });
-    actionSheet.present();
+    this.navCtrl.push(ViewPetaniPage,dataPetani);
   }
   showError(err: any){  
     err.status==0? 

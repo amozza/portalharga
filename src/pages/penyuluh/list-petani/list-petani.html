@@ -9,11 +9,13 @@
   <ion-navbar>
     <ion-title>Daftar petani</ion-title>
   </ion-navbar>
+	<ion-searchbar no-padding placeholder="Cari berdasarkan nama" [(ngModel)]="searchTerm" (ionInput)="onSearchInput()"></ion-searchbar>
 
 </ion-header>
 
 
 <ion-content>
+
 	<div *ngFor="let data of userPetani">
 		<ion-row (click)="presentActionSheet(data)">
 			<div ion-item>

@@ -9,6 +9,7 @@
   <ion-navbar>
     <ion-title>Materi</ion-title>
   </ion-navbar>
+  <ion-searchbar no-padding placeholder="Cari" [(ngModel)]="searchTerm" (ionInput)="onSearchInput()"></ion-searchbar>
 
 </ion-header>
 
