@@ -41,7 +41,6 @@ export class OperasiPasarPage {
   getOperasi() {
     this.authHttp.get(this.userData.BASE_URL+'operasiPasar/get').subscribe(res => {
         let response = res.json();
-        console.log(response);
         if(response.status == 200) {
           this.dataOperasi = response.data;
         } else if(response.status == 204) {

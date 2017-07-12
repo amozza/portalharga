@@ -51,7 +51,6 @@ export class ProfileMasyarakatPage {
       this.user_id = value;
       this.authHttp.get(this.userData.BASE_URL+'operasiPasar/operasi/get/'+this.user_id).subscribe(res => {
         let response = res.json();
-        console.log(response);
         if(response.status == 200) {
           this.dataOperasi = response.data;
         } else if(response.status == 204) {
@@ -67,10 +66,8 @@ export class ProfileMasyarakatPage {
     let param = JSON.stringify({
         operasiPasar_id : idOperasi
       });
-     console.log(param);
     this.authHttp.post(this.userData.BASE_URL+'operasiPasar/delete',param).subscribe(res => {
       let response = res.json();
-      console.log(response);
       if(response.status == 200) {
         this.getOperasi();
         this.showAlert(response.message);

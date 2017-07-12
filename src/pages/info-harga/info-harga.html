@@ -49,9 +49,11 @@
       </ion-col>
       <ion-col no-padding *ngIf="segment=='history'">
          <ion-item no-lines> 	
-           <ion-label stacked>Tanggal</ion-label>
-          <ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="dateFilter" (ionChange)="changeDateFilter(dateFilter)" name="date" max="2100" #date="ngModel" required placeholder="Perkiraan waktu panen">
-          </ion-datetime>
+           <ion-label stacked>Tanggal</ion-label> 
+           <ion-input type="date" [(ngModel)]="dateFilter" (ionChange)="changeDateFilter(dateFilter)" name="date" >
+				   </ion-input>
+          <!--<ion-datetime displayFormat="D MMMM YYYY" pickerFormat="D MMMM YYYY" [(ngModel)]="dateFilter" (ionChange)="changeDateFilter(dateFilter)" name="date" max="2100" #date="ngModel">-->
+          <!--</ion-datetime>-->
         </ion-item>
       </ion-col>
     </ion-row>

@@ -44,7 +44,6 @@ import { EditMateriPage } from '../pages/penyuluh/edit-materi/edit-materi';
 import { TambahPetaniPage } from '../pages/penyuluh/tambah-petani/tambah-petani';
 import { ProfilePenyuluhPage } from '../pages/penyuluh/profile-penyuluh/profile-penyuluh';
 import { ViewPetaniPage } from '../pages/penyuluh/view-petani/view-petani';
-import { PopoverViewPetaniPage } from '../pages/penyuluh/popover-view-petani/popover-view-petani';
 import { EditAlamatPetaniPage } from '../pages/penyuluh/edit-alamat-petani/edit-alamat-petani';
 //General
 import { InfoHargaPage } from '../pages/info-harga/info-harga';
@@ -128,7 +127,6 @@ export function getAuthHttp(http) {
     TanggapanAspirasiPage,
     TanggapanOperasiPasarPage,
     ViewPetaniPage,
-    PopoverViewPetaniPage,
     EditAlamatPetaniPage
   ],
   imports: [
@@ -183,7 +181,6 @@ export function getAuthHttp(http) {
     TanggapanAspirasiPage,
     TanggapanOperasiPasarPage,
     ViewPetaniPage,
-    PopoverViewPetaniPage,
     EditAlamatPetaniPage
   ],
   providers: [

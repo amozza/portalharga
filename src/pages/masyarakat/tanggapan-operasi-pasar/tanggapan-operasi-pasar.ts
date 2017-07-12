@@ -29,7 +29,6 @@ export class TanggapanOperasiPasarPage {
   getTanggapan() {
     this.authHttp.get(this.userData.BASE_URL+'operasiPasar/tanggapan/get/'+this.operasiPasar_id).subscribe(res => {
       let response = res.json();
-      console.log(response);
       if(response.status == 200) {
         this.tanggapan = response.data;
       } else if(response.status == 204){

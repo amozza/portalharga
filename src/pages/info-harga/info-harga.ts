@@ -115,8 +115,6 @@ export class InfoHargaPage {
     this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/day/0').subscribe(res => {
       let response = res.json();
       if(response.status == 200) {
-        console.log(response);
-        
         this.dataHarga = response.data;
         this.dataLaporanNow = response.data;
       }
@@ -165,7 +163,6 @@ export class InfoHargaPage {
   getHistoryLaporanHarga(){
     this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/laporan/'+this.user_id).subscribe(res => {
       let response = res.json();
-      console.log(response);
       if(response.status == 200) {
         this.dataHarga = response.data;
         this.dataLaporanHistory = response.data;
