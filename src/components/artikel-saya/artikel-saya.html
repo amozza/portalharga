@@ -1,0 +1,51 @@
+<!-- template for artikel saya only -->
+<ion-row *ngIf="passedData == 'saya' ">
+  <ion-col col-4>
+    <!-- select menu filter by-->
+    <ion-select placeholder="Filter" interface="popover" [(ngModel)]="filterBy" (ionChange)="changeFilter(filterBy)" name="filterBy" [selectOptions]="selectOptions">
+      <ion-option value='Draf'>Draf</ion-option>
+      <ion-option value='Terbit'>Terbit</ion-option>      
+    </ion-select> 
+  </ion-col>
+  <ion-col col-4 >
+    <!-- select menu urutkan -->
+    <ion-select placeholder="Urutkan" interface="popover" [(ngModel)]="sortBy" (ionChange)="changeFilter(sortBy)" name="sortBy" [selectOptions]="{title: 'Urut berdasarkan'}">
+      <ion-option value='Terbaru'>Terbaru</ion-option>
+      <ion-option value='Teriama'>Terlama</ion-option>      
+    </ion-select>     
+  </ion-col> 
+</ion-row>
+<!-- /end of template for artikel saya only -->
+
+<ion-card *ngFor="let item of data">   
+      <!-- for artikel saya only -->
+      <ion-card-header *ngIf="passedData == 'saya' ">
+        <span style="float: right">
+          <ion-icon (click)="presentActionSheet()"name="more"></ion-icon>
+        </span>
+      </ion-card-header>
+
+      <div (click)="pushArtikelPreviewPage()">
+        <div class="box-image">
+          <img src="assets/icon/pedagang.png"> 
+        </div>
+        <ion-row>
+          <ion-card-content>
+            <ion-card-title style="font-size: 2.0rem">
+              Tahukah anda bahwa hama yang paling sulit di basmi adalah hama
+            </ion-card-title>
+            <p *ngIf="passedData == 'saya' "> <!-- for artikel saya only -->
+              <span class="status-artikel" float-left>Terakhir 20 Maret 2018 18:00 </span> <span style="float:right" class="status-artikel"><i>Terbit</i></span>
+            </p>
+          </ion-card-content>     
+        </ion-row>
+      </div>
+</ion-card>
+
+<ion-infinite-scroll threshold="10px" (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll-content></ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+
+
+

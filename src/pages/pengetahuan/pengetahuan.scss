@@ -1,0 +1,12 @@
+page-pengetahuan {
+    .themeTabs{
+    a.tab-button[aria-selected=true] {
+		color: color($colors,kms-primary);
+		.tab-button-icon {
+			color: color($colors,kms-primary);
+		}
+	}
+
+
+    }
+}

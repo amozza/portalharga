@@ -1,0 +1,34 @@
+
+<ion-header no-border>
+  <ion-segment [(ngModel)]="segment">
+    <ion-segment-button value="explore" (ionSelect)="selectedSegment($event.value)">
+      Explore
+    </ion-segment-button>
+    <ion-segment-button value="favorite" (ionSelect)="selectedSegment($event.value)">
+      Favorit
+    </ion-segment-button>
+    <ion-segment-button value="saya" (ionSelect)="selectedSegment($event.value)">
+      Artikel Saya
+    </ion-segment-button>    
+  </ion-segment>  
+</ion-header>
+
+<ion-content>
+
+  
+  <div [ngSwitch]="segment">
+    <artikel-saya name="saya" *ngSwitchCase="'saya'"></artikel-saya>
+    <artikel-saya name="explore" *ngSwitchCase="'explore'"></artikel-saya>
+    <artikel-saya name="favorite" *ngSwitchCase="'favorite'"></artikel-saya>
+    
+    <!-- use the same component -->
+    <!-- <artikel-explore name="favorite" *ngSwitchCase="'favorite'"></artikel-explore>
+    <artikel-explore name="explore" *ngSwitchCase="'explore'"></artikel-explore> -->
+    
+  </div>
+
+  <ion-fab bottom right>
+    <button ion-fab (click)="scrollToTop()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+  
+</ion-content>

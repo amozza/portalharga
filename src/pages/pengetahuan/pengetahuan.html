@@ -1,0 +1,16 @@
+<ion-header no-shadow no-border>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Pengatahuan</ion-title>
+  </ion-navbar>
+</ion-header>  
+
+<ion-content>
+  <ion-tabs>
+    <ion-tab [root]="tab1Root" tabTitle="Artikel" tabIcon="map"></ion-tab>
+    <ion-tab [root]="tab2Root" tabTitle="Berbagi File" tabIcon="list"></ion-tab>
+    <ion-tab [root]="tab3Root" tabTitle="Forum" tabIcon="book"></ion-tab> 
+  </ion-tabs>
+</ion-content>
