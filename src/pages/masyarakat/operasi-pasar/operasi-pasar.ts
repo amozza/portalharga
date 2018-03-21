@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController,ActionSheetController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, ActionSheetController, App } from 'ionic-angular';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 import { KirimOperasiPasarPage } from '../kirim-operasi-pasar/kirim-operasi-pasar';
@@ -28,7 +28,8 @@ export class OperasiPasarPage {
   	public toastCtrl: ToastController,
     public userData: UserData,
   	public navParams: NavParams,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    public app: App
     ) {}
 
   ionViewWillEnter() {
@@ -139,6 +140,7 @@ export class OperasiPasarPage {
   }
 
   kirimOperasiPasar() {
-    this.navCtrl.push(KirimOperasiPasarPage);
+    // this.navCtrl.push(KirimOperasiPasarPage);
+    this.app.getRootNav().push(KirimOperasiPasarPage)
   }
 }

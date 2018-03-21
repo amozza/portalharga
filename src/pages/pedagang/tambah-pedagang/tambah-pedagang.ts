@@ -5,7 +5,6 @@ import { Http,Headers,RequestOptions } from '@angular/http';
 import { UserData } from '../../../providers/user-data';
 import { VerifikasiAkunPage } from '../../verifikasi-akun/verifikasi-akun';
 
-declare var google: any;
 /*
   Generated class for the TambahPetani page.
 

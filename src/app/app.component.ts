@@ -1,5 +1,5 @@
 import { Component,ViewChild } from '@angular/core';
-import { Platform,Nav } from 'ionic-angular';
+import { Platform,Nav, App } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/petani/tabs-petani/tabs';
@@ -18,8 +18,48 @@ export class MyApp {
   rootPage: any;
 
   @ViewChild(Nav) navChild:Nav;
+  menuItems: any[] = [
+    {
+      name: 'Portal Harga',
+      page: 'PortalHargaPage',
+      icon: 'pricetag',
+      params: { type: 'all', name: 'portalHarga' }
+    },
+    {
+      name: 'Pengetahuan',
+      page: 'PengetahuanPage',
+      icon: 'book',      
+      params: { type: 'all', name: 'Pengetahuan'}
+    },
+    {
+      name: 'Jual Beli',
+      page: '',
+      icon: 'document',      
+      params: { type: 'all', name: 'Berbagi File'}
+    },
+    {
+      name: 'Notifikasi',
+      page: 'NotifikasiPage',
+      icon: 'notifications',      
+      params: { type: 'all', name: 'Notifikasi'}
+    },
+    { 
+      name: 'Pengumuman',
+      page: 'PengumumanPage',
+      icon: 'information-circle',      
+      params: { type: 'all', name: 'Pengumuman'}
+    },    
+    {
+      name: 'Keluar',
+      page: LoginPage,
+      icon: 'log-out',      
+      params: { type: 'all', name: 'Keluar'}
+    }
+  ];  
+  
   constructor(
     platform: Platform,
+    public app: App,
     public userData: UserData) {
     platform.ready().then(() => {
       Splashscreen.hide();
@@ -44,27 +84,48 @@ export class MyApp {
       if(hasLoggedIn) {
         this.userData.getKomoditasFromServer();
         this.userData.getRole().then((value)=>{
-          switch (value) {
-            case 3:
-             this.rootPage = TabsPenyuluhPage;
-              break;
-            case 4:
-             this.rootPage = TabsPage;
-              break;
-            case 5:
-              this.rootPage = TabsMasyarakatPage;
-              break;
-            case 6:
-              this.rootPage = TabsPedagangPage;
-              break;
-            default:
-            // code...
-            break;
-          }
+        this.navChild.setRoot('PengetahuanPage')
+          // switch (value) {
+          //   case 3:
+          //    this.rootPage = TabsPenyuluhPage;
+          //     break;
+          //   case 4:
+          //    this.rootPage = TabsPage;
+          //     break;
+          //   case 5:
+          //     this.rootPage = TabsMasyarakatPage;
+          //     break;
+          //   case 6:
+          //     this.rootPage = TabsPedagangPage;
+          //     break;
+          //   default:
+          //   // code...
+          //   break;
+          // }
         });
       } else {
         this.rootPage = LoginPage;
       }
     });
+  }
+
+  openPage(page) {
+    console.log('root sebelum', this.navChild.getActive().name);
+    let currentRoot = this.navChild.getActive().name;
+
+    if(currentRoot && currentRoot === page.page){
+      console.log('same root!');
+    }
+    else{
+      this.navChild.setRoot(page.page, page.params)
+      console.log('root sekarang', this.navChild.getActive().name)
+    }
+
+  }
+
+  logout() {
+    this.userData.logout();
+    this.app.getRootNav()[0].setRoot(LoginPage);
+   // this.nav.setRoot(LoginPage);
   }
 }

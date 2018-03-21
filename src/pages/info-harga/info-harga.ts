@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef} from '@angular/core';
-import { NavController, NavParams, ToastController,ActionSheetController} from 'ionic-angular';
+import { NavController, App, NavParams, ToastController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { GoogleMap, Geolocation} from 'ionic-native';
 import { UserData } from '../../providers/user-data';
 import { TambahInfoHargaPage } from '../masyarakat/tambah-info-harga/tambah-info-harga';
@@ -7,6 +7,7 @@ import { EditInfoHargaPage } from '../masyarakat/edit-info-harga/edit-info-harga
 import { AuthHttp } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
+
 /*
   Generated class for the InfoHarga page.
 
@@ -14,7 +15,7 @@ import * as moment from 'moment';
   Ionic pages and navigation.
 */
 declare var google: any;
-
+@IonicPage()
 @Component({
   selector: 'page-info-harga',
   templateUrl: 'info-harga.html'
@@ -39,14 +40,18 @@ export class InfoHargaPage {
   segment='now';
   dataLaporanNow = [];
   dataLaporanHistory = [];
+  rootNavCtrl: NavController;
+  
   constructor(
     public navCtrl: NavController,
+    public app: App,
     public userData: UserData, 
     public navParams: NavParams,
     public authHttp: AuthHttp,
     public toastCtrl: ToastController,
     public actionSheetCtrl: ActionSheetController
-    ) {}
+    ) {
+    }
 
   ionViewWillEnter() {
     var date = new Date();
@@ -164,7 +169,8 @@ export class InfoHargaPage {
     this.authHttp.get(this.userData.BASE_URL+'laporanHarga/get/laporan/'+this.user_id).subscribe(res => {
       let response = res.json();
       if(response.status == 200) {
-        this.dataHarga = response.data;
+        console.log('laporan harfa coy', response.data)
+        this.dataHarga  = response.data;
         this.dataLaporanHistory = response.data;
       }
     }, err => { console.log(err);
@@ -175,9 +181,11 @@ export class InfoHargaPage {
   //update segemen untuk role masyarakat
   updateSegment(){
     if(this.segment == 'now') {
+      console.log('segment now')
       this.dataHarga = this.dataLaporanNow;
       this.getDataHarga();
     } else if(this.segment == 'history') {
+      console.log('segment hisrtory')      
       this.dataHarga = this.dataLaporanHistory;
       this.getHistoryLaporanHarga();
     } else if(this.segment == 'trend'){
@@ -280,7 +288,7 @@ export class InfoHargaPage {
 
   // pindah halaman tambah laporan harga
   postHargaKomoditas(){
-    this.navCtrl.push(TambahInfoHargaPage);
+    this.app.getRootNav().push(TambahInfoHargaPage);
   }
   //format uang (pemisah ribuan dengan koma)
   formatCurrency(n, currency):string {

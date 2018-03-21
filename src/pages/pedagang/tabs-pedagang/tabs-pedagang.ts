@@ -8,7 +8,7 @@ import { JualKomoditasPage } from '../../petani/jual-komoditas/jual-komoditas';
 })
 export class TabsPedagangPage {
 
-  tab1Root: any = InfoHargaPage;
+  tab1Root: any = 'InfoHargaPage';
   tab2Root: any = JualKomoditasPage;
   tab3Root: any = ProfilePedagangPage;
   

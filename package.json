@@ -4,39 +4,53 @@
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
-    "clean": "ionic-app-scripts clean",
+    "clean": "ionic-app-scris clean",
     "build": "ionic-app-scripts build",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
   },
   "dependencies": {
-    "@angular/common": "2.2.1",
-    "@angular/compiler": "2.2.1",
-    "@angular/compiler-cli": "2.2.1",
-    "@angular/core": "2.2.1",
-    "@angular/forms": "2.2.1",
-    "@angular/http": "2.2.1",
-    "@angular/platform-browser": "2.2.1",
-    "@angular/platform-browser-dynamic": "2.2.1",
-    "@angular/platform-server": "2.2.1",
+    "@angular/common": "4.4.3",
+    "@angular/compiler": "4.4.3",
+    "@angular/compiler-cli": "4.4.3",
+    "@angular/core": "4.4.3",
+    "@angular/forms": "4.4.3",
+    "@angular/http": "4.4.3",
+    "@angular/platform-browser": "4.4.3",
+    "@angular/platform-browser-dynamic": "4.4.3",
     "@ionic-native/core": "^3.5.0",
     "@ionic-native/file": "^3.5.0",
     "@ionic-native/file-chooser": "^3.5.0",
+    "@ionic-native/splash-screen": "^3.5.0",
+    "@ionic-native/status-bar": "^3.5.0",
     "@ionic-native/transfer": "^3.5.0",
-    "@ionic/storage": "1.1.7",
+    "@ionic/storage": "^2.0.1",
     "angular2-jwt": "^0.1.28",
-    "ionic-angular": "2.0.1",
+    "cordova-android": "6.3.0",
+    "cordova-browser": "5.0.3",
+    "cordova-plugin-camera": "^2.4.1",
+    "cordova-plugin-compat": "^1.2.0",
+    "cordova-plugin-console": "^1.0.5",
+    "cordova-plugin-device": "^1.1.4",
+    "cordova-plugin-splashscreen": "^4.0.3",
+    "cordova-plugin-statusbar": "^2.2.3",
+    "cordova-plugin-whitelist": "^1.3.1",
+    "ionic-angular": "3.7.1-201710060319",
     "ionic-native": "2.4.1",
+    "ionic-plugin-deeplinks": "^1.0.15",
+    "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
+    "localforage": "^1.6.0",
+    "localforage-cordovasqlitedriver": "^1.7.0",
     "moment": "^2.18.1",
     "ng2-pdf-viewer": "^1.1.0",
     "rxjs": "^5.0.1",
     "sw-toolbox": "3.4.0",
-    "zone.js": "0.6.26"
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "1.1.0",
-    "typescript": "2.0.9"
+    "@ionic/app-scripts": "^3.1.8",
+    "typescript": "^2.3.4"
   },
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
@@ -47,5 +61,39 @@
     "cordova-plugin-splashscreen"
   ],
   "cordovaPlatforms": [],
-  "description": "portal-harga: An Ionic project"
+  "description": "portal-harga: An Ionic project",
+  "cordova": {
+    "platforms": [
+      "android",
+      "browser"
+    ],
+    "plugins": {
+      "ionic-plugin-keyboard": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-console": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-camera": {},
+      "cordova-plugin-statusbar": {},
+      "ionic-plugin-deeplinks": {
+        "URL_SCHEME": "myapp",
+        "DEEPLINK_SCHEME": "https",
+        "DEEPLINK_HOST": "ph.yippytech.com",
+        "ANDROID_PATH_PATTERN": "/Android",
+        "ANDROID_PATH_PREFIX": "/Android",
+        "ANDROID_2_PATH_PREFIX": "/",
+        "ANDROID_3_PATH_PREFIX": "/",
+        "ANDROID_4_PATH_PREFIX": "/",
+        "ANDROID_5_PATH_PREFIX": "/",
+        "DEEPLINK_2_SCHEME": " ",
+        "DEEPLINK_2_HOST": " ",
+        "DEEPLINK_3_SCHEME": " ",
+        "DEEPLINK_3_HOST": " ",
+        "DEEPLINK_4_SCHEME": " ",
+        "DEEPLINK_4_HOST": " ",
+        "DEEPLINK_5_SCHEME": " ",
+        "DEEPLINK_5_HOST": " "
+      }
+    }
+  }
 }

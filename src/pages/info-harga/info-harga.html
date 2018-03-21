@@ -5,17 +5,8 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      <!--<div *ngIf="userRole==4">
-        Info Harga Hari Ini
-      </div>-->
-      <div>
-        Info Harga
-      </div>
-    </ion-title>
-  </ion-navbar>
-  <ion-segment [(ngModel)]="segment" (ionChange)="updateSegment()" *ngIf="userRole==3||userRole==4||userRole==5">
+
+  <ion-segment [(ngModel)]="segment" (ionChange)="updateSegment()" *ngIf="userRole==3||userRole==4||userRole==5"> 
       <ion-segment-button value="now">
         Hari Ini
       </ion-segment-button>
@@ -208,7 +199,9 @@
       </div>
     </ion-card>
   </div>
-    <ion-fab bottom right #fab >
-      <button ion-fab (click)="postHargaKomoditas()"><ion-icon name="add"></ion-icon></button>
-    </ion-fab>
+
+  <!-- FAB -->
+  <ion-fab bottom right #fab >
+    <button ion-fab (click)="postHargaKomoditas()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

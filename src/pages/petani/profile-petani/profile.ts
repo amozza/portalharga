@@ -3,7 +3,6 @@ import { NavController, AlertController, App ,ToastController, ActionSheetContro
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
 import { ProfileEditPage } from '../../profile-edit/profile-edit';
-import { Storage } from '@ionic/storage';
 import { AuthHttp } from 'angular2-jwt';
 import { PendukungPage } from '../pendukung/pendukung';
 import { PopoverPage } from '../../popover/popover';
@@ -29,7 +28,7 @@ export class ProfilePetaniPage {
   public user_id: string;
   public loading: any;
   public segments:any;
-  public jualanku: any;
+  public jualanku: any; 
 
   constructor(
   	public alertCtrl: AlertController, 
@@ -37,7 +36,6 @@ export class ProfilePetaniPage {
     public app: App,
     public authHttp: AuthHttp,
     public toastCtrl: ToastController,
-    public storage: Storage,
     public actionSheetCtrl: ActionSheetController, 
   	public userData: UserData,
     public loadingCtrl: LoadingController,
@@ -94,6 +92,7 @@ export class ProfilePetaniPage {
   getAspirasi() {
     this.authHttp.get(this.userData.BASE_URL+'aspirasi/get/user/'+this.user_id).subscribe(res => {
       let response = res.json();
+      console.log(response.status)
       if(response.status == 200) {
         this.aspirasi = response.data;
       } else if(response.status == 204){

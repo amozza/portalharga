@@ -1,0 +1,44 @@
+<ion-header no-shadow no-border>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Portal Harga</ion-title>
+  </ion-navbar>
+</ion-header>  
+
+
+ <ion-content> 
+   <!-- penyuluh-->
+  <ion-tabs *ngIf ="userRole == '3'">
+    <ion-tab [root]="tab1Root" tabTitle="Info Harga" tabIcon="map"></ion-tab>
+    <ion-tab [root]="tab2Root" tabTitle="List Petani" tabIcon="list"></ion-tab>
+    <ion-tab [root]="tab4Root" tabTitle="Materi" tabIcon="book"></ion-tab>
+    <ion-tab [root]="tab3Root" tabTitle="Profile" tabIcon="person"></ion-tab>
+  </ion-tabs>
+
+  <!--petani-->
+  <ion-tabs *ngIf ="userRole == '4'">
+    <ion-tab [root]="tab5Root" tabTitle="Aspirasi" tabIcon="megaphone"></ion-tab>
+    <ion-tab [root]="tab1Root" tabTitle="Info Harga" tabIcon="map"></ion-tab>
+    <ion-tab [root]="tab8Root" tabTitle="Dagangan" tabIcon="cart"></ion-tab>
+    <ion-tab [root]="tab6Root" tabTitle="Produksi" tabIcon="information-circle"></ion-tab>
+    <ion-tab [root]="tab7Root" tabTitle="Profile" tabIcon="person"></ion-tab>
+  </ion-tabs>  
+
+  <!-- masyarakat -->
+  <ion-tabs *ngIf ="userRole == '5'">
+    <ion-tab [root]="tab1Root" tabTitle="Info Harga" tabIcon="map"></ion-tab>
+    <ion-tab [root]="tab8Root" tabTitle="Jual Beli" tabIcon="cart"></ion-tab>
+    <ion-tab [root]="tab10Root" tabTitle="Operasi Pasar" tabIcon="walk"></ion-tab>
+    <ion-tab [root]="tab11Root" tabTitle="Profile" tabIcon="person"></ion-tab>
+  </ion-tabs>
+
+  <!-- pedagang -->
+  <ion-tabs *ngIf ="userRole == '6'">
+    <ion-tab [root]="tab1Root" tabTitle="Info Harga" tabIcon="map"></ion-tab>
+    <ion-tab [root]="tab8Root" tabTitle="Dagangan" tabIcon="cart"></ion-tab>
+    <ion-tab [root]="tab9Root" tabTitle="Profile" tabIcon="person"></ion-tab>  
+  </ion-tabs>
+  
+ </ion-content> 

@@ -17,19 +17,22 @@ import { EditAlamatPage } from '../edit-alamat/edit-alamat';
   `
 })
 export class PopoverPage {
-  role:string;
+  role : string;
+
   constructor(
     public viewCtrl: ViewController,
     public navCtrl: NavController,
     public app: App,
     public modalCtrl: ModalController,
     public userData: UserData
-  ) { }
-ionViewWillEnter(){
-  this.userData.getRole().then((value)=>{
-    this.role = value;
-  });
-}
+  ) { 
+  
+  }
+  ionViewWillEnter(){
+    this.userData.getRole().then((value)=>{
+      this.role = value;
+    });
+  }
   logout() {
     this.userData.logout();
     this.app.getRootNav().setRoot(LoginPage);
@@ -43,4 +46,5 @@ ionViewWillEnter(){
     this.navCtrl.push(EditAlamatPage);
     this.viewCtrl.dismiss();
   }
+
 }

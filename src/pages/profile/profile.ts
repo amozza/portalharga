@@ -3,7 +3,6 @@ import { NavController, AlertController, App, PopoverController } from 'ionic-an
 import { UserData } from '../../providers/user-data';
 import { LoginPage } from '../login/login';
 import { ProfileEditPage } from '../profile-edit/profile-edit';
-import { Storage } from '@ionic/storage';
 import { PopoverPage } from '../popover/popover';
 
 
@@ -24,7 +23,6 @@ export class ProfilePage {
   	public alertCtrl: AlertController, 
   	public nav: NavController,
     public app: App,
-    public storage: Storage, 
   	public userData: UserData,
     public popoverCtrl: PopoverController) {
 

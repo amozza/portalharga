@@ -14,7 +14,7 @@ import { MateriPage } from '../materi/materi';
 })
 export class TabsPenyuluhPage {
 
-  tab1Root: any = InfoHargaPage;
+  tab1Root: any = 'InfoHargaPage';
   tab2Root: any = ListPetaniPage;
   tab3Root: any = ProfilePenyuluhPage;
   tab4Root: any = MateriPage;

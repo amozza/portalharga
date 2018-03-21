@@ -50,7 +50,7 @@
             <h5>Stok: {{data.stok}} {{data.satuan_komoditas}}</h5>
           </ion-col>
         </ion-row>
-    	<img [src]="data.picture" *ngIf="data.picture">
+    	<ion-img [src]="data.picture" *ngIf="data.picture"></ion-img>
     	<h6 padding>{{data.keterangan}}</h6>
         <ion-card-content class="outer-content">
         	<ion-row>

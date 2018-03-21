@@ -1,7 +1,9 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { Transfer } from '@ionic-native/transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { MyApp } from './app.component';
@@ -43,10 +45,7 @@ import { TambahMateriPage } from '../pages/penyuluh/tambah-materi/tambah-materi'
 import { EditMateriPage } from '../pages/penyuluh/edit-materi/edit-materi';
 import { TambahPetaniPage } from '../pages/penyuluh/tambah-petani/tambah-petani';
 import { ProfilePenyuluhPage } from '../pages/penyuluh/profile-penyuluh/profile-penyuluh';
-import { ViewPetaniPage } from '../pages/penyuluh/view-petani/view-petani';
-import { EditAlamatPetaniPage } from '../pages/penyuluh/edit-alamat-petani/edit-alamat-petani';
 //General
-import { InfoHargaPage } from '../pages/info-harga/info-harga';
 import { PopoverPage } from '../pages/popover/popover';
 import { GantiPasswordPage } from '../pages/ganti-password/ganti-password';
 import { ProfilePage } from '../pages/profile/profile';
@@ -65,15 +64,19 @@ import { Http } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { Storage } from '@ionic/storage';
 
-let storage = new Storage();
+//add component module
+import { ComponentsModule } from './../components/components.module';
 
-export function getAuthHttp(http) {
+
+//set the auth http for API
+export function getAuthHttp(http, Storage) {
   return new AuthHttp(new AuthConfig({
     headerPrefix: "",
     noJwtError: true,
     globalHeaders: [{'Content-Type': 'application/json'}],
-    tokenGetter: (() => storage.get('token')),
+    tokenGetter: (() => Storage.get('token')),
   }), http);
 }
 
@@ -86,7 +89,6 @@ export function getAuthHttp(http) {
     TambahJualKomoditasPage,
     JualKomoditasPage,
     EditJualKomoditasPage,
-    InfoHargaPage,
     ProfilePage,
     ProfilePetaniPage,
     ProfileEditPage,
@@ -126,11 +128,14 @@ export function getAuthHttp(http) {
     EditPetaniPage,
     TanggapanAspirasiPage,
     TanggapanOperasiPasarPage,
-    ViewPetaniPage,
-    EditAlamatPetaniPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    BrowserModule,
+    HttpModule,
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
+    ComponentsModule
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -141,7 +146,6 @@ export function getAuthHttp(http) {
     TambahJualKomoditasPage,
     JualKomoditasPage,
     EditJualKomoditasPage,
-    InfoHargaPage,
     ProfilePage,
     ProfilePetaniPage,
     ProfileEditPage,
@@ -180,8 +184,6 @@ export function getAuthHttp(http) {
     EditPetaniPage,
     TanggapanAspirasiPage,
     TanggapanOperasiPasarPage,
-    ViewPetaniPage,
-    EditAlamatPetaniPage
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -189,11 +191,10 @@ export function getAuthHttp(http) {
   UserData,
   Transfer,
   FileChooser,
-  Storage,
     {
       provide: AuthHttp,
       useFactory: getAuthHttp,
-      deps: [Http]
+      deps: [Http, Storage]
     }
   ]
 })

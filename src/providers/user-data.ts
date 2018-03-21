@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Events,ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AuthHttp } from 'angular2-jwt';
@@ -44,6 +43,7 @@ export class UserData {
   };
   setToken(token: string){
      this.storage.set('token', token);
+    //  window.localStorage.setItem('token', token)
   }
   setAddress(address: string){
     this.storage.get('user_data').then((value) => {

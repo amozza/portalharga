@@ -3,7 +3,7 @@ import { NavController, AlertController, App, PopoverController, ToastController
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
 import { ProfileEditPage } from '../../profile-edit/profile-edit';
-import { Storage } from '@ionic/storage';
+
 import { PopoverPage } from '../../popover/popover';
 import { AuthHttp } from 'angular2-jwt';
 import { EditOperasiPasarPage } from '../edit-operasi-pasar/edit-operasi-pasar';
@@ -31,7 +31,6 @@ export class ProfileMasyarakatPage {
   	public alertCtrl: AlertController, 
   	public navCtrl: NavController,
     public app: App,
-    public storage: Storage, 
   	public userData: UserData,
     public popoverCtrl: PopoverController,
     public authHttp: AuthHttp,

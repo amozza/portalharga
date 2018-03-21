@@ -3,9 +3,9 @@ import { NavController, NavParams, ToastController, ActionSheetController, Loadi
 import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
 import { TambahPetaniPage } from '../tambah-petani/tambah-petani';
-import { ViewPetaniPage } from '../view-petani/view-petani';
+// import { ViewPetaniPage } from '../view-petani/view-petani';
 import { EditPetaniPage } from '../edit-petani/edit-petani';
-import { EditAlamatPetaniPage } from '../edit-alamat-petani/edit-alamat-petani';
+// import { EditAlamatPetaniPage } from '../edit-alamat-petani/edit-alamat-petani';
 /*
   Generated class for the ListPetani page.
 
@@ -18,7 +18,7 @@ import { EditAlamatPetaniPage } from '../edit-alamat-petani/edit-alamat-petani';
 })
 export class ListPetaniPage {
 	public userPetani = [];
-  public originalUserPetani = [];
+  public originalUserPetani = []; 
   public loading: any;
   public searchTerm: string = '';
   constructor(
@@ -82,7 +82,7 @@ export class ListPetaniPage {
     });
   }
   editAlamat(user){
-    this.navCtrl.push(EditAlamatPetaniPage,user);
+    // this.navCtrl.push(EditAlamatPetaniPage,user);
   }
   editPetani(user){
     this.navCtrl.push(EditPetaniPage,user);
@@ -95,7 +95,10 @@ export class ListPetaniPage {
           text: 'Lihat detail',
           role: 'lihatDetail',
           handler: () => {
-            this.navCtrl.push(ViewPetaniPage,dataPetani);
+            // this.navCtrl.push(ViewPetaniPage,dataPetani);
+            this.toastCtrl.create({
+              message: "fitur ini belum ada"
+            })
           }
         },
         {
@@ -109,7 +112,10 @@ export class ListPetaniPage {
           text: 'Edit alamat',
           role: 'editAlamat',
           handler: () => {
-            this.navCtrl.push(EditAlamatPetaniPage,dataPetani);
+            // this.navCtrl.push(EditAlamatPetaniPage,dataPetani);
+            this.toastCtrl.create({
+              message: "fitur ini belum ada"
+            })            
           }
         },
         {

@@ -5,14 +5,14 @@
 		<img src="assets/icon/login.png" alt="Ionic logo">
 	</div>
 
-	<form #loginForm="ngForm" novalidate>
+	<form #loginForm="ngForm" novalidate> 
 		<ion-list >
 			<ion-item>
 				<ion-label stacked color="primary">Username</ion-label>
 				<ion-input [(ngModel)]="login.username" placeholder="Username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
 					required>
 				</ion-input>
-			</ion-item>
+			</ion-item> 
 			<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
 				Username harus diisi
 			</p>

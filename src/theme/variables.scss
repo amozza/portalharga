@@ -30,7 +30,15 @@ $colors: (
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  ph:#32db64
+  ph:#32db64,
+
+  //KMS theme
+  kms-dark-primary:#00786A,
+  kms-primary:      #009587,
+  kms-light-primary:#B1DEDA,
+  kms-secondary:    #ff5722, //cecondary was the acceent color
+
+  kms-secondary-text: #757575
 
 );
 
@@ -45,8 +53,6 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
-
 
 
 // App Windows Variables

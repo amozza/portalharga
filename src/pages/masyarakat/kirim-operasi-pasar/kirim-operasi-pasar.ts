@@ -67,6 +67,7 @@ export class KirimOperasiPasarPage {
       this.getProvinsi();
     } else if(target == 0) {
       this.getCurrentLocation();
+      console.log('alamatnya', this.lokasi)
       this.useCurrentLocation = true;
       this.useCurrentLocationColor = "default";
       this.useManualLocationColor = "dark";

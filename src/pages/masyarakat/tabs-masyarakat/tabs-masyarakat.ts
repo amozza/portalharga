@@ -11,7 +11,7 @@ import { JualKomoditasPage } from '../../petani/jual-komoditas/jual-komoditas';
 export class TabsMasyarakatPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  tab2Root: any = InfoHargaPage;
+  tab2Root: any = 'InfoHargaPage';
   tab3Root: any = OperasiPasarPage;  
   tab4Root: any = ProfileMasyarakatPage;
   tab5Root: any = JualKomoditasPage;
