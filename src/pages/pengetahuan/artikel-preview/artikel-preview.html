@@ -8,6 +8,11 @@
 
   <ion-navbar>
     <ion-title>Lihat Artikel</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>    
   </ion-navbar>
 
 </ion-header>
@@ -32,15 +37,15 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <ion-row>
       <ion-col col-3>
         <ion-buttons >
-          <button ion-button icon-only>
-            <ion-icon name="eye"></ion-icon>
+          <button ion-button>
+            <ion-icon name="eye"></ion-icon> &nbsp;&nbsp; 30
           </button>
         </ion-buttons>
       </ion-col>  
       <ion-col col-3>
         <ion-buttons >
-          <button ion-button icon-only (click)="pushKomentarPage()">
-            <ion-icon name="chatboxes"></ion-icon>
+          <button ion-button (click)="pushKomentarPage()">
+            <ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp; 5
           </button>
         </ion-buttons>
       </ion-col>    
