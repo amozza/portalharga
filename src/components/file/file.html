@@ -1,4 +1,32 @@
-<!-- Generated template for the FileComponent component -->
-<div>
-  {{text}}
-</div>
+<ion-card *ngFor="let item of [1,2,43,4,5]">
+  <!-- clickable area -->
+  <div tappable (click)="pushBerbagiFilePreviewPage()">
+    <img class="image-center" src="assets/icon/petani.png"/>
+    <ion-card-content>
+      <ion-card-title style="font-size:2.0rem">
+        Nine Inch Nails Live
+        </ion-card-title>
+    </ion-card-content>
+  </div>
+  <!-- end of clickable area-->
+  <ion-row>
+    <!-- <ion-col>
+      <button tappable ion-button icon-left clear small>
+        <ion-icon name="thumbs-up"></ion-icon>
+        <div>12 Suka</div>
+      </button>
+    </ion-col> -->
+    <ion-col>
+      <button tappable ion-button icon-left clear small>
+        <ion-icon name="text"></ion-icon>
+        <div>4 Komentar</div>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button tappable ion-button icon-only clear small>
+        <ion-icon name="download"></ion-icon>
+        <div>Unduh</div>
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-card>

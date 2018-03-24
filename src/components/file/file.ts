@@ -1,3 +1,5 @@
+import { Http } from '@angular/http';
+import { App } from 'ionic-angular';
 import { Component, Input } from '@angular/core';
 
 /**
@@ -14,8 +16,9 @@ export class FileComponent {
   @Input('name') componentName: String;
 
   text: string;
+  data = [];
 
-  constructor() {
+  constructor(public app: App, public http: Http) {
     console.log('Hello FileComponent Component');
   }
 
@@ -23,5 +26,20 @@ export class FileComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.text = 'File '+this.componentName;
+    this.getAllFile();
   }
+  pushBerbagiFilePreviewPage(){
+    this.app.getRootNav().push('BerbagiFilePreviewPage')
+  }
+
+  getAllFile(){
+    this.http.get('https://restcountries.eu/rest/v2/all')
+    .subscribe(response =>{
+      let data = response.json();
+      this.data = data
+    }, err =>{
+      console.log('error boy', err)
+    });
+  }
+  
 }
