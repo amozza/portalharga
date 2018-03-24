@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, App } from 'ionic-angular';
 
 /**
  * Generated class for the ArtikelPage page.
@@ -19,7 +19,7 @@ export class ArtikelPage {
 
   private segment: String='saya';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public app: App, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -36,4 +36,9 @@ export class ArtikelPage {
     console.log('scroll position')
 
   }
+  pushArtikelTambahPage(){
+    console.log('goes to tambah artikel')
+    this.app.getRootNav().push('ArtikelEditTambahPage',{page:'Tambah'});
+  }  
+
 }

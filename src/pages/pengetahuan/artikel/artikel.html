@@ -1,5 +1,9 @@
 
 <ion-header no-border>
+  <!-- <ion-navbar>
+    <ion-title></ion-title>
+  </ion-navbar>  -->
+
   <ion-segment [(ngModel)]="segment">
     <ion-segment-button value="explore" (ionSelect)="selectedSegment($event.value)">
       Explore
@@ -9,11 +13,11 @@
     </ion-segment-button>
     <ion-segment-button value="saya" (ionSelect)="selectedSegment($event.value)">
       Artikel Saya
-    </ion-segment-button>    
+    </ion-segment-button>     
   </ion-segment>  
 </ion-header>
 
-<ion-content>
+<ion-content no-bounce>
 
   
   <div [ngSwitch]="segment">
@@ -28,7 +32,7 @@
   </div>
 
   <ion-fab bottom right>
-    <button ion-fab (click)="scrollToTop()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="scrollToTop(); pushArtikelTambahPage()" tappable><ion-icon name="add"></ion-icon></button>
   </ion-fab>
   
 </ion-content>
