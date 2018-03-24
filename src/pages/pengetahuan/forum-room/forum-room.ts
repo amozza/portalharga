@@ -14,7 +14,7 @@ import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
   templateUrl: 'forum-room.html',
 })
 export class ForumRoomPage {
-
+  gender:string;
   constructor(public app: App, public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -23,7 +23,9 @@ export class ForumRoomPage {
   }
 
   pushForumPreviewPage(){
-    this.app.getRootNav().push('ForumPreviewPage')
+    this.app.getRootNav().push('ForumPreviewPage');
   }  
-
+  pushForumTambahPage(){
+    this.app.getRootNav().push('ForumTambahPage');
+  }
 }

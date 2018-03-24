@@ -6,7 +6,10 @@ page-pengetahuan {
 			color: color($colors,kms-primary);
 		}
 	}
+	}
 
-
-    }
+	.no-scroll .scroll-content{
+		overflow: hidden;
+	}	
 }
+

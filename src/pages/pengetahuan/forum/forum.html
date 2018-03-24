@@ -4,10 +4,34 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<ion-header no-border>
+<!-- 
+  <ion-navbar>
+    <ion-title></ion-title>
+  </ion-navbar> 
+   -->
+</ion-header>
 
- <ion-content padding>  
-    halaman topik
-    <div ion-button color= "kms-secondary" (click)="pushForumRoomPage()">
-     topik
+ <ion-content class="card-background-page">  
+    <div *ngFor="let item of [1,2,3,4,5]">
+      <ion-card tappable (click)="pushForumRoomPage()">
+        <img src="https://3.bp.blogspot.com/-iYCVCRhdvAc/WRxZ2nNFsAI/AAAAAAAAAMI/HfFw4vZSYXw1pwbXD7X1B_tnZvw3JPzwwCLcB/s1600/hama%2Btrooong.jpg"/>
+        <ion-card-content>
+          <ion-card-title>
+            Hama Tanaman
+            </ion-card-title>
+          <p text-left>
+            The most popular industrial group ever, and largely
+            responsible for bringing the music to a mass audience.
+          </p>
+          <ion-row>
+            <ion-col col-6 push-6>
+              <ion-note style="float:right">
+                400 Forum
+              </ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
     </div>
  </ion-content> 
