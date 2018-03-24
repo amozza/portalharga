@@ -84,7 +84,7 @@ export class MyApp {
       if(hasLoggedIn) {
         this.userData.getKomoditasFromServer();
         this.userData.getRole().then((value)=>{
-        this.navChild.setRoot('PengetahuanPage')
+        this.navChild.setRoot('PortalHargaPage')
           // switch (value) {
           //   case 3:
           //    this.rootPage = TabsPenyuluhPage;

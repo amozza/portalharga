@@ -69,7 +69,6 @@ import { Storage } from '@ionic/storage';
 //add component module
 import { ComponentsModule } from './../components/components.module';
 
-
 //set the auth http for API
 export function getAuthHttp(http, Storage) {
   return new AuthHttp(new AuthConfig({
