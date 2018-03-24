@@ -7,7 +7,9 @@ import { FileComponent } from './file/file';
 import { RoomComponent } from './room/room';
 import { KomentarComponent } from './komentar/komentar';
 import { FollowToFollowComponent } from './follow-to-follow/follow-to-follow';
-
+import { HtmlEditorComponent } from './html-editor/html-editor';
+import { CKEditorModule } from 'ng2-ckeditor';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
 	declarations: [CacaComponent,
@@ -16,14 +18,16 @@ import { FollowToFollowComponent } from './follow-to-follow/follow-to-follow';
     FileComponent,
     RoomComponent,
     KomentarComponent,
-    FollowToFollowComponent],
-	imports: [IonicModule],
+    FollowToFollowComponent,
+    HtmlEditorComponent],
+	imports: [IonicModule, CKEditorModule, FormsModule],
 	exports: [CacaComponent,
     ArtikelSayaComponent,
     ArtikelExploreComponent,
     FileComponent,
     RoomComponent,
     KomentarComponent,
-    FollowToFollowComponent]
+    FollowToFollowComponent,
+    HtmlEditorComponent]
 })
 export class ComponentsModule {}
