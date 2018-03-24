@@ -1,3 +1,9 @@
 page-berbagi-file-preview {
-
+    img{
+        max-height: 250px;
+        display: block;
+        object-fit: cover;
+        margin-left: auto;
+        margin-right:auto;
+    }
 }

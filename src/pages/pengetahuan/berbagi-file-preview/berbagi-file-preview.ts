@@ -21,5 +21,7 @@ export class BerbagiFilePreviewPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad BerbagiFilePreviewPage');
   }
-
+  pushBerbagiFIleProfile(){
+    console.log('push to berbagi file page');
+  }
 }

@@ -1,18 +1,60 @@
-<!--
-  Generated template for the BerbagiFilePreviewPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
+<ion-header no-border>
 
   <ion-navbar>
-    <ion-title>berbagi-file-preview</ion-title>
+    <ion-title>Lihat File</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
 
+    <ion-list>
+
+      <ion-item tappable (click)="pushBerbagiFIleProfile()" style="background-color: #f3f3f3">
+        <ion-avatar item-start>
+          <img src="assets/icon/user.png">
+        </ion-avatar>
+        <h2>Nine Inch Nails Live</h2>
+        <ion-note float-left>
+          Oleh: reza_bagusp
+        </ion-note>
+      </ion-item>
+
+
+    </ion-list>
+  
+  <ion-row>
+    <img src="assets/icon/pedagang.png">
+  </ion-row>
+
+  <ion-row>
+    <h2>Deskripsi File</h2>
+    <ion-row>  text-wrap File ini berisi tentang bagaimana car membaca Nine Inch Nail Live yang baik dan benar</ion-row><br>
+    <div ion-button block> 
+      <ion-icon name="download"></ion-icon>&nbsp; &nbsp;
+      Unduh File
+    </div>
+  </ion-row>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col col-2>
+        <ion-buttons >
+          <button ion-button>
+            <ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp; 5
+          </button>
+        </ion-buttons>
+      </ion-col>    
+      <ion-col col-2>
+        <ion-buttons >
+          <button ion-button icon-only>
+            <ion-icon  name="star"></ion-icon>
+          </button>
+        </ion-buttons>      
+      </ion-col> 
+    </ion-row>  
+  </ion-toolbar>
+</ion-footer>
