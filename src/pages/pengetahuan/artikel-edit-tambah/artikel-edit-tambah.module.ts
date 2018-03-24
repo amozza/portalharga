@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../../../components/components.module';
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ArtikelEditTambahPage } from './artikel-edit-tambah';
@@ -8,6 +9,7 @@ import { ArtikelEditTambahPage } from './artikel-edit-tambah';
   ],
   imports: [
     IonicPageModule.forChild(ArtikelEditTambahPage),
+    ComponentsModule    
   ],
 })
 export class ArtikelEditTambahPageModule {}
