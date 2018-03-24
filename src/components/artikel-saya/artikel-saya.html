@@ -21,11 +21,11 @@
       <!-- for artikel saya only -->
       <ion-card-header *ngIf="passedData == 'saya' ">
         <span style="float: right">
-          <ion-icon (click)="presentActionSheet()"name="more"></ion-icon>
+          <ion-icon tappable (click)="presentActionSheet()"name="more"></ion-icon>
         </span>
       </ion-card-header>
 
-      <div (click)="pushArtikelPreviewPage()">
+      <div tappable (click)="pushArtikelPreviewPage()">
         <div class="box-image">
           <img src="assets/icon/pedagang.png"> 
         </div>
@@ -34,10 +34,14 @@
             <ion-card-title style="font-size: 2.0rem">
               Tahukah anda bahwa hama yang paling sulit di basmi adalah hama
             </ion-card-title>
-            <p *ngIf="passedData == 'saya' "> <!-- for artikel saya only -->
-              <span class="status-artikel" float-left>Terakhir 20 Maret 2018 18:00 </span> <span style="float:right" class="status-artikel"><i>Terbit</i></span>
+            <p> <!-- for artikel saya only -->
+              <span class="status-artikel" float-left> 
+                <span *ngIf="passedData == 'saya' ">Terakhir</span>
+                 Maret 2018 &nbsp;&nbsp; 18:00 
+              </span> 
+              <span *ngIf="passedData == 'saya' " style="float:right" class="status-artikel"><i>Terbit</i></span>
             </p>
-          </ion-card-content>     
+          </ion-card-content>
         </ion-row>
       </div>
 </ion-card>

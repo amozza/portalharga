@@ -88,7 +88,7 @@ export class ArtikelSayaComponent {
           text: 'Edit',
           icon: 'create',
           handler: () => {
-            this.app.getRootNav().push('ArtikelPreviewPage')
+            this.app.getRootNav().push('ArtikelEditTambahPage', {page:'Edit'})
             console.log('Destructive clicked');
           }
         },{
