@@ -1,0 +1,9 @@
+<ckeditor
+    [(ngModel)]="content"
+
+    (change)="onChange($event)"
+    (ready)="onReady($event)"
+    debounce="500">
+</ckeditor>
+
+    <!-- [config]="{extraPlugins: 'divarea'}" -->
