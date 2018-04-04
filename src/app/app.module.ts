@@ -1,8 +1,9 @@
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicStorageModule } from '@ionic/storage';
 import { Transfer } from '@ionic-native/transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
@@ -130,10 +131,12 @@ export function getAuthHttp(http, Storage) {
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpModule,  
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    ComponentsModule
+    ComponentsModule,
+    FormsModule
     
   ],
   bootstrap: [IonicApp],

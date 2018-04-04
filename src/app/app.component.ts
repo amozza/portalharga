@@ -1,3 +1,4 @@
+import { RestProvider } from './../providers/rest';
 import { Component,ViewChild } from '@angular/core';
 import { Platform,Nav, App } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
@@ -11,7 +12,8 @@ import { LoginPage } from '../pages/login/login';
 // import { Deeplinks } from 'ionic-native';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [RestProvider]
 })
 
 export class MyApp {
@@ -84,7 +86,7 @@ export class MyApp {
       if(hasLoggedIn) {
         this.userData.getKomoditasFromServer();
         this.userData.getRole().then((value)=>{
-        this.navChild.setRoot('PortalHargaPage')
+        this.navChild.setRoot('PengetahuanPage')
           // switch (value) {
           //   case 3:
           //    this.rootPage = TabsPenyuluhPage;
@@ -122,7 +124,6 @@ export class MyApp {
     }
 
   }
-
   logout() {
     this.userData.logout();
     this.app.getRootNav()[0].setRoot(LoginPage);
