@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
+
 
 /**
  * Generated class for the ForumTambahPage page.
@@ -14,12 +16,32 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'forum-tambah.html',
 })
 export class ForumTambahPage {
+  private form        : FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private formBuilder: FormBuilder
+            ) {
+    this.setForm();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ForumTambahPage');
   }
+
+  setForm(){
+    this.form = this.formBuilder.group({
+      judul: ['', [Validators.required]],
+      pertanyaan: ['', [Validators.required]],
+      gambar: ['']
+    })
+  }
+
+  submit(){
+    alert('submitted')
+  }
+
+
 
 }

@@ -15,11 +15,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class KomentarPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private komentarType      : string;
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams) {
+    this.komentarType = this.navParams.data.type;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad KomentarPage');
   }
+  getKomentarType(){
+    console.log('haha')
+  }  
 
 }

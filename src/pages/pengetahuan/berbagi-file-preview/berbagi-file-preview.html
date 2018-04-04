@@ -2,15 +2,21 @@
 
   <ion-navbar>
     <ion-title>Lihat File</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only tappable (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>    
+    
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
 
-    <ion-list>
+    <ion-list tappable>
 
-      <ion-item tappable (click)="pushBerbagiFIleProfile()" style="background-color: #f3f3f3">
+      <ion-item tappable (click)="pushBerbagiFilePublisher()" style="background-color: #f3f3f3">
         <ion-avatar item-start>
           <img src="assets/icon/user.png">
         </ion-avatar>
@@ -29,26 +35,26 @@
 
   <ion-row>
     <h2>Deskripsi File</h2>
-    <ion-row>  text-wrap File ini berisi tentang bagaimana car membaca Nine Inch Nail Live yang baik dan benar</ion-row><br>
-    <div ion-button block> 
-      <ion-icon name="download"></ion-icon>&nbsp; &nbsp;
+    <ion-row text-wrap>  File ini berisi tentang bagaimana car membaca Nine Inch Nail Live yang baik dan benar</ion-row><br>
+    <button style="text-transform:none" ion-button block> 
+      <ion-icon name="download"></ion-icon>&nbsp;
       Unduh File
-    </div>
+    </button>
   </ion-row>
 
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <ion-row>
-      <ion-col col-2>
+    <ion-row float-right>
+      <ion-col col-6>
         <ion-buttons >
           <button ion-button>
             <ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp; 5
           </button>
         </ion-buttons>
       </ion-col>    
-      <ion-col col-2>
+      <ion-col col-6>
         <ion-buttons >
           <button ion-button icon-only>
             <ion-icon  name="star"></ion-icon>

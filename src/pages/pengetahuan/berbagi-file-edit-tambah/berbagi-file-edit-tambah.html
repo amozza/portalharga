@@ -9,7 +9,7 @@
   <ion-navbar>
     <ion-title>Tambah File</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button [disabled]="!form.valid" (click)="submit()" ion-button icon-only>
         <ion-icon color="primary" name="send"></ion-icon>
       </button>
     </ion-buttons>      
@@ -20,24 +20,34 @@
 
 <ion-content padding>
   <!-- form add artikel -->
-  <ion-item no-lines>
-    <ion-label color="primary" stacked>Unggah File</ion-label>    
-  </ion-item>
-  <ion-row padding style="padding-top:4px"> 
-    <ion-col>
-          <div tappable (click)="chooseFile()">
-            <ion-icon name='document'></ion-icon>
-              Ambil file
-          </div>
-    </ion-col>
-  </ion-row>  
-  <ion-item no-lines>
-    <ion-label color="primary" stacked>Judul</ion-label>    
-    <ion-input type="text" id='file_judul' name="file_judul" placeholder="Judul File"></ion-input>
-  </ion-item>
-  <ion-item no-lines>
-    <ion-label color="primary" stacked>Deskripsi</ion-label>    
-    <ion-textarea name="file_deskripsi" placeholder="Berikan deskripsi file anda"></ion-textarea>
-  </ion-item>  
+  <form [formGroup]= "form">
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Unggah File</ion-label>    
+    </ion-item>
+    <ion-row padding style="padding-top:4px"> 
+      <ion-col>
+            <div tappable (click)="chooseFile()">
+              <ion-icon name='document'></ion-icon>
+                Ambil file
+            </div>
+      </ion-col>
+    </ion-row>  
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Judul</ion-label>    
+      <ion-input formControlName="judul" type="text" placeholder="Judul File"></ion-input>
+    </ion-item>
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Deskripsi</ion-label>    
+      <ion-textarea formControlName="deskripsi" placeholder="Berikan deskripsi file anda"></ion-textarea>
+    </ion-item>  
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Status</ion-label>    
+        <ion-select formControlName="status" class="custom-select" interface="popover">
+          <ion-option value="terbit">Terbit</ion-option>
+          <ion-option value="draf">Draf</ion-option>        
+        </ion-select>
+    </ion-item>    
+    
+  </form>
 
 </ion-content>

@@ -7,16 +7,16 @@
 <ion-header no-border>
 
   <ion-navbar>
-    <ion-title>Forum
+    <ion-title>Nama Topik Forum
     </ion-title>    
   </ion-navbar>
   <ion-row no-border style="border-bottom-style: inset">
     <ion-col col-8 no-padding >
-      <ion-searchbar no-padding style="box-shadow: none; -webkit-box-shadow:none"  placeholder="Cari"></ion-searchbar>
+      <ion-searchbar no-padding placeholder="Cari"></ion-searchbar>
     </ion-col>
     <ion-col col-4 style="float:right">
       <ion-select class="custom-select" interface="popover" [(ngModel)]="gender">
-        <ion-option selected value="f">Active</ion-option>
+        <ion-option selected value="f">Aktif</ion-option>
         <ion-option value="m">Terbaru</ion-option>
         <ion-option value="v">Voting</ion-option>        
       </ion-select>
@@ -35,14 +35,15 @@
             </ion-row>
             <ion-row text-wrap>
               <ion-col col-6 style="padding-left:0">
-                <ion-note style="floar:right; font-size: 1.2rem">
+                <ion-note style="font-size: 1.2rem">
                   Mangga, Mangga manis, mangga lepok
-                </ion-note>
+                </ion-note><br>
               </ion-col>              
               <ion-col col-6>
-                <ion-note style="float: right; font-size: 1.2rem">
+                <ion-note style="float:right;font-size: 1.2rem">
                   23 Maret 2017
-                </ion-note>
+                </ion-note><br>
+                <span style="float:right; font-size:1.2rem">200 Voting / Tutup</span>
               </ion-col>
             </ion-row>
           </ion-col>        

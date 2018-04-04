@@ -23,9 +23,9 @@ export class ForumRoomPage {
   }
 
   pushForumPreviewPage(){
-    this.app.getRootNav().push('ForumPreviewPage');
+    this.navCtrl.push('ForumPreviewPage');
   }  
   pushForumTambahPage(){
-    this.app.getRootNav().push('ForumTambahPage');
+    this.navCtrl.push('ForumTambahPage');
   }
 }
