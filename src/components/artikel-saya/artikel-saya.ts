@@ -1,7 +1,10 @@
+import { SharedProvider } from './../../providers/shared';
+import { UserData } from './../../providers/user-data';
+import { RestProvider } from './../../providers/rest';
 import { ActionSheetController, App, PopoverController, AlertController } from 'ionic-angular';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
-import { Component, Input } from '@angular/core';
+import { Component, Input, LOCALE_ID } from '@angular/core';
 
 /**
  * Generated class for the ArtikelSayaComponent component.
@@ -11,24 +14,32 @@ import { Component, Input } from '@angular/core';
  */
 @Component({
   selector: 'artikel-saya',
-  templateUrl: 'artikel-saya.html'
+  templateUrl: 'artikel-saya.html',
+  providers: [{
+    provide: LOCALE_ID, useValue: "id" 
+  }]
 })
 export class ArtikelSayaComponent {
   @Input('name') passedData : String;
-  text: string;
-  length;
-  data = [];
-  selectOptions = {
-    title: 'Filter Berdasarkan'
-  };
-  options1 = ['draf', 'terbit'];   
-  filterBy; 
-  sortBy;
+  
+  text            : string;
+  data            : any = [];
+  filterBy        : string; 
+  sortBy          : string;
+  
+  //lazy load
+  skipData        : number=0;
+  limitData       : number=5; 
+  infiniteScroll  : any;
+  isScrollAble    : boolean=true;
 
   constructor(private app: App, 
+              private shared: SharedProvider,
+              private rest: RestProvider,
+              private userData: UserData,
               private alertCtrl : AlertController,
               private actionSheetCtrl: ActionSheetController, 
-              private authhttp : Http) {
+              private authhttp : AuthHttp) {
     console.log('Hello ArtikelSayaComponent Component');
   }
 
@@ -37,42 +48,75 @@ export class ArtikelSayaComponent {
     //Add 'implements OnInit' to the class.
     console.log('data hasil lemparan', this.passedData)
     this.getAllArtikel();
-  }
 
+  }
   changeFilter(value){
     console.log('filter yang di pilih', value)
   }
-  doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
+  getAllArtikel(){
+    let params1 = JSON.stringify({"skip": this.skipData, "limit": this.limitData })
+ 
+    let params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1});
 
-    setTimeout(() => {
-
-      console.log('Async operation has ended');
-      infiniteScroll.complete();
-    }, 1000);
+    this.rest.get('http://abdurrohim.id:3000/api/artikel/post/'+params1+'/'+params2)
+    .subscribe(response =>{
+      this.data = response;
+      console.log('Berhasil get artikel', this.data)
+      console.log('pangjang datanya', this.data.length)
+    }, err =>{
+      console.log(err)
+      this.rest.showError(err);
+    });
   }
+
+
+/**
+ * 
+ * Page function
+ */
 
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
 
     setTimeout(() => {
       console.log('Async operation has ended');
+      this.getAllArtikel();
       refresher.complete();
     }, 2000);
+  }  
+  doInfinite(infiniteScroll) {
+    if(this.isScrollAble){
+      this.infiniteScroll = infiniteScroll;
+      this.skipData += this.limitData;
+      let params1 = JSON.stringify({"skip": this.skipData, "limit": this.limitData });
+      let params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1})
+      this.rest.get('http://abdurrohim.id:3000/api/artikel/post/'+params1+'/'+params2)
+      .subscribe(
+        res =>{
+          if(res == null) // no content
+            this.isScrollAble = false;
+          else{
+            this.data.push.apply(this.data, res);
+            console.log('panjang data sekarang', this.data.length)
+            this.infiniteScroll.complete();
+          }
+        },
+        err=>{
+          this.infiniteScroll.complete();
+          this.rest.showError(err);
+        }
+      )
+    }
   }
-  
-  getAllArtikel(){
-    this.authhttp.get('https://restcountries.eu/rest/v2/all')
-    .subscribe(response =>{
-      let data = response.json();
-      this.data = data
-      this.length = data.length;
-      console.log('datanya coy', this.data)
-      console.log('pangjang datanya', this.length)
-    }, err =>{
-      console.log('error boy', err)
-    });
-  }
+
+  deletePost(gossip) {
+      this.shared.Alert.confirm().then((res) => {
+          console.log('confirmed');
+          console.log('minta di delete beneran')
+      }, err => {
+          console.log('user cancelled');
+      })
+  }  
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       buttons: [
@@ -81,15 +125,27 @@ export class ArtikelSayaComponent {
           role: 'destructive',          
           icon: 'trash',
           handler: () => {
-            this.showConfirm();
+            this.shared.Alert.confirm().then((res) => {
+                console.log('confirmed');
+                console.log('minta di delete beneran')
+            }, err => {
+                console.log('user cancelled');
+            })            
             console.log('Hapus clicked');
           }
         },{
           text: 'Edit',
           icon: 'create',
           handler: () => {
-            this.app.getRootNav().push('ArtikelEditTambahPage', {page:'Edit'})
+            // this.app.getRootNav().push('ArtikelEditTambahPage', {page:'Edit'})
             console.log('Destructive clicked');
+            this.shared.Alert.alert('pesan');
+          }
+        },{
+          text: 'Share',
+          icon: 'share',
+          handler: () => {
+            console.log('Share clicked');
           }
         },{
           text: 'Cancel',
@@ -103,9 +159,6 @@ export class ArtikelSayaComponent {
     });
     actionSheet.present();
   }      
-  pushArtikelPreviewPage(){
-    this.app.getRootNav().push('ArtikelPreviewPage')
-  }
   showConfirm(){
     let confirm = this.alertCtrl.create({
       title: 'Apakah anda yakin?',
@@ -127,4 +180,8 @@ export class ArtikelSayaComponent {
     });
     confirm.present();
   } 
+  pushArtikelPreviewPage(params){
+    let objectArtikel = params;
+    this.app.getRootNav().push('ArtikelPreviewPage', objectArtikel)
+  }  
 }

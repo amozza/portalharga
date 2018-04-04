@@ -1,3 +1,4 @@
+import { SharedProvider } from './../providers/shared';
 import { IonicModule } from 'ionic-angular';
 import { NgModule } from '@angular/core';
 import { CacaComponent } from './caca/caca';
@@ -9,7 +10,6 @@ import { KomentarComponent } from './komentar/komentar';
 import { FollowToFollowComponent } from './follow-to-follow/follow-to-follow';
 import { HtmlEditorComponent } from './html-editor/html-editor';
 import { CKEditorModule } from 'ng2-ckeditor';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
 	declarations: [CacaComponent,
@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
     KomentarComponent,
     FollowToFollowComponent,
     HtmlEditorComponent],
-	imports: [IonicModule, CKEditorModule, FormsModule],
+	imports: [IonicModule, CKEditorModule],
 	exports: [CacaComponent,
     ArtikelSayaComponent,
     ArtikelExploreComponent,
@@ -28,6 +28,9 @@ import { FormsModule } from '@angular/forms';
     RoomComponent,
     KomentarComponent,
     FollowToFollowComponent,
-    HtmlEditorComponent]
+    HtmlEditorComponent],
+    providers:[
+        SharedProvider
+    ]
 })
 export class ComponentsModule {}

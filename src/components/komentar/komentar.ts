@@ -1,3 +1,4 @@
+import { AuthHttp } from 'angular2-jwt';
 import { Component } from '@angular/core';
 
 /**
@@ -11,12 +12,11 @@ import { Component } from '@angular/core';
   templateUrl: 'komentar.html'
 })
 export class KomentarComponent {
-
-  text: string;
+  private editorMsg       : string;
+  private text            : string;
 
   constructor() {
     console.log('Hello KomentarComponent Component');
-    this.text = 'Hello World';
   }
 
 }

@@ -1,8 +1,9 @@
+
 <!-- template for artikel saya only -->
 <ion-row *ngIf="passedData == 'saya' ">
   <ion-col col-4>
     <!-- select menu filter by-->
-    <ion-select placeholder="Filter" interface="popover" [(ngModel)]="filterBy" (ionChange)="changeFilter(filterBy)" name="filterBy" [selectOptions]="selectOptions">
+    <ion-select placeholder="Filter" interface="popover" [(ngModel)]="filterBy" (ionChange)="changeFilter(filterBy)" name="filterBy" [selectOptions]="{title: 'Filter berdasarkan'}">
       <ion-option value='Draf'>Draf</ion-option>
       <ion-option value='Terbit'>Terbit</ion-option>      
     </ion-select> 
@@ -17,39 +18,50 @@
 </ion-row>
 <!-- /end of template for artikel saya only -->
 
-<ion-card *ngFor="let item of data">   
-      <!-- for artikel saya only -->
-      <ion-card-header *ngIf="passedData == 'saya' ">
-        <span style="float: right">
-          <ion-icon tappable (click)="presentActionSheet()"name="more"></ion-icon>
-        </span>
-      </ion-card-header>
+<ion-card *ngFor="let item of data; let i = index">   
+    <!-- for artikel saya only -->
+    <ion-card-header *ngIf="passedData == 'saya' ">
+      <span style="float: right">
+        <ion-icon tappable (click)="presentActionSheet()" name="more"></ion-icon>
+      </span>
+    </ion-card-header>
+    <!-- end of aritikel saya only -->
 
-      <div tappable (click)="pushArtikelPreviewPage()">
-        <div class="box-image">
-          <img src="assets/icon/pedagang.png"> 
-        </div>
-        <ion-row>
-          <ion-card-content>
-            <ion-card-title style="font-size: 2.0rem">
-              Tahukah anda bahwa hama yang paling sulit di basmi adalah hama
-            </ion-card-title>
-            <p> <!-- for artikel saya only -->
-              <span class="status-artikel" float-left> 
-                <span *ngIf="passedData == 'saya' ">Terakhir</span>
-                 Maret 2018 &nbsp;&nbsp; 18:00 
-              </span> 
-              <span *ngIf="passedData == 'saya' " style="float:right" class="status-artikel"><i>Terbit</i></span>
-            </p>
-          </ion-card-content>
-        </ion-row>
+    <div tappable (click)="pushArtikelPreviewPage(item)">
+      <div>
+        <img [src]= "item?.meta.thumbnail"> 
       </div>
-</ion-card>
+      
+      <ion-card-content>
+        <ion-card-title style="font-size: 2.0rem">
+          {{item?.judul}}
+        </ion-card-title>
+        <p [innerHtml]="(item?.ringkasan.length>200)? (item?.ringkasan | slice:0:50)+'...':(item?.ringkasan)">
+        </p>
+      </ion-card-content>
 
-<ion-infinite-scroll threshold="10px" (ionInfinite)="doInfinite($event)">
+      <ion-row padding-left padding-right padding-bottom>
+        <ion-col no-padding col--8 class="status-artikel" float-left> 
+          <span *ngIf="passedData == 'saya' ">Terakhir
+            {{item?.tanggal.ubah | date: 'dd MMMM yyyy, h:mm:ss a' }}
+          </span>
+
+          <span *ngIf="passedData == 'explore' ">
+            {{item?.tanggal.terbit | date: 'dd MMMM yyyy'}}
+          </span>
+
+        </ion-col>
+
+        <ion-col no-padding  col-4>
+          <ion-note *ngIf="passedData == 'saya' " style="float:right" class="status-artikel"><i>{{item?.status}}</i></ion-note>        
+        </ion-col>
+      </ion-row>
+      
+    </div>
+
+  </ion-card>
+
+<div>
+<ion-infinite-scroll *ngIf="isScrollAble && data.length % limitData == 0 " (ionInfinite)="doInfinite($event)">
   <ion-infinite-scroll-content></ion-infinite-scroll-content>
 </ion-infinite-scroll>
-
-
-
-

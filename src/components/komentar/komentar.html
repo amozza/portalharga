@@ -1,4 +1,62 @@
-<!-- Generated template for the KomentarComponent component -->
-<div>
-  {{text}}
+<ion-content padding>
+<div *ngFor="let item of [1,2,3,4]">  
+  <ion-row >
+    <ion-col no-padding col-2>
+      <img src="assets/icon/user.png" height="45px" width="45px">
+    </ion-col>
+    <ion-col col-10 no-padding>
+      <ion-row style="font-weight: bold">
+        Reza Bagus Permana
+      </ion-row>
+      <ion-row no-padding text-wrap>
+        Shadow kill wakwaw panjang panjang panjang panjang panjang panjang panjang panjang panjang panjang panjang panjang panjang
+      </ion-row>
+    </ion-col>
+  </ion-row>
+
+  <ion-row style="margin-bottom:5px">
+    <ion-col col-10 push-2 no-padding>
+      <ion-note style="font-size: 1.2rem">
+        <span>2 menit yang lalu</span> &nbsp; &nbsp; <span style="color: green"> Balas</span>
+      </ion-note>
+    </ion-col>
+  </ion-row>
+
+  <!-- replies -->
+  <ion-row *ngFor="let item of [1,2,3,4]">
+    <ion-col col-10 push-2 no-padding>
+      <ion-row>
+        <ion-col no-padding col-2>
+          <img src="assets/icon/pedagang.png" height="30px" width="30px">
+        </ion-col >
+        <ion-col col-10>
+          <ion-row style="font-weight: bold">
+            Pepy si makon
+          </ion-row>
+          <ion-row>
+            lu sehat coy ?
+          </ion-row>        
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  
 </div>
+
+</ion-content>
+
+<ion-footer no-border>
+  <div class="input-wrap">
+    <button ion-button clear icon-only item-right (click)="switchEmojiPicker()">
+      <ion-icon name="md-happy"></ion-icon>
+    </button>
+    <textarea #chat_input
+              placeholder="Berikan komentar"
+              [(ngModel)]="editorMsg">
+    </textarea>
+    <button ion-button clear icon-only item-right>
+      <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
+    </button>
+  </div>
+
+</ion-footer>
