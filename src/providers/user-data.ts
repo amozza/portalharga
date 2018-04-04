@@ -8,18 +8,23 @@ export class UserData {
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
   BASE_URL = 'https://ph.yippytech.com:5000/';
-  token:any;
+  Base_URL_KMS = "http://abdurrohim.id:3000/";
   data:any;
+  idUser: any;
+
   constructor(
     public events: Events,
     public toastCtrl: ToastController,
     public storage: Storage,
     public authHttp: AuthHttp
-  ) {}
+  ) { }
 
   login(data: string) {
     this.storage.set(this.HAS_LOGGED_IN, true);
     this.storage.set('user_data', data);
+    this.getId().then(val =>{
+      this.idUser = val;
+    })
     this.events.publish('user:login');
   };
 
@@ -36,6 +41,7 @@ export class UserData {
     this.storage.remove('token');
     this.storage.remove('komoditas');
     this.events.publish('user:logout');
+    this.storage.clear()
   };
 
   setUsername(username: string) {
@@ -43,8 +49,7 @@ export class UserData {
   };
   setToken(token: string){
      this.storage.set('token', token);
-    //  window.localStorage.setItem('token', token)
-  }
+  };
   setAddress(address: string){
     this.storage.get('user_data').then((value) => {
       let data = value;
