@@ -1,8 +1,13 @@
 <ckeditor
     [(ngModel)]="content"
-
     (change)="onChange($event)"
     (ready)="onReady($event)"
+      [config]="{
+        toolbar: [
+          [ 'Format', 'Bold', 'Italic', 'Underline', 'BulletedList', 'NumberedList', 'Image', 'Link', 'Unlink', '-', 'Undo', 'Redo']
+        ]
+      }"
+    (focus)="onFocus($event)"
     debounce="500">
 </ckeditor>
 

@@ -9,7 +9,7 @@
   <ion-navbar>
     <ion-title>{{pageType}} artikel</ion-title>
     <ion-buttons end>
-      <button (click)="submit()" ion-button icon-only>
+      <button [disabled]="!form.valid" (click)="submit()" ion-button icon-only>
         <ion-icon color="primary" name="send"></ion-icon>
       </button>
     </ion-buttons>      
@@ -20,46 +20,59 @@
 
 <ion-content padding>
   <!-- form add artikel -->
-  <ion-item no-lines>
-    <ion-label color="primary" stacked>Judul</ion-label>    
-    <ion-input type="text" id='artikel_judul' name="artikel_judul" placeholder="Judul Artikel"></ion-input>
-  </ion-item>
-  <ion-item no-lines>
-    <ion-label color="primary" stacked>Gambar sampul</ion-label>    
-  </ion-item>
+  <form [formGroup]= "form">
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Judul</ion-label>    
+      <ion-input type="text" formControlName="judul" placeholder="Judul Artikel"></ion-input>
+    </ion-item>
 
-  <ion-row padding style="padding-top:4px"> 
-    <ion-col>
-      <div  (click)="takePicture()" >
-            <ion-icon name='camera'></ion-icon>
-              Ambil gambar
-          </div>
-    </ion-col>
-    <ion-col>
-          <div (click)="getPhotoFromGallery()">
-            <ion-icon name='image'></ion-icon>
-              Pilih dari gallery
-          </div>
-    </ion-col>
-  </ion-row>
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Gambar sampul</ion-label>    
+    </ion-item>
 
-  <!-- preview gambar sampul -->
-  <div class="image-block">
-    <img class="image-cover" src="assets/icon/user.png" height="250">
-  </div>
-  <ion-item no-lines>
-    <ion-label color="primary" stacked>Status</ion-label>    
-      <ion-select class="custom-select" name="artikel_status" interface="popover" [(ngModel)]="artikelStatus">
-        <ion-option selected value="t">Terbit</ion-option>
-        <ion-option value="d">Draf</ion-option>        
-      </ion-select>
-  </ion-item>  
-  
-  <ion-item>
-    <ion-label color="primary" stacked>Isi Artikel</ion-label>        
-  </ion-item>  
-  <!-- html editor ckeditor -->
-  <html-editor (contentChanged)="htmlChanged($event)"></html-editor>
-  <!-- <div ion-button (click)="checkContent()">check</div> -->
+    <ion-row no-padding style="padding-top:4px"> 
+      <ion-col>
+        <div  (click)="takePicture()" >
+          <ion-icon name='camera'></ion-icon>
+                Ambil gambar
+        </div>
+      </ion-col>
+      <ion-col>
+        <div (click)="getPhotoFromGallery()">
+          <ion-icon name='image'></ion-icon>
+                Pilih dari gallery
+          </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- preview gambar sampul -->
+    <div class="image-block" *ngIf=picture>
+      <img class="image-cover" [src]="'data:image/jpeg;base64,'+ picture" height="250">
+    </div>
+
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Status</ion-label>    
+        <ion-select formControlName="status" class="custom-select" interface="popover">
+          <ion-option value="terbit">Terbit</ion-option>
+          <ion-option value="draf">Draf</ion-option>        
+        </ion-select>
+    </ion-item>
+
+    <!-- tag input -->
+    <ion-item id='tagFocus' no-padding no-lines>
+      <ion-label color="primary" stacked>Tag</ion-label>    
+    </ion-item>
+    <div style="margin-top: -10px;"> 
+      <tag-input #tagFocus [placeholder]="'tambah tag'"  (onFocus)="setFocus($event, 'tagFocus')" [secondaryPlaceholder]="'Silahkan masukan tag'" [theme]="'foundation-theme'"formControlName='tag'></tag-input> 
+    </div>
+        
+    <ion-item id='editorFocus' no-padding>
+      <ion-label color="primary" stacked>Isi Artikel</ion-label>        
+    </ion-item>  
+    <!-- html editor ckeditor -->
+    <div>
+      <html-editor (focus)="setFocus($event, 'editorFocus')" (contentChanged)="htmlChanged($event)"></html-editor>
+    </div>
+  </form>     
 
 </ion-content>
