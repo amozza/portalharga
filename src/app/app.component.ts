@@ -1,7 +1,10 @@
+import { SharedProvider } from './../providers/shared';
 import { RestProvider } from './../providers/rest';
 import { Component,ViewChild } from '@angular/core';
-import { Platform,Nav, App } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { Platform, Nav, App } from 'ionic-angular';
+
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { TabsPage } from '../pages/petani/tabs-petani/tabs';
 import { TabsMasyarakatPage } from '../pages/masyarakat/tabs-masyarakat/tabs-masyarakat';
@@ -9,18 +12,18 @@ import { TabsPedagangPage } from '../pages/pedagang/tabs-pedagang/tabs-pedagang'
 import { TabsPenyuluhPage } from '../pages/penyuluh/tabs-penyuluh/tabs-penyuluh';
 import { UserData } from '../providers/user-data';
 import { LoginPage } from '../pages/login/login';
-// import { Deeplinks } from 'ionic-native';
 
 @Component({
   templateUrl: 'app.html',
-  providers: [RestProvider]
+  providers: [SharedProvider]
 })
 
 export class MyApp {
-  rootPage: any;
+  rootPage  : any;
 
   @ViewChild(Nav) navChild:Nav;
-  menuItems: any[] = [
+
+  menuApps : any[] = [
     {
       name: 'Portal Harga',
       page: 'PortalHargaPage',
@@ -38,7 +41,10 @@ export class MyApp {
       page: '',
       icon: 'document',      
       params: { type: 'all', name: 'Berbagi File'}
-    },
+    }
+  ];  
+
+  menuAccount  : any[] = [
     {
       name: 'Notifikasi',
       page: 'NotifikasiPage',
@@ -57,29 +63,19 @@ export class MyApp {
       icon: 'log-out',      
       params: { type: 'all', name: 'Keluar'}
     }
-  ];  
+  ];
   
   constructor(
     platform: Platform,
+    statusBar: StatusBar, 
+    splashScreen: SplashScreen,
     public app: App,
     public userData: UserData) {
     platform.ready().then(() => {
-      Splashscreen.hide();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      StatusBar.backgroundColorByHexString("#333");
-      // StatusBar.styleDefault();
-    // StatusBar.overlaysWebView(true);
-    // StatusBar.backgroundColorByHexString('#ffffff'); // set status bar to white
-    
-    //  Deeplinks.routeWithNavController(this.navChild, {
-    //     '/login': LoginPage
-    //   }).subscribe((match) => {
-    //     // alert('Successfully routed'+ match);
-    //   }, (nomatch) => {
-    //     // console.warn('Unmatched Route', nomatch);
-    //   });
-    
+      statusBar.styleDefault();
+      splashScreen.hide();
     });
 
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
@@ -124,9 +120,15 @@ export class MyApp {
     }
 
   }
+  isActive(page){
+    if (this.navChild.getActive() && this.navChild.getActive().name === page.page) {
+      return 'primary';
+    }
+    return;
+  }
+
   logout() {
     this.userData.logout();
     this.app.getRootNav()[0].setRoot(LoginPage);
-   // this.nav.setRoot(LoginPage);
   }
 }

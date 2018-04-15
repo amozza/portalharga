@@ -1,10 +1,11 @@
 import { SharedProvider } from './../../providers/shared';
 import { UserData } from './../../providers/user-data';
 import { RestProvider } from './../../providers/rest';
-import { ActionSheetController, App, PopoverController, AlertController } from 'ionic-angular';
+import { ActionSheetController, PopoverController, AlertController, NavController, App } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Component, Input, LOCALE_ID } from '@angular/core';
+
 
 /**
  * Generated class for the ArtikelSayaComponent component.
@@ -32,33 +33,39 @@ export class ArtikelSayaComponent {
   limitData       : number=5; 
   infiniteScroll  : any;
   isScrollAble    : boolean=true;
+  params1         : any;
+  params2         : any;
 
-  constructor(private app: App, 
+  constructor(private navCtrl: NavController, 
+              private app : App,
               private shared: SharedProvider,
               private rest: RestProvider,
               private userData: UserData,
               private alertCtrl : AlertController,
               private actionSheetCtrl: ActionSheetController, 
               private authhttp : AuthHttp) {
-    console.log('Hello ArtikelSayaComponent Component');
+
+    console.log('artikel saya component fire');
+
+    //set the params of lazy load
+    this.params1 = JSON.stringify({"skip": this.skipData, "limit": this.limitData });
+    this.params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1});
+
   }
 
   ngOnInit() {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    console.log('on init comopnent')
     console.log('data hasil lemparan', this.passedData)
     this.getAllArtikel();
-
   }
   changeFilter(value){
     console.log('filter yang di pilih', value)
   }
   getAllArtikel(){
-    let params1 = JSON.stringify({"skip": this.skipData, "limit": this.limitData })
- 
-    let params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1});
 
-    this.rest.get('http://abdurrohim.id:3000/api/artikel/post/'+params1+'/'+params2)
+    this.rest.get(this.userData.Base_URL_KMS+'api/artikel/post/all/'+this.params1+'/'+this.params2)
     .subscribe(response =>{
       this.data = response;
       console.log('Berhasil get artikel', this.data)
@@ -75,22 +82,13 @@ export class ArtikelSayaComponent {
  * Page function
  */
 
-  doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      this.getAllArtikel();
-      refresher.complete();
-    }, 2000);
-  }  
   doInfinite(infiniteScroll) {
     if(this.isScrollAble){
       this.infiniteScroll = infiniteScroll;
       this.skipData += this.limitData;
       let params1 = JSON.stringify({"skip": this.skipData, "limit": this.limitData });
       let params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1})
-      this.rest.get('http://abdurrohim.id:3000/api/artikel/post/'+params1+'/'+params2)
+      this.rest.get(this.userData.Base_URL_KMS+'api/artikel/post/all/'+params1+'/'+params2)
       .subscribe(
         res =>{
           if(res == null) // no content

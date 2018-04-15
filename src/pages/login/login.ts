@@ -34,61 +34,68 @@ export class LoginPage {
   }
   onLogin(form: NgForm) {
     this.submitted = true;
-    let loading = this.loadCtrl.create({
-        content: 'Tunggu sebentar...'
-    });
+    // let loading = this.loadCtrl.create({
+    //     content: 'Tunggu sebentar...'
+    // });
 
     if (form.valid) {
-    loading.present();
+    // loading.present();
       let input = JSON.stringify({
         username: this.login.username.toLowerCase(), 
         password: this.login.password,
         login_type: 1
       });
-        this.http.post(this.userData.BASE_URL+"user/auth",input,this.options).subscribe(data => {
-           let response = data.json();
-           loading.dismiss();
-           if(response.status == 200) {
-            if(response.data.isValidate){
-              this.userData.login(response.data);
-              this.userData.setToken(response.token);
-              setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
-              this.navCtrl.setRoot('PortalHargaPage');
-              // switch (response.data.role) {
-              //   case 3: //penyuluh
-              //     this.navCtrl.setRoot(TabsPenyuluhPage);
-              //     break;
-              //   case 4: //petani
-              //     this.navCtrl.setRoot(TabsPage);
-              //     break;
-              //   case 5: //masyarakat
-              //     this.navCtrl.setRoot(TabsMasyarakatPage);
-              //     break;
-              //   case 6: //pedagang
-              //     this.navCtrl.setRoot(TabsPedagangPage);
-              //     break;
-                
-              //   default:
-              //     // code...
-              //     break;
-              // }
+      let toke='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWE2MWM0ZWZkN2M5NjcxMGQ1MWFlMzciLCJ1c2VyX2lkIjoxMTMsInVzZXJuYW1lIjoicGV0YW5pMjAxOCIsInRpbWUiOiJGcmksIDMwIE1hciAyMDE4IDIwOjIzOjQ5IEdNVCIsInJvbGUiOjQsImxvZ2luX3R5cGUiOjEsImlhdCI6MTUyMjQ0MTQyOX0.mrD9q-R3KibbiVLoKWhYFbzqYE-l3yFQKHsW9MZ1Yp8'
 
-            } else{
-              this.navCtrl.setRoot(VerifikasiAkunPage,response.data);
-            }
-           } else {
-             this.showAlert(response.message);
-           }
-        }, err => { 
-          console.log('errornya',err)
-            loading.dismiss();
-            let data = err.json();
-            if(err.status == 400){
-              this.showAlert(data.message);
-            } else{
-              this.showError(err);
-            }
-        });
+      let data = JSON.stringify({"user_id":16,"username":"ryanbaskara3","email":"nugroho@apps.ipb.ac.id","name":"Ryan Baskara","address":"Parung","nomor_telepon":"089678890332","last_login":"Mon, 19 Mar 2018 08:23:04 GMT","isValidate":true,"role":3})
+            this.userData.login(data);
+            this.userData.setToken(toke);
+            // setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
+            this.navCtrl.setRoot('PengetahuanPage');
+        // this.http.post(this.userData.BASE_URL+"user/auth",input,this.options).subscribe(data => {
+        //    let response = data.json();
+        //    loading.dismiss();
+        //    if(response.status == 200) {
+        //     if(response.data.isValidate){
+        //       this.userData.login(response.data);
+        //       this.userData.setToken(response.token);
+        //       setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
+        //       this.navCtrl.setRoot('PortalHargaPage');
+        //       // switch (response.data.role) {
+        //       //   case 3: //penyuluh
+        //       //     this.navCtrl.setRoot(TabsPenyuluhPage);
+        //       //     break;
+        //       //   case 4: //petani
+        //       //     this.navCtrl.setRoot(TabsPage);
+        //       //     break;
+        //       //   case 5: //masyarakat
+        //       //     this.navCtrl.setRoot(TabsMasyarakatPage);
+        //       //     break;
+        //       //   case 6: //pedagang
+        //       //     this.navCtrl.setRoot(TabsPedagangPage);
+        //       //     break;
+                
+        //       //   default:
+        //       //     // code...
+        //       //     break;
+        //       // }
+
+        //     } else{
+        //       this.navCtrl.setRoot(VerifikasiAkunPage,response.data);
+        //     }
+        //    } else {
+        //      this.showAlert(response.message);
+        //    }
+        // }, err => { 
+        //   console.log('errornya',err)
+        //     loading.dismiss();
+        //     let data = err.json();
+        //     if(err.status == 400){
+        //       this.showAlert(data.message);
+        //     } else{
+        //       this.showError(err);
+        //     }
+        // });
       
     }
   }

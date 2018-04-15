@@ -20,9 +20,9 @@
         <ion-avatar item-start>
           <img src="assets/icon/user.png">
         </ion-avatar>
-        <h2>Nine Inch Nails Live</h2>
+        <h2>{{passedParam?.nama.asli}}</h2>
         <ion-note float-left>
-          Oleh: reza_bagusp
+          Oleh: {{passedParam?.pemilik}}
         </ion-note>
       </ion-item>
 
@@ -30,13 +30,13 @@
     </ion-list>
   
   <ion-row>
-    <img src="assets/icon/pedagang.png">
+    <img src="assets/icon/user.png">
   </ion-row>
 
   <ion-row>
     <h2>Deskripsi File</h2>
     <ion-row text-wrap>  File ini berisi tentang bagaimana car membaca Nine Inch Nail Live yang baik dan benar</ion-row><br>
-    <button style="text-transform:none" ion-button block> 
+    <button (click)="UnduhFile()" style="text-transform:none" ion-button block> 
       <ion-icon name="download"></ion-icon>&nbsp;
       Unduh File
     </button>
@@ -47,13 +47,13 @@
 <ion-footer>
   <ion-toolbar>
     <ion-row float-right>
-      <ion-col col-6>
+      <!-- <ion-col col-6>
         <ion-buttons >
           <button ion-button>
             <ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp; 5
           </button>
         </ion-buttons>
-      </ion-col>    
+      </ion-col>     -->
       <ion-col col-6>
         <ion-buttons >
           <button ion-button icon-only>

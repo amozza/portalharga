@@ -5,8 +5,8 @@ import { LoginPage } from '../../login/login';
 import { ProfileEditPage } from '../../profile-edit/profile-edit';
 import { PopoverPage } from '../../popover/popover';
 import { AuthHttp } from 'angular2-jwt';
-import { EditMateriPage } from "../edit-materi/edit-materi";
-import { ViewMateriPage } from "../view-materi/view-materi";
+// import { EditMateriPage } from "../edit-materi/edit-materi";
+// import { ViewMateriPage } from "../view-materi/view-materi";
 /*
   Generated class for the ProfilePenyuluh page.
 
@@ -83,14 +83,14 @@ export class ProfilePenyuluhPage {
           role: 'lihatMateri',
           handler: () => {
             // window.open(dataMateri.file);
-            this.navCtrl.push(ViewMateriPage,dataMateri);
+            this.navCtrl.push('ViewMateriPage',dataMateri);
           }
         },
         {
           text: 'Edit materi',
           role: 'editFile',
           handler: () => {
-            this.navCtrl.push(EditMateriPage,dataMateri);
+            this.navCtrl.push('EditMateriPage',dataMateri);
           }
         },
         {

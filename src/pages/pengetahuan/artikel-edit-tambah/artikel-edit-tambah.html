@@ -31,23 +31,17 @@
     </ion-item>
 
     <ion-row no-padding style="padding-top:4px"> 
-      <ion-col>
-        <div  (click)="takePicture()" >
+      <ion-col col-4>
+        <button color="dark" ion-button small outline icon-start (click)="takePictureFrom()" >
           <ion-icon name='camera'></ion-icon>
                 Ambil gambar
-        </div>
-      </ion-col>
-      <ion-col>
-        <div (click)="getPhotoFromGallery()">
-          <ion-icon name='image'></ion-icon>
-                Pilih dari gallery
-          </div>
+        </button>
       </ion-col>
     </ion-row>
 
     <!-- preview gambar sampul -->
     <div class="image-block" *ngIf=picture>
-      <img class="image-cover" [src]="'data:image/jpeg;base64,'+ picture" height="250">
+      <img class="image-cover" [src]="picture" height="250">
     </div>
 
     <ion-item no-padding no-lines>

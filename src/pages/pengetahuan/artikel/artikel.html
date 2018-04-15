@@ -1,8 +1,13 @@
 
 <ion-header no-border>
-  <!-- <ion-navbar>
-    <ion-title></ion-title>
-  </ion-navbar>  -->
+  
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+     <ion-title>Pengetahuan </ion-title> 
+  </ion-navbar>
+  
 
   <ion-segment [(ngModel)]="segment">
     <ion-segment-button value="explore" (ionSelect)="selectedSegment($event.value)">
@@ -23,18 +28,17 @@
 
   
   <div [ngSwitch]="segment">
+    <!-- if role = 3 : penyuluh -->
     <artikel-saya name="saya" *ngSwitchCase="'saya'"></artikel-saya>
+
+    <!-- if all role but penyuluh -->
     <artikel-saya name="explore" *ngSwitchCase="'explore'"></artikel-saya>
     <artikel-saya name="favorite" *ngSwitchCase="'favorite'"></artikel-saya>
-    
-    <!-- use the same component -->
-    <!-- <artikel-explore name="favorite" *ngSwitchCase="'favorite'"></artikel-explore>
-    <artikel-explore name="explore" *ngSwitchCase="'explore'"></artikel-explore> -->
-    
+
   </div>
 
-  <ion-fab bottom right>
-    <button ion-fab (click)="scrollToTop(); pushArtikelTambahPage()" tappable><ion-icon name="add"></ion-icon></button>
+  <ion-fab bottom right tappable>
+    <button ion-fab (click)="pushArtikelTambahPage()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
   
 </ion-content>

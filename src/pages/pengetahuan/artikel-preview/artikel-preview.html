@@ -27,8 +27,10 @@
   </ion-note>
 
   <img class="image-artikel" [src]="passedParam.meta.thumbnail">
-  <ion-spinner [hidden]="artikel"></ion-spinner>
-    <p [innerHTML]="artikel?.isi"></p>
+
+  <ion-spinner [hidden]="artikel" name="crescent" style="left:50%"></ion-spinner>
+
+  <p [innerHTML]="artikel?.isi"></p>
 </ion-content>
 
 <ion-footer no-border>

@@ -19,6 +19,7 @@
     "@angular/http": "4.4.3",
     "@angular/platform-browser": "4.4.3",
     "@angular/platform-browser-dynamic": "4.4.3",
+    "@ionic-native/camera": "^3.5.0",
     "@ionic-native/core": "^3.5.0",
     "@ionic-native/file": "^3.5.0",
     "@ionic-native/file-chooser": "^3.5.0",

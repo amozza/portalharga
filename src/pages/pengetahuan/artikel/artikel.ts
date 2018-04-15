@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 
 /**
  * Generated class for the ArtikelPage page.
@@ -17,11 +17,18 @@ export class ArtikelPage {
 
   @ViewChild(Content) content:Content;
 
-  private segment: String='saya';
+  private segment: String='explore';
 
-  constructor(public app: App, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams) {
   }
 
+  ionViewWillEnter(){
+    console.log('will enter artikel')
+  }
+  ionViewDidEnter(){
+    console.log('did enter artikel');
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ArtikelPage');
   }
@@ -37,8 +44,8 @@ export class ArtikelPage {
 
   }
   pushArtikelTambahPage(){
-    console.log('goes to tambah artikel')
-    this.app.getRootNav().push('ArtikelEditTambahPage',{page:'Tambah'});
+    this.navCtrl.push('ArtikelEditTambahPage',{page:'Tambah'});
   }  
+
 
 }

@@ -1,19 +1,29 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
-    <button ion-item menuClose *ngFor="let item of menuItems" (click)= "openPage(item)">
-        <ion-icon name="{{item.icon}}"></ion-icon> <span style="padding-left:2em">{{ item.name }}</span> 
-    </button>
+      <ion-list-header>
+        Aplikasi
+      </ion-list-header>      
+      <button ion-item menuClose *ngFor="let item of menuApps" (click)= "openPage(item)">
+          <ion-icon item-start name="{{item.icon}}" [color]="isActive(item)" ></ion-icon>{{ item.name }}
+      </button>  
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        Akun
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let item of menuAccount" (click)= "openPage(item)">
+          <ion-icon item-start name="{{item.icon}}" [color]="isActive(item)"></ion-icon>{{ item.name }}
+      </button>                   
     </ion-list>
   </ion-content>
 </ion-menu>
-
-<!-- <ion-nav id="nav" #content [root]="rootPage"></ion-nav> -->
 
 <ion-nav [root]="rootPage" main #content></ion-nav>

@@ -1,0 +1,33 @@
+<!--
+  Generated template for the FotoGaleriPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-border>
+
+  <ion-navbar>
+    <ion-title>Pilh Gambar</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color='primary' [disabled]= "!choosedPhoto" (click)="submit()"><ion-icon name="checkmark"></ion-icon></button>
+      <button ion-button icon-only (click)="closeModal()" ><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>    
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-spinner *ngIf=!foto.length style="margin-left: auto; margin-right:auto; display:block; top:50%"></ion-spinner>
+
+<ion-content no-padding>
+  <ion-row>
+    <ion-col *ngFor="let item of foto" col-4 no-padding>
+      <button [class.selected]="item === choosedPhoto" ion-item class="item-inner" no-padding (click)="choosePhoto(item)">
+        <ion-card>
+          <img class="block-image" src="{{base_url}}{{streamGambar}}{{item?.nama.sistem}}">
+        </ion-card>      
+      </button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

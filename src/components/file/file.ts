@@ -1,3 +1,5 @@
+import { UserData } from './../../providers/user-data';
+import { RestProvider } from './../../providers/rest';
 import { Http } from '@angular/http';
 import { App } from 'ionic-angular';
 import { Component, Input } from '@angular/core';
@@ -16,10 +18,17 @@ export class FileComponent {
   @Input('name') componentName: String;
 
   text: string;
-  data = [];
+  data: any = [];
+  params1: any;
+  params2: any;
 
-  constructor(public app: App, public http: Http) {
+  constructor(public app: App, 
+              public rest: RestProvider,
+              public userData: UserData, 
+              public http: Http) {
     console.log('Hello FileComponent Component');
+    this.params1 =JSON.stringify( {"skip": 0, "limit": null} );
+    this.params2 = JSON.stringify( {"terbaru": 1, "terpopuler": -1});
   }
 
   ngOnInit() {
@@ -28,18 +37,21 @@ export class FileComponent {
     this.text = 'File '+this.componentName;
     this.getAllFile();
   }
-  pushBerbagiFilePreviewPage(){
-    this.app.getRootNav().push('BerbagiFilePreviewPage')
+  pushBerbagiFilePreviewPage(data){
+    this.app.getRootNav().push('BerbagiFilePreviewPage', data)
   }
 
   getAllFile(){
-    this.http.get('https://restcountries.eu/rest/v2/all')
-    .subscribe(response =>{
-      let data = response.json();
-      this.data = data
-    }, err =>{
-      console.log('error boy', err)
-    });
+    this.rest.get(this.userData.Base_URL_KMS+'api/materi/file/all/'+this.params1+'/'+this.params2)
+    .subscribe(
+      data =>{
+        console.log('berhasil get all file ', data)
+        this.data = data;
+      },
+      err =>{
+        alert(JSON.stringify(err));
+      }
+    )
   }
   
 }

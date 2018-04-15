@@ -1,4 +1,3 @@
-import { SharedProvider } from './../providers/shared';
 import { IonicModule } from 'ionic-angular';
 import { NgModule } from '@angular/core';
 import { CacaComponent } from './caca/caca';
@@ -30,7 +29,6 @@ import { CKEditorModule } from 'ng2-ckeditor';
     FollowToFollowComponent,
     HtmlEditorComponent],
     providers:[
-        SharedProvider
     ]
 })
 export class ComponentsModule {}

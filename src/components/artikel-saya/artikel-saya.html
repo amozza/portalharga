@@ -27,41 +27,42 @@
     </ion-card-header>
     <!-- end of aritikel saya only -->
 
-    <div tappable (click)="pushArtikelPreviewPage(item)">
-      <div>
-        <img [src]= "item?.meta.thumbnail"> 
-      </div>
-      
-      <ion-card-content>
-        <ion-card-title style="font-size: 2.0rem">
-          {{item?.judul}}
-        </ion-card-title>
-        <p [innerHtml]="(item?.ringkasan.length>200)? (item?.ringkasan | slice:0:50)+'...':(item?.ringkasan)">
-        </p>
-      </ion-card-content>
+    <div (click)="pushArtikelPreviewPage(item)">
+          
+          <div>
+            <img [src]= "item?.meta.thumbnail"> 
+          </div>
 
-      <ion-row padding-left padding-right padding-bottom>
-        <ion-col no-padding col--8 class="status-artikel" float-left> 
-          <span *ngIf="passedData == 'saya' ">Terakhir
-            {{item?.tanggal.ubah | date: 'dd MMMM yyyy, h:mm:ss a' }}
-          </span>
 
-          <span *ngIf="passedData == 'explore' ">
-            {{item?.tanggal.terbit | date: 'dd MMMM yyyy'}}
-          </span>
+          <ion-card-content>
+            <ion-card-title style="font-size: 2.0rem">
+              {{item?.judul}}
+            </ion-card-title>
+            <p [innerHtml]="(item?.ringkasan.length>200)? (item?.ringkasan | slice:0:50)+'...':(item?.ringkasan)">
+            </p>
+          </ion-card-content>
 
-        </ion-col>
+          <ion-row padding-left padding-right padding-bottom>
+            <ion-col no-padding col--8 class="status-artikel" float-left> 
+              <span *ngIf="passedData == 'saya' ">Terakhir
+                {{item?.tanggal.ubah | date: 'dd MMMM yyyy, h:mm:ss a' }}
+              </span>
 
-        <ion-col no-padding  col-4>
-          <ion-note *ngIf="passedData == 'saya' " style="float:right" class="status-artikel"><i>{{item?.status}}</i></ion-note>        
-        </ion-col>
-      </ion-row>
-      
+              <span *ngIf="passedData == 'explore' ">
+                {{item?.tanggal.terbit | date: 'dd MMMM yyyy'}}
+              </span>
+
+            </ion-col>
+
+            <ion-col no-padding  col-4>
+              <ion-note *ngIf="passedData == 'saya' " style="float:right" class="status-artikel"><i>{{item?.status}}</i></ion-note>        
+            </ion-col>
+          </ion-row>
+          
     </div>
 
   </ion-card>
 
-<div>
 <ion-infinite-scroll *ngIf="isScrollAble && data.length % limitData == 0 " (ionInfinite)="doInfinite($event)">
   <ion-infinite-scroll-content></ion-infinite-scroll-content>
 </ion-infinite-scroll>

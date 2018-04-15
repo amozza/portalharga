@@ -1,3 +1,4 @@
+import { UserData } from './../../../providers/user-data';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController, App } from 'ionic-angular';
 
@@ -15,7 +16,16 @@ import { IonicPage, NavController, NavParams, ActionSheetController, App } from 
 })
 export class BerbagiFilePreviewPage {
 
-  constructor(public app: App, public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public navParams: NavParams) {
+  private passedParam: any;
+
+  constructor(public app: App, 
+              public actionSheetCtrl: ActionSheetController,
+              public userData: UserData, 
+              public navCtrl: NavController, 
+              public navParams: NavParams) {
+    // get the params from the caller page
+    this.passedParam = navParams.data;
+    console.log('lemparan datanya ', this.passedParam)
   }
 
   ionViewDidLoad() {
@@ -23,7 +33,6 @@ export class BerbagiFilePreviewPage {
   }
   pushBerbagiFilePublisher(){
     this.navCtrl.push('BerbagiFilePublisherPage');
-
     console.log('push to berbagi file page');
   }
   presentActionSheet() {
@@ -60,4 +69,7 @@ export class BerbagiFilePreviewPage {
     });
     actionSheet.present();
   }    
+  UnduhFile(){
+    window.open(this.userData.Base_URL_KMS+'api/materi/file/'+this.passedParam.nama.sistem);
+  }
 }

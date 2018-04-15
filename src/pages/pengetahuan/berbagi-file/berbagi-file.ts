@@ -17,9 +17,13 @@ export class BerbagiFilePage {
 
   private segment: String='explore';
 
-  constructor(public app: App, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams) {
   }
 
+  ionViewWillEnter(){
+    console.log('masuk ke berbagi file')
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad BerbagiFilePage');
   }
@@ -27,7 +31,10 @@ export class BerbagiFilePage {
     console.log('segment yang dipilih ', value)
   }  
   addFile(){
-    this.app.getRootNav().push('BerbagiFileEditTambahPage');
+    this.navCtrl.push('BerbagiFileEditTambahPage');
   }
+  pushToPublisher(){
+    this.navCtrl.push('BerbagiFilePublisherPage');
+  }  
 
 }

@@ -15,14 +15,16 @@ import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 })
 export class ForumPage {
 
-  constructor(public app: App, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              // public app: App, 
+              public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ForumPage');
   }
   pushForumRoomPage(){
-    this.app.getRootNav().push('ForumRoomPage');
+    this.navCtrl.push('ForumRoomPage');
   }
 
 }

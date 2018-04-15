@@ -3,11 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicStorageModule } from '@ionic/storage';
 import { Transfer } from '@ionic-native/transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { MyApp } from './app.component';
+
 // Petani
 import { TabsPage } from '../pages/petani/tabs-petani/tabs';
 import { AspirasiPage } from '../pages/petani/aspirasi/aspirasi';
@@ -33,19 +36,19 @@ import { TambahInfoHargaPage } from '../pages/masyarakat/tambah-info-harga/tamba
 import { EditInfoHargaPage } from '../pages/masyarakat/edit-info-harga/edit-info-harga';
 import { ProfileMasyarakatPage } from '../pages/masyarakat/profile-masyarakat/profile-masyarakat';
 //pedagang
-import { TabsPedagangPage } from '../pages/pedagang/tabs-pedagang/tabs-pedagang';
-import { TambahPedagangPage } from '../pages/pedagang/tambah-pedagang/tambah-pedagang';
-import { ProfilePedagangPage } from '../pages/pedagang/profile-pedagang/profile-pedagang';
+// import { TabsPedagangPage } from '../pages/pedagang/tabs-pedagang/tabs-pedagang';
+// import { TambahPedagangPage } from '../pages/pedagang/tambah-pedagang/tambah-pedagang';
+// import { ProfilePedagangPage } from '../pages/pedagang/profile-pedagang/profile-pedagang';
 //penyuluh
-import { TabsPenyuluhPage } from '../pages/penyuluh/tabs-penyuluh/tabs-penyuluh';
-import { ListPetaniPage } from '../pages/penyuluh/list-petani/list-petani';
-import { EditPetaniPage } from '../pages/penyuluh/edit-petani/edit-petani';
-import { MateriPage } from '../pages/penyuluh/materi/materi';
-import { ViewMateriPage } from '../pages/penyuluh/view-materi/view-materi';
-import { TambahMateriPage } from '../pages/penyuluh/tambah-materi/tambah-materi';
-import { EditMateriPage } from '../pages/penyuluh/edit-materi/edit-materi';
-import { TambahPetaniPage } from '../pages/penyuluh/tambah-petani/tambah-petani';
-import { ProfilePenyuluhPage } from '../pages/penyuluh/profile-penyuluh/profile-penyuluh';
+// import { TabsPenyuluhPage } from '../pages/penyuluh/tabs-penyuluh/tabs-penyuluh';
+// import { ListPetaniPage } from '../pages/penyuluh/list-petani/list-petani';
+// import { EditPetaniPage } from '../pages/penyuluh/edit-petani/edit-petani';
+// import { MateriPage } from '../pages/penyuluh/materi/materi';
+// import { ViewMateriPage } from '../pages/penyuluh/view-materi/view-materi';
+// import { TambahMateriPage } from '../pages/penyuluh/tambah-materi/tambah-materi';
+// import { EditMateriPage } from '../pages/penyuluh/edit-materi/edit-materi';
+// import { TambahPetaniPage } from '../pages/penyuluh/tambah-petani/tambah-petani';
+// import { ProfilePenyuluhPage } from '../pages/penyuluh/profile-penyuluh/profile-penyuluh';
 //General
 import { PopoverPage } from '../pages/popover/popover';
 import { GantiPasswordPage } from '../pages/ganti-password/ganti-password';
@@ -58,14 +61,17 @@ import { ForgetPasswordPage } from '../pages/forget-password/forget-password';
 import { EditAlamatPage } from '../pages/edit-alamat/edit-alamat';
 import { VerifikasiAkunPage } from "../pages/verifikasi-akun/verifikasi-akun";
 
+//providers
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
+import { RestProvider } from './../providers/rest';
 
 import { Http } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { Storage } from '@ionic/storage';
+import { File } from '@ionic-native/file';
 
 //add component module
 import { ComponentsModule } from './../components/components.module';
@@ -111,21 +117,21 @@ export function getAuthHttp(http, Storage) {
     EditStatusProduksiPage,
     PendukungOperasiPasarPage,
     EditInfoHargaPage,
-    TabsPedagangPage,
-    ProfilePedagangPage,
-    TabsPenyuluhPage,
-    ListPetaniPage,
-    TambahPetaniPage,
-    ProfilePenyuluhPage,
-    TambahPedagangPage,
-    TambahMateriPage,
-    EditMateriPage,
-    MateriPage,
+    // TabsPedagangPage,
+    // ProfilePedagangPage,
+    // TabsPenyuluhPage,
+    // ListPetaniPage,
+    // TambahPetaniPage,
+    // ProfilePenyuluhPage,
+    // TambahPedagangPage,
+    // TambahMateriPage,
+    // EditMateriPage,
+    // MateriPage,
     EditAlamatPage,
     VerifikasiAkunPage,
-    ViewMateriPage,
+    // ViewMateriPage,
     PdfViewerComponent,
-    EditPetaniPage,
+    // EditPetaniPage,
     TanggapanAspirasiPage,
     TanggapanOperasiPasarPage,
   ],
@@ -170,29 +176,33 @@ export function getAuthHttp(http, Storage) {
     EditStatusProduksiPage,
     PendukungOperasiPasarPage,
     EditInfoHargaPage,
-    TabsPedagangPage,
-    ProfilePedagangPage,
-    TabsPenyuluhPage,
-    ListPetaniPage,
-    TambahPetaniPage,
-    ProfilePenyuluhPage,
-    TambahPedagangPage,
-    TambahMateriPage,
-    EditMateriPage,
-    MateriPage,
+    // TabsPedagangPage,
+    // ProfilePedagangPage,
+    // TabsPenyuluhPage,
+    // ListPetaniPage,
+    // TambahPetaniPage,
+    // ProfilePenyuluhPage,
+    // TambahPedagangPage,
+    // TambahMateriPage,
+    // EditMateriPage,
+    // MateriPage,
     EditAlamatPage,
     VerifikasiAkunPage,
-    ViewMateriPage,
-    EditPetaniPage,
+    // ViewMateriPage,
+    // EditPetaniPage,
     TanggapanAspirasiPage,
     TanggapanOperasiPasarPage,
   ],
   providers: [
+  StatusBar,
+  SplashScreen,
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   ConferenceData,
   UserData,
   Transfer,
   FileChooser,
+  RestProvider,
+  File,
     {
       provide: AuthHttp,
       useFactory: getAuthHttp,

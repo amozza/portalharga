@@ -26,7 +26,9 @@ export class PengetahuanPage {
   
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-
+  ionViewWillEnter(){
+    console.log('pengetahuan will enter')
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad PengetahuanPage');
   }

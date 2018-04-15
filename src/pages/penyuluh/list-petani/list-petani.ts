@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ActionSheetController, LoadingController} from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
-import { TambahPetaniPage } from '../tambah-petani/tambah-petani';
+// import { TambahPetaniPage } from '../tambah-petani/tambah-petani';
 // import { ViewPetaniPage } from '../view-petani/view-petani';
-import { EditPetaniPage } from '../edit-petani/edit-petani';
+// import { EditPetaniPage } from '../edit-petani/edit-petani';
 // import { EditAlamatPetaniPage } from '../edit-alamat-petani/edit-alamat-petani';
 /*
   Generated class for the ListPetani page.
@@ -59,7 +59,7 @@ export class ListPetaniPage {
     });
   }
   tambahPetani(){
-    this.navCtrl.push(TambahPetaniPage,2);
+    this.navCtrl.push('TambahPetaniPage',2);
   }
   hapusPetani(id){
     this.loading = this.loadCtrl.create({
@@ -85,7 +85,7 @@ export class ListPetaniPage {
     // this.navCtrl.push(EditAlamatPetaniPage,user);
   }
   editPetani(user){
-    this.navCtrl.push(EditPetaniPage,user);
+    this.navCtrl.push('EditPetaniPage',user);
   }
   presentActionSheet(dataPetani) {
     let actionSheet = this.actionSheetCtrl.create({
@@ -105,7 +105,7 @@ export class ListPetaniPage {
           text: 'Edit profile',
           role: 'editProfile',
           handler: () => {
-            this.navCtrl.push(EditPetaniPage,dataPetani);
+            this.navCtrl.push('EditPetaniPage',dataPetani);
           }
         },
         {

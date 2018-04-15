@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ActionSheetController, LoadingController} from 'ionic-angular';
-import { TambahMateriPage } from '../tambah-materi/tambah-materi';
+// import { TambahMateriPage } from '../tambah-materi/tambah-materi';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from "../../../providers/user-data";
-import { ViewMateriPage } from "../view-materi/view-materi";
+// import { ViewMateriPage } from "../view-materi/view-materi";
 /*
   Generated class for the Materi page.
 
@@ -47,7 +47,7 @@ export class MateriPage {
   }
 
   tambahMateri(){
-    this.navCtrl.push(TambahMateriPage);
+    this.navCtrl.push('TambahMateriPage');
   }
   getMateri(){
     this.authHttp.get(this.userData.BASE_URL+'materi/get').subscribe(res => {
@@ -84,7 +84,7 @@ export class MateriPage {
     });
   }
   presentActionSheet(dataMateri) {
-    this.navCtrl.push(ViewMateriPage,dataMateri);
+    this.navCtrl.push('ViewMateriPage',dataMateri);
   }
   showError(err: any){  
     err.status==0? 

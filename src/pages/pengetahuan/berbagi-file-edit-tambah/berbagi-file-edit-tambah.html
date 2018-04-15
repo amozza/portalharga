@@ -24,12 +24,15 @@
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Unggah File</ion-label>    
     </ion-item>
-    <ion-row padding style="padding-top:4px"> 
-      <ion-col>
-            <div tappable (click)="chooseFile()">
-              <ion-icon name='document'></ion-icon>
-                Ambil file
-            </div>
+    <ion-row no-padding style="padding-top:4px"> 
+      <ion-col col-4 no-padding>
+        <button color="dark" ion-button small outline tappable icon-start (click)="chooseFile()">
+          <ion-icon name='document'></ion-icon>
+            Pilih file
+        </button>
+      </ion-col>
+      <ion-col col-8 padding-left>
+        {{fileName}}
       </ion-col>
     </ion-row>  
     <ion-item no-padding no-lines>

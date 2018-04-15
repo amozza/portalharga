@@ -16,6 +16,10 @@ import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 export class ForumRoomPage {
   gender:string;
   constructor(public app: App, public navCtrl: NavController, public navParams: NavParams) {
+
+  }
+  ionViewWillEnter(){
+    console.log('will enter forum room')
   }
 
   ionViewDidLoad() {

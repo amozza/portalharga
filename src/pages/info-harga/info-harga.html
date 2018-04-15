@@ -5,6 +5,13 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Portal Harga</ion-title>
+  </ion-navbar>
+  
 
   <ion-segment [(ngModel)]="segment" (ionChange)="updateSegment()" *ngIf="userRole==3||userRole==4||userRole==5"> 
       <ion-segment-button value="now">

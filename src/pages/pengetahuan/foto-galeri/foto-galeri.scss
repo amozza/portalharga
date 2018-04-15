@@ -1,0 +1,14 @@
+page-foto-galeri {
+.item-inner {
+   padding-right: 0px!important;
+}
+.selected{
+    background-color: #eeeeee !important
+}
+.block-image{
+    display: block;
+    object-fit: cover;
+    max-height: 150px;
+
+}
+}
