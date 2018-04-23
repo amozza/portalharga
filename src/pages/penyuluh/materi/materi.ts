@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ActionSheetController, LoadingController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, ActionSheetController, LoadingController, IonicPage } from 'ionic-angular';
 // import { TambahMateriPage } from '../tambah-materi/tambah-materi';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from "../../../providers/user-data";
@@ -10,6 +10,7 @@ import { UserData } from "../../../providers/user-data";
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-materi',
   templateUrl: 'materi.html'

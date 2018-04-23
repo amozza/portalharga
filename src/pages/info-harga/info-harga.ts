@@ -288,7 +288,7 @@ export class InfoHargaPage {
 
   // pindah halaman tambah laporan harga
   postHargaKomoditas(){
-    this.app.getRootNav().push(TambahInfoHargaPage);
+    this.navCtrl.push(TambahInfoHargaPage);
   }
   //format uang (pemisah ribuan dengan koma)
   formatCurrency(n, currency):string {

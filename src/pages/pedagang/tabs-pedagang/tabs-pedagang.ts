@@ -1,8 +1,7 @@
+import { IonicPage } from 'ionic-angular';
 import { Component } from '@angular/core';
-// import { ProfilePedagangPage } from '../profile-pedagang/profile-pedagang';
-// import { InfoHargaPage } from '../../info-harga/info-harga';
-// import { JualKomoditasPage } from '../../petani/jual-komoditas/jual-komoditas';
 
+@IonicPage()
 @Component({
   templateUrl: 'tabs-pedagang.html'
 })

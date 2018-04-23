@@ -140,7 +140,6 @@ export class OperasiPasarPage {
   }
 
   kirimOperasiPasar() {
-    // this.navCtrl.push(KirimOperasiPasarPage);
-    this.app.getRootNav().push(KirimOperasiPasarPage)
+    this.navCtrl.push(KirimOperasiPasarPage);
   }
 }

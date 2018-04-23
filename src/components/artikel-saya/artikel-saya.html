@@ -1,4 +1,3 @@
-
 <!-- template for artikel saya only -->
 <ion-row *ngIf="passedData == 'saya' ">
   <ion-col col-4>
@@ -32,8 +31,7 @@
           <div>
             <img [src]= "item?.meta.thumbnail"> 
           </div>
-
-
+          
           <ion-card-content>
             <ion-card-title style="font-size: 2.0rem">
               {{item?.judul}}
@@ -61,8 +59,4 @@
           
     </div>
 
-  </ion-card>
-
-<ion-infinite-scroll *ngIf="isScrollAble && data.length % limitData == 0 " (ionInfinite)="doInfinite($event)">
-  <ion-infinite-scroll-content></ion-infinite-scroll-content>
-</ion-infinite-scroll>
+</ion-card>

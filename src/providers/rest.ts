@@ -1,4 +1,4 @@
-import { AlertController, LoadingController } from 'ionic-angular';
+import { AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { UserData } from './user-data';
 import { map } from 'rxjs/operators';
 import { Injectable} from '@angular/core';
@@ -10,39 +10,39 @@ import 'rxjs/add/observable/throw';
 
 
 @Injectable()
-export class RestProvider  {
+export class RestProvider    {
   private apiUrl  : string = 'https://restcountries.eu/rest/v2/allasdf';
-  private token   : string;
 
   constructor(
       private http: Http,
+      private toastCtrl: ToastController,
       private authHttp: AuthHttp,
       private loadingCtrl: LoadingController,
       private transfer: Transfer,
       private alertCtrl: AlertController,
       private userData: UserData
   ){
-    this.userData.getToken()
-    .then(
-      val =>{
-        this.token = val;
-      }
-    )
-    console.log('make new rest provider')
+    console.log('rest provider init')
   }
 
-  public get(url: string): Observable<{}> {
-    console.log('TOKEN from get ', this.token)
+  public get(url: string, token: string): Observable<{}> {
+    console.log('TOKEN from get ', token)
     const header = new Headers();
 
     header.append('Content-type', 'application/json');
-    header.append('Authorization', 'Bearer '+ this.token);
+    header.append('Authorization', 'Bearer '+ token);
     return this.http.get(url, {headers: header})
       .map(
         (response: Response) => { // extract data
           if(response.status == 204){
             console.log('masuk no content ')
-            return null;
+            let toast = this.toastCtrl.create({
+              message: 'Tidak ada data',
+              duration: 1000,
+              position: 'bottom'
+            });
+            toast.present();               
+            return [];
           }
           else{
             const body = response.json();
@@ -53,11 +53,11 @@ export class RestProvider  {
 
   }
 
-  public post(url: string, claims: any): Observable<{}> {
+  public post(url: string, token:string, claims: any): Observable<{}> {
     const header = new Headers();
-    console.log('TOKEN from post ' , this.token)
+    console.log('TOKEN from post ' , token)
     header.append('Content-type', 'application/json');
-    header.append('Authorization', 'Bearer '+ this.token);
+    header.append('Authorization', 'Bearer '+ token);
     return this.http.post(url, claims, {headers: header})
       .map( 
         (response: Response)=>{

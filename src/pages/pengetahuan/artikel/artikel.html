@@ -7,9 +7,11 @@
     </button>
      <ion-title>Pengetahuan </ion-title> 
   </ion-navbar>
-  
-
-  <ion-segment [(ngModel)]="segment">
+  <!-- <button ion-button (click)="ceka()">
+    cek segment badge
+  </button> -->
+  <!-- segment penyuluh -->
+  <ion-segment [(ngModel)]="segment" *ngIf="userRole == 3;else otherSegment">
     <ion-segment-button value="explore" (ionSelect)="selectedSegment($event.value)">
       Explore
     </ion-segment-button>
@@ -17,24 +19,46 @@
       Favorit
     </ion-segment-button>
     <ion-segment-button value="saya" (ionSelect)="selectedSegment($event.value)">
-      Artikel Saya
-    </ion-segment-button>     
-    
+      Saya
+      <!-- <ion-badge color="danger" [hidden]="badge == 0 " style="vertical-align:top;" item-right>{{badge}}</ion-badge> -->
+    </ion-segment-button>
   </ion-segment>
-      
+
+  <!-- segment for all -->
+   <ng-template #otherSegment>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="explore" (ionSelect)="selectedSegment($event.value)">
+        Explore
+      </ion-segment-button>
+      <ion-segment-button value="favorite" (ionSelect)="selectedSegment($event.value)">
+        Favorit
+      </ion-segment-button>
+    </ion-segment>
+  </ng-template> 
+
+  <ion-searchbar></ion-searchbar> 
+
 </ion-header>
 
 <ion-content no-bounce>
+  
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>  
 
   
   <div [ngSwitch]="segment">
     <!-- if role = 3 : penyuluh -->
-    <artikel-saya name="saya" *ngSwitchCase="'saya'"></artikel-saya>
-
-    <!-- if all role but penyuluh -->
-    <artikel-saya name="explore" *ngSwitchCase="'explore'"></artikel-saya>
-    <artikel-saya name="favorite" *ngSwitchCase="'favorite'"></artikel-saya>
-
+    <div>
+      <artikel-saya name="saya" [data]="dataSaya" *ngSwitchCase="'saya'"></artikel-saya>
+    </div>
+    <!-- if all role except penyuluh -->
+    <div>
+      <artikel-saya name="explore" [data]="dataExplore" *ngSwitchCase="'explore'"></artikel-saya>
+    </div>
+    <div>
+      <artikel-saya name="favorite" [data]="dataFavorite" *ngSwitchCase="'favorite'"></artikel-saya>
+    </div>
   </div>
 
   <ion-fab bottom right tappable>

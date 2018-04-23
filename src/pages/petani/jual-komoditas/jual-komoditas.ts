@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ActionSheetController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { TambahJualKomoditasPage } from '../tambah-jual-komoditas/tambah-jual-komoditas';
 import { EditJualKomoditasPage } from '../edit-jual-komoditas/edit-jual-komoditas';
@@ -11,6 +11,7 @@ import { AuthHttp } from 'angular2-jwt';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-jual-komoditas',
   templateUrl: 'jual-komoditas.html'

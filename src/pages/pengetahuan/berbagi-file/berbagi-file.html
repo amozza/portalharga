@@ -20,30 +20,53 @@
     </ion-buttons>
 
   </ion-navbar>
-
-  <ion-segment [(ngModel)]="segment">
-    <ion-segment-button value="explore" (ionSelect)="selectedSegment($event.value)">
-      Explore
-    </ion-segment-button>
-    <ion-segment-button value="favorite" (ionSelect)="selectedSegment($event.value)">
-      Favorit
-    </ion-segment-button>
-    <ion-segment-button value="saya" (ionSelect)="selectedSegment($event.value)">
-      File Saya
-    </ion-segment-button>    
-  </ion-segment>  
+  <!-- for penyuluh only -->
+  <div *ngIf="userRole == 3 else otherSegment">
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="explore" (ionSelect)="selectedSegment($event.value)">
+        Explore
+      </ion-segment-button>
+      <ion-segment-button value="favorite" (ionSelect)="selectedSegment($event.value)">
+        Favorit
+      </ion-segment-button>
+      <ion-segment-button value="saya" (ionSelect)="selectedSegment($event.value)">
+        Saya
+      </ion-segment-button>    
+    </ion-segment>
+  </div>
+  <!-- for others role except penyuluh -->
+  <ng-template #otherSegment>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="explore" (ionSelect)="selectedSegment($event.value)">
+        Explore
+      </ion-segment-button>
+      <ion-segment-button value="favorite" (ionSelect)="selectedSegment($event.value)">
+        Favorit
+      </ion-segment-button>    
+    </ion-segment>
+  </ng-template>
+  <ion-searchbar></ion-searchbar> 
+  
 </ion-header>
 
 <ion-content>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>  
+  
   <div [ngSwitch]="segment">
-    <!-- use the same component -->
-
-    <!-- if all role but penyuluh -->
-    <file name="explore" *ngSwitchCase="'explore'"></file>
-    <file name="favorite" *ngSwitchCase="'favorite'"></file>
-
+    <!-- if all role except penyuluh -->
+    <div>
+      <file name="explore" [data]="dataExplore" *ngSwitchCase="'explore'"></file>
+    </div>
+    <div>
+      <file name="favorite" [data]="dataFavorite" *ngSwitchCase="'favorite'"></file>
+    </div>
     <!-- if tole penyuluh -->
-    <file name="saya" *ngSwitchCase="'saya'"></file>
+    <div>
+      <file name="saya" [data]="dataSaya" *ngSwitchCase="'saya'"></file>
+    </div>
   </div>
 
   <ion-fab bottom right tappable>

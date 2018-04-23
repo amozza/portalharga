@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 /**
  * Generated class for the HtmlEditorComponent component.
@@ -11,7 +11,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: 'html-editor.html'
 })
 export class HtmlEditorComponent {
-
+  @ViewChild('ckeditor') ckeditor:any;
+  @Input('image') image: string;
   @Input('content') public content: string;
   @Output() public contentChanged: EventEmitter<string>;
   @Output() public focus: EventEmitter<string>;
@@ -23,6 +24,7 @@ export class HtmlEditorComponent {
   }
   onChange(e) {
     this.contentChanged.emit(e);
+
   }
 
   onReady(e) {// this.contentChanged.emit(e);

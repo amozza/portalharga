@@ -7,7 +7,7 @@
 <ion-header no-border>
 
   <ion-navbar>
-    <ion-title>Tambah File</ion-title>
+    <ion-title>{{pageType}} File</ion-title>
     <ion-buttons end>
       <button [disabled]="!form.valid" (click)="submit()" ion-button icon-only>
         <ion-icon color="primary" name="send"></ion-icon>
@@ -28,7 +28,7 @@
       <ion-col col-4 no-padding>
         <button color="dark" ion-button small outline tappable icon-start (click)="chooseFile()">
           <ion-icon name='document'></ion-icon>
-            Pilih file
+            <span *ngIf="pageType == 'Tambah'; else edit">Pilih </span><ng-template #edit>Ganti</ng-template> file
         </button>
       </ion-col>
       <ion-col col-8 padding-left>

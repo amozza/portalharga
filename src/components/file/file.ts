@@ -1,5 +1,4 @@
 import { UserData } from './../../providers/user-data';
-import { RestProvider } from './../../providers/rest';
 import { Http } from '@angular/http';
 import { App } from 'ionic-angular';
 import { Component, Input } from '@angular/core';
@@ -16,42 +15,29 @@ import { Component, Input } from '@angular/core';
 })
 export class FileComponent {
   @Input('name') componentName: String;
+  @Input('data') datagan: Array<any>;
 
-  text: string;
-  data: any = [];
-  params1: any;
-  params2: any;
+  private data      : any = [];
 
   constructor(public app: App, 
-              public rest: RestProvider,
               public userData: UserData, 
               public http: Http) {
     console.log('Hello FileComponent Component');
-    this.params1 =JSON.stringify( {"skip": 0, "limit": null} );
-    this.params2 = JSON.stringify( {"terbaru": 1, "terpopuler": -1});
+    
   }
 
+  ngOnChanges() {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add 'implements OnChanges' to the class.
+    this.data = this.datagan;
+  }
   ngOnInit() {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.text = 'File '+this.componentName;
-    this.getAllFile();
-  }
+    this.data = this.datagan;
+  }  
   pushBerbagiFilePreviewPage(data){
-    this.app.getRootNav().push('BerbagiFilePreviewPage', data)
-  }
-
-  getAllFile(){
-    this.rest.get(this.userData.Base_URL_KMS+'api/materi/file/all/'+this.params1+'/'+this.params2)
-    .subscribe(
-      data =>{
-        console.log('berhasil get all file ', data)
-        this.data = data;
-      },
-      err =>{
-        alert(JSON.stringify(err));
-      }
-    )
+    this.app.getRootNav().push('BerbagiFilePreviewPage', data);
   }
   
 }

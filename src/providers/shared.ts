@@ -32,7 +32,7 @@ export class SharedProvider {
           message: msg || 'Apakah anda ingin melanjutkan ?',
           buttons: [
             {
-              text: 'Cancel',
+              text: 'Batal',
               role: 'cancel',
               handler: () => {
                 reject(false);

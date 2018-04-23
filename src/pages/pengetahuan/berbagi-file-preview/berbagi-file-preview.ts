@@ -1,3 +1,4 @@
+import { SharedProvider } from './../../../providers/shared';
 import { UserData } from './../../../providers/user-data';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController, App } from 'ionic-angular';
@@ -9,6 +10,7 @@ import { IonicPage, NavController, NavParams, ActionSheetController, App } from 
  * Ionic pages and navigation.
  */
 
+
 @IonicPage()
 @Component({
   selector: 'page-berbagi-file-preview',
@@ -19,6 +21,7 @@ export class BerbagiFilePreviewPage {
   private passedParam: any;
 
   constructor(public app: App, 
+              public shared: SharedProvider,
               public actionSheetCtrl: ActionSheetController,
               public userData: UserData, 
               public navCtrl: NavController, 
@@ -31,6 +34,19 @@ export class BerbagiFilePreviewPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad BerbagiFilePreviewPage');
   }
+
+/**
+ * req api
+ */
+  UnduhFile(){
+    window.open(this.userData.Base_URL_KMS+'api/materi/file/'+this.passedParam.nama.sistem);
+  }
+  deleteFile(){
+    alert('req to delete fire')
+  }
+/**
+ * page function
+ */
   pushBerbagiFilePublisher(){
     this.navCtrl.push('BerbagiFilePublisherPage');
     console.log('push to berbagi file page');
@@ -43,13 +59,18 @@ export class BerbagiFilePreviewPage {
           role: 'destructive',          
           icon: 'trash',
           handler: () => {
-            console.log('Hapus clicked');
+            this.shared.Alert.confirm('Apakah anda yakin ?')
+            .then(res=>{
+              this.deleteFile();
+            },err =>{
+              console.log('ga jadi ah')
+            })
           }
         },{
           text: 'Edit',
           icon: 'create',
           handler: () => {
-            console.log('Edit Clicked');
+            this.navCtrl.push('BerbagiFileEditTambahPage', {page:"Edit", data: this.passedParam});
           }
         },{
           text: 'Share',
@@ -69,7 +90,4 @@ export class BerbagiFilePreviewPage {
     });
     actionSheet.present();
   }    
-  UnduhFile(){
-    window.open(this.userData.Base_URL_KMS+'api/materi/file/'+this.passedParam.nama.sistem);
-  }
 }

@@ -23,7 +23,7 @@ import { StatusProduksiPage } from '../pages/petani/status-produksi/status-produ
 import { EditStatusProduksiPage } from '../pages/petani/edit-status-produksi/edit-status-produksi';
 import { ProfilePetaniPage } from '../pages/petani/profile-petani/profile';
 import { TambahJualKomoditasPage } from '../pages/petani/tambah-jual-komoditas/tambah-jual-komoditas';
-import { JualKomoditasPage } from '../pages/petani/jual-komoditas/jual-komoditas';
+// import { JualKomoditasPage } from '../pages/petani/jual-komoditas/jual-komoditas';
 import { EditJualKomoditasPage } from '../pages/petani/edit-jual-komoditas/edit-jual-komoditas';
 // Masyarakat
 import { TabsMasyarakatPage } from '../pages/masyarakat/tabs-masyarakat/tabs-masyarakat';
@@ -66,6 +66,7 @@ import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
 import { RestProvider } from './../providers/rest';
 
+
 import { Http } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
@@ -82,7 +83,7 @@ export function getAuthHttp(http, Storage) {
     headerPrefix: "",
     noJwtError: true,
     globalHeaders: [{'Content-Type': 'application/json'}],
-    tokenGetter: (() => Storage.get('token')),
+    tokenGetter: (() => {return Storage.get('token')}),
   }), http);
 }
 
@@ -93,7 +94,7 @@ export function getAuthHttp(http, Storage) {
     TabsMasyarakatPage,
     AspirasiPage,
     TambahJualKomoditasPage,
-    JualKomoditasPage,
+    // JualKomoditasPage,
     EditJualKomoditasPage,
     ProfilePage,
     ProfilePetaniPage,
@@ -152,7 +153,7 @@ export function getAuthHttp(http, Storage) {
     TabsMasyarakatPage,
     AspirasiPage,
     TambahJualKomoditasPage,
-    JualKomoditasPage,
+    // JualKomoditasPage,
     EditJualKomoditasPage,
     ProfilePage,
     ProfilePetaniPage,
@@ -199,9 +200,9 @@ export function getAuthHttp(http, Storage) {
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   ConferenceData,
   UserData,
+  RestProvider,
   Transfer,
   FileChooser,
-  RestProvider,
   File,
     {
       provide: AuthHttp,

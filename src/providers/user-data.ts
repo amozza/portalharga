@@ -7,24 +7,32 @@ import { AuthHttp } from 'angular2-jwt';
 export class UserData {
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
-  BASE_URL = 'https://ph.yippytech.com:5000/';
+  BASE_URL = 'http://abdurrohim.id:5000/';
   Base_URL_KMS = "http://abdurrohim.id:3000/";
   data:any;
   idUser: any;
+  token: string;
 
   constructor(
     public events: Events,
     public toastCtrl: ToastController,
     public storage: Storage,
     public authHttp: AuthHttp
-  ) { }
+  ) {
+    console.log('userdata provider init')
+      this.getToken().then(
+        val =>{
+          this.token = val;
+          console.log('userdata token ', this.token)
+        }
+      )
+   }
 
-  login(data: string) {
+  login(data: any) {
     this.storage.set(this.HAS_LOGGED_IN, true);
     this.storage.set('user_data', data);
-    this.getId().then(val =>{
-      this.idUser = val;
-    })
+    this.idUser = data.user_id;
+    console.log('id user setted ', data.user_id);
     this.events.publish('user:login');
   };
 
@@ -48,7 +56,9 @@ export class UserData {
     this.storage.set('username', username);
   };
   setToken(token: string){
-     this.storage.set('token', token);
+    console.log('token setted')
+    this.token = token;
+    this.storage.set('token', token);
   };
   setAddress(address: string){
     this.storage.get('user_data').then((value) => {
@@ -91,6 +101,7 @@ export class UserData {
   };
   getRole() {
     return this.storage.get('user_data').then((value) => {
+      console.log('from get role ', value)
       return value.role;
     });
   };

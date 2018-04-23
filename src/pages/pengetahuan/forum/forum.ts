@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App, Events } from 'ionic-angular';
 
 /**
  * Generated class for the ForumPage page.
@@ -16,7 +16,7 @@ import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 export class ForumPage {
 
   constructor(public navCtrl: NavController,
-              // public app: App, 
+              public event: Events,
               public navParams: NavParams) {
   }
 
@@ -25,6 +25,12 @@ export class ForumPage {
   }
   pushForumRoomPage(){
     this.navCtrl.push('ForumRoomPage');
+    console.log('bade publish')
+  }
+
+  switch(){
+    this.navCtrl.parent.select(0);
+    this.event.publish('artikel:badge');
   }
 
 }

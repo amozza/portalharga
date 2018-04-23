@@ -2,8 +2,8 @@ import { SharedProvider } from './../../../providers/shared';
 import { RestProvider } from './../../../providers/rest';
 import { UserData } from './../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content, LoadingController } from 'ionic-angular';
+import { Component, ViewChild, EventEmitter } from '@angular/core';
+import { IonicPage, NavController, NavParams, Content, LoadingController, Events } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
 import { Camera } from 'ionic-native';
 
@@ -25,6 +25,8 @@ export class ArtikelEditTambahPage {
 
   private pageType      : string;
   private artikelStatus : string;
+  private token         : string;
+  private dataEdit      : any;
   private form          : FormGroup;
   
   // form atribut
@@ -44,7 +46,10 @@ export class ArtikelEditTambahPage {
   private fileName      : string;
   private mimeType      : string;
 
+  callback;
+  parent;
   constructor(public userData: UserData, 
+              public event: Events,
               public authHttp: AuthHttp, 
               public rest: RestProvider,
               public shared: SharedProvider, 
@@ -52,10 +57,32 @@ export class ArtikelEditTambahPage {
               public formBuilder: FormBuilder, 
               public navCtrl: NavController, 
               public navParams: NavParams) {
+    
+    this.pageType =  this.navParams.data.page;    
+    
+    //if params is 'edit'
+    if(this.pageType == "Edit"){
+      this.dataEdit = this.navParams.data.data;
+      console.log('data lemparan yang akan di edit ', this.dataEdit);
+      this.setEditForm();
+    }
+    else{
+      this.setForm();
+    }
+  }
 
-    console.log('page', this.navParams.data.page)
-    this.pageType =  this.navParams.data.page;
-    this.setForm();
+  setEditForm(){
+    this.contentEditor = this.dataEdit.isi;
+    this.picture = this.dataEdit.meta.thumbnail;
+    
+    this.form = this.formBuilder.group({
+      judul: [this.dataEdit.judul, [Validators.required]],
+      isi: [this.contentEditor, [Validators.required]],
+      status: [this.dataEdit.status, [Validators.required]],
+      gambarSampul : [this.dataEdit.meta.thumbnail ,[Validators.required]],
+      tag: [this.dataEdit.tag],
+    })
+
   }
   setForm(){
     this.form = this.formBuilder.group({
@@ -70,6 +97,9 @@ export class ArtikelEditTambahPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ArtikelEditTambahPage');
   }
+/**
+ * Tambah
+ */
   submit(){
     console.log('form value ', this.form.value);
 
@@ -93,13 +123,14 @@ export class ArtikelEditTambahPage {
     });
     loader.present();    
 
-    this.rest.post(this.userData.Base_URL_KMS+'api/artikel/post/tulis', claims)
+    this.rest.post(this.userData.Base_URL_KMS+'api/artikel/post/tulis', this.userData.token, claims)
     .subscribe(
       response =>{
         loader.dismiss();
         this.navCtrl.pop();
         let data = response;
         this.shared.toast.showToast('berhasil Tambah Artikel');
+        this.event.publish('artikel:refresh');
       },
       err =>{
         loader.dismiss();
@@ -109,6 +140,41 @@ export class ArtikelEditTambahPage {
     )
   }
 
+
+/**
+ * Edit
+ */
+  submitEdit(){
+    console.log('submit edit ', this.form.value);
+
+    let claims = JSON.stringify({
+      meta: {
+        thumbnail: this.form.get('gambarSampul').value
+      },
+      tanggal: {
+        terbit: new Date,
+        ubah: new Date
+      },
+      judul: this.form.get('judul').value,
+      ringkasan: this.contentEditor.slice(0, 200), //get some char of string 
+      isi: this.contentEditor,
+      tag: this.form.get('tag').value,
+      status: this.form.get('status').value
+    }); 
+    console.log('claims edit ', claims)
+  }
+  tesPop(){
+    console.log('execute pop')
+    this.callback().then(()=>{
+        this.navCtrl.pop();
+        // this.parent.getArtikels();
+    });
+    this.event.publish('artikel:refresh');
+    
+  }
+  cek(){
+    console.log('form value ', this.form.value)
+  }
   // method for listen the change of html editor
   htmlChanged(e){
     this.contentEditor = e;
@@ -159,6 +225,7 @@ export class ArtikelEditTambahPage {
       this.form.get('gambarSampul').setValue(this.picture);
     })
   }
+
   setFocus(e, id){ // set focus input to ng 2 tag input. it is used because ng2 tag input was a component
     let yOffset = document.getElementById(id).offsetTop;
     console.log('offfsetnya', yOffset)

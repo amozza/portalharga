@@ -1,4 +1,3 @@
-import { RestProvider } from './../../providers/rest';
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { PengetahuanPage } from './pengetahuan';
@@ -16,6 +15,6 @@ import { InfoHargaPage } from './../info-harga/info-harga';
   imports: [
     IonicPageModule.forChild(PengetahuanPage),
   ],
-  providers: [RestProvider]
+  providers: []
 })
 export class PengetahuanPageModule {}

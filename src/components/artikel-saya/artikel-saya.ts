@@ -1,7 +1,7 @@
 import { SharedProvider } from './../../providers/shared';
 import { UserData } from './../../providers/user-data';
 import { RestProvider } from './../../providers/rest';
-import { ActionSheetController, PopoverController, AlertController, NavController, App } from 'ionic-angular';
+import { ActionSheetController, PopoverController, AlertController, NavController, App, Events } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Component, Input, LOCALE_ID } from '@angular/core';
@@ -16,64 +16,44 @@ import { Component, Input, LOCALE_ID } from '@angular/core';
 @Component({
   selector: 'artikel-saya',
   templateUrl: 'artikel-saya.html',
-  providers: [{
-    provide: LOCALE_ID, useValue: "id" 
-  }]
+  providers: [ {provide: LOCALE_ID, useValue: "id"}]
 })
 export class ArtikelSayaComponent {
   @Input('name') passedData : String;
-  
-  text            : string;
-  data            : any = [];
-  filterBy        : string; 
-  sortBy          : string;
-  
-  //lazy load
-  skipData        : number=0;
-  limitData       : number=5; 
-  infiniteScroll  : any;
-  isScrollAble    : boolean=true;
-  params1         : any;
-  params2         : any;
+  @Input('data') datagan: Array<any>;
 
+  private data            : any = [];
+  private filterBy        : string; 
+  private sortBy          : string;
+  
   constructor(private navCtrl: NavController, 
               private app : App,
               private shared: SharedProvider,
               private rest: RestProvider,
               private userData: UserData,
+              private event: Events,
               private alertCtrl : AlertController,
               private actionSheetCtrl: ActionSheetController, 
               private authhttp : AuthHttp) {
 
     console.log('artikel saya component fire');
+  }
+  ngOnChanges() {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add 'implements OnChanges' to the class.
 
-    //set the params of lazy load
-    this.params1 = JSON.stringify({"skip": this.skipData, "limit": this.limitData });
-    this.params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1});
-
+    //replace the newest input data
+    this.data = this.datagan;
   }
 
   ngOnInit() {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    console.log('on init comopnent')
-    console.log('data hasil lemparan', this.passedData)
-    this.getAllArtikel();
+    console.log('datagan ', this.datagan);
+    this.data = this.datagan;
+    console.log('data hasil lemparan', this.passedData);
   }
+
   changeFilter(value){
     console.log('filter yang di pilih', value)
-  }
-  getAllArtikel(){
-
-    this.rest.get(this.userData.Base_URL_KMS+'api/artikel/post/all/'+this.params1+'/'+this.params2)
-    .subscribe(response =>{
-      this.data = response;
-      console.log('Berhasil get artikel', this.data)
-      console.log('pangjang datanya', this.data.length)
-    }, err =>{
-      console.log(err)
-      this.rest.showError(err);
-    });
   }
 
 
@@ -82,30 +62,6 @@ export class ArtikelSayaComponent {
  * Page function
  */
 
-  doInfinite(infiniteScroll) {
-    if(this.isScrollAble){
-      this.infiniteScroll = infiniteScroll;
-      this.skipData += this.limitData;
-      let params1 = JSON.stringify({"skip": this.skipData, "limit": this.limitData });
-      let params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1})
-      this.rest.get(this.userData.Base_URL_KMS+'api/artikel/post/all/'+params1+'/'+params2)
-      .subscribe(
-        res =>{
-          if(res == null) // no content
-            this.isScrollAble = false;
-          else{
-            this.data.push.apply(this.data, res);
-            console.log('panjang data sekarang', this.data.length)
-            this.infiniteScroll.complete();
-          }
-        },
-        err=>{
-          this.infiniteScroll.complete();
-          this.rest.showError(err);
-        }
-      )
-    }
-  }
 
   deletePost(gossip) {
       this.shared.Alert.confirm().then((res) => {

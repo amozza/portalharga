@@ -20,6 +20,7 @@ import {ModalController} from "ionic-Angular";
 export class FotoGaleriPage {
 
   public choosedPhoto     : any;
+  public token            : string;
   public base_url         : string;
   public foto             : any       = [];
   public streamGambar     : string    = 'api/artikel/gambar/';
@@ -29,6 +30,7 @@ export class FotoGaleriPage {
               public userData: UserData
               
   ) {
+    this.getUploadedFoto();
   }
 
   ionViewWillEnter(){
@@ -36,14 +38,13 @@ export class FotoGaleriPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad FotoGaleriPage');
-    this.getUploadedFoto();
   }
 
   closeModal(photo){
     this.view.dismiss();
   }
   getUploadedFoto(){
-    this.rest.get(this.userData.Base_URL_KMS+'api/artikel/gambar/saya/{"skip": 0, "limit": null}/{"terbaru": -1}')
+    this.rest.get(this.userData.Base_URL_KMS+'api/artikel/gambar/saya/{"skip": 0, "limit": null}/{"terbaru": -1}', this.userData.token)
     .subscribe(
       data =>{
         this.foto = data;

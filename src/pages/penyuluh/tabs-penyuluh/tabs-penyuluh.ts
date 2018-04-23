@@ -1,3 +1,4 @@
+import { IonicPage } from 'ionic-angular';
 import { Component } from '@angular/core';
 // import { InfoHargaPage } from '../../info-harga/info-harga';
 // import { ListPetaniPage } from '../list-petani/list-petani';
@@ -10,6 +11,7 @@ import { Component } from '@angular/core';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   templateUrl: 'tabs-penyuluh.html'
 })

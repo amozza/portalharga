@@ -1,5 +1,5 @@
-import { SharedProvider } from './../providers/shared';
 import { RestProvider } from './../providers/rest';
+import { SharedProvider } from './../providers/shared';
 import { Component,ViewChild } from '@angular/core';
 import { Platform, Nav, App } from 'ionic-angular';
 
@@ -35,12 +35,6 @@ export class MyApp {
       page: 'PengetahuanPage',
       icon: 'book',      
       params: { type: 'all', name: 'Pengetahuan'}
-    },
-    {
-      name: 'Jual Beli',
-      page: '',
-      icon: 'document',      
-      params: { type: 'all', name: 'Berbagi File'}
     }
   ];  
 
@@ -82,24 +76,7 @@ export class MyApp {
       if(hasLoggedIn) {
         this.userData.getKomoditasFromServer();
         this.userData.getRole().then((value)=>{
-        this.navChild.setRoot('PengetahuanPage')
-          // switch (value) {
-          //   case 3:
-          //    this.rootPage = TabsPenyuluhPage;
-          //     break;
-          //   case 4:
-          //    this.rootPage = TabsPage;
-          //     break;
-          //   case 5:
-          //     this.rootPage = TabsMasyarakatPage;
-          //     break;
-          //   case 6:
-          //     this.rootPage = TabsPedagangPage;
-          //     break;
-          //   default:
-          //   // code...
-          //   break;
-          // }
+        this.navChild.setRoot('PortalHargaPage')
         });
       } else {
         this.rootPage = LoginPage;

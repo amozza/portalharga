@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NavController, ToastController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, ToastController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { UserData } from '../../../providers/user-data';
 import { VerifikasiAkunPage } from '../../verifikasi-akun/verifikasi-akun';
@@ -12,6 +12,7 @@ declare var google: any;
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-tambah-petani',
   templateUrl: 'tambah-petani.html'

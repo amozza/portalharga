@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, App, PopoverController, ToastController, LoadingController, ActionSheetController } from 'ionic-angular';
+import { NavController, App, PopoverController, ToastController, LoadingController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
 import { ProfileEditPage } from '../../profile-edit/profile-edit';
@@ -13,6 +13,7 @@ import { AuthHttp } from 'angular2-jwt';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-profile-penyuluh',
   templateUrl: 'profile-penyuluh.html'

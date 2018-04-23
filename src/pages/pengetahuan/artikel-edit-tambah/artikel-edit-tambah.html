@@ -9,9 +9,17 @@
   <ion-navbar>
     <ion-title>{{pageType}} artikel</ion-title>
     <ion-buttons end>
-      <button [disabled]="!form.valid" (click)="submit()" ion-button icon-only>
-        <ion-icon color="primary" name="send"></ion-icon>
-      </button>
+      <div *ngIf="pageType=='Edit'; else submit ">
+        <button [disabled]="!form.valid" (click)="submitEdit()" ion-button icon-only>
+          <ion-icon color="primary" name="send"></ion-icon>
+        </button>
+      </div>
+
+      <ng-template #submit>
+        <button [disabled]="!form.valid" (click)="submit()" ion-button icon-only>
+          <ion-icon color="primary" name="send"></ion-icon>
+        </button>
+      </ng-template>      
     </ion-buttons>      
   </ion-navbar>
 
@@ -34,7 +42,7 @@
       <ion-col col-4>
         <button color="dark" ion-button small outline icon-start (click)="takePictureFrom()" >
           <ion-icon name='camera'></ion-icon>
-                Ambil gambar
+                <span *ngIf="pageType=='Tambah';else Edit">Ambil gambar</span> <ng-template #Edit> Ganti gambar </ng-template> 
         </button>
       </ion-col>
     </ion-row>
@@ -64,9 +72,13 @@
       <ion-label color="primary" stacked>Isi Artikel</ion-label>        
     </ion-item>  
     <!-- html editor ckeditor -->
-    <div>
+    <div *ngIf="pageType== 'Tambah'; else editorEdit ">
       <html-editor (focus)="setFocus($event, 'editorFocus')" (contentChanged)="htmlChanged($event)"></html-editor>
     </div>
+    <ng-template #editorEdit>
+      <html-editor (focus)="setFocus($event, 'editorFocus')" [content]="contentEditor" (contentChanged)="htmlChanged($event)"></html-editor>
+    </ng-template>  
   </form>     
 
+  <button ion-button (click)="cek()"> cek form type</button>
 </ion-content>

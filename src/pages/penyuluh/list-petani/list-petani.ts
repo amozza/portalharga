@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ActionSheetController, LoadingController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, ActionSheetController, LoadingController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
 // import { TambahPetaniPage } from '../tambah-petani/tambah-petani';
@@ -12,6 +12,7 @@ import { AuthHttp } from 'angular2-jwt';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-list-petani',
   templateUrl: 'list-petani.html'
