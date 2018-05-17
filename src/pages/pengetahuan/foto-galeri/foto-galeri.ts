@@ -22,19 +22,20 @@ export class FotoGaleriPage {
   public choosedPhoto     : any;
   public token            : string;
   public base_url         : string;
-  public foto             : any       = [];
-  public streamGambar     : string    = 'api/artikel/gambar/';
+  public foto             : any       = []; //list foto
+  public streamLampiran   : string;
 
   constructor(public view: ViewController,
               public rest: RestProvider,
               public userData: UserData
               
   ) {
+    this.base_url = this.userData.Base_URL_KMS;
+    this.streamLampiran = 'api/lampiran/file/';    
     this.getUploadedFoto();
   }
 
   ionViewWillEnter(){
-    this.base_url = this.userData.Base_URL_KMS;
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad FotoGaleriPage');
@@ -44,7 +45,7 @@ export class FotoGaleriPage {
     this.view.dismiss();
   }
   getUploadedFoto(){
-    this.rest.get(this.userData.Base_URL_KMS+'api/artikel/gambar/saya/{"skip": 0, "limit": null}/{"terbaru": -1}', this.userData.token)
+    this.rest.get(this.userData.Base_URL_KMS+this.streamLampiran+'saya/{"skip": 0, "limit": null, "jenis": "gambar"}', this.userData.token)
     .subscribe(
       data =>{
         this.foto = data;

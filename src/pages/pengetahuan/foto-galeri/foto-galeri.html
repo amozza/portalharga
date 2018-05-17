@@ -24,7 +24,7 @@
     <ion-col *ngFor="let item of foto" col-4 no-padding>
       <button [class.selected]="item === choosedPhoto" ion-item class="item-inner" no-padding (click)="choosePhoto(item)">
         <ion-card>
-          <img class="block-image" src="{{base_url}}{{streamGambar}}{{item?.nama.sistem}}">
+          <img class="block-image" src="{{base_url}}{{streamLampiran}}{{item?.nama.sistem}}">
         </ion-card>      
       </button>
     </ion-col>
