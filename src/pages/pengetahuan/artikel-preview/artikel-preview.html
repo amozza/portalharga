@@ -20,16 +20,17 @@
 
 <ion-content padding>
 
+  <ion-spinner [hidden]="artikel" name="crescent" style="left:50%"></ion-spinner>
+
   <h3>{{artikel?.judul}}</h3>
+  
   <ion-note>Penulis: </ion-note> {{artikel?.penulis}} <br>
   <ion-note style="font-size: 1.0rem">
     Diterbitkan: {{artikel?.tanggal?.terbit | date: 'dd MMMM yyyy'}}
   </ion-note>
-
-  <img class="image-artikel" [src]="passedParam.meta.thumbnail">
-
-  <ion-spinner [hidden]="artikel" name="crescent" style="left:50%"></ion-spinner>
-
+  <div *ngIf="artikel">
+    <img class="image-artikel" [src]="artikel?.meta.thumbnail">
+  </div>
   <p [innerHTML]="artikel?.isi"></p>
 </ion-content>
 
@@ -37,24 +38,17 @@
 
   <ion-toolbar>
     <ion-row float-right>
-      <!-- <ion-col col-4>
-        <ion-buttons >
-          <button ion-button>
-            <ion-icon name="eye"></ion-icon> &nbsp;&nbsp; {{artikel?.meta?.jumlah_baca}}
-          </button>
-        </ion-buttons>
-      </ion-col>   -->
       <ion-col col-6>
         <ion-buttons >
-          <button ion-button (click)="pushKomentarPage()">
-            <ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp; {{artikel?.meta?.jumlah_komentar}}
+          <button ion-button icon-only (click)="pushKomentarPage()">
+            <ion-icon name="chatboxes"></ion-icon>&nbsp;{{artikel?.meta?.jumlah.komentar}}
           </button>
         </ion-buttons>
       </ion-col>    
       <ion-col col-6>
         <ion-buttons >
           <button ion-button icon-only (click)="like()">
-            <ion-icon  [color]="isSecondary ? 'kms-secondary' : 'primary'" name="star"></ion-icon>
+            <ion-icon isActive="true"  name="star"></ion-icon>
           </button>
         </ion-buttons>      
       </ion-col>

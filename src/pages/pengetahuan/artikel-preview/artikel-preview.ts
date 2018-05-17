@@ -3,7 +3,7 @@ import { SharedProvider } from './../../../providers/shared';
 import { UserData } from './../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, ActionSheetController, , LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App, ActionSheetController, , LoadingController, Events } from 'ionic-angular';
 
 
 /**
@@ -20,20 +20,25 @@ import { IonicPage, NavController, NavParams, App, ActionSheetController, , Load
 })
 export class ArtikelPreviewPage {
   
-  passedParam: any;
-  artikel: any;
-  isSecondary: boolean =  false;
+  private passedParam       : any;
+  private artikel           : any;
+  private isSecondary       : boolean =  false;
 
   constructor(private authHttp: AuthHttp, 
               private loadingCtrl: LoadingController, 
               private rest: RestProvider,
               private shared: SharedProvider,
               private actionSheetCtrl: ActionSheetController, 
+              private event: Events,
               public app : App, private userData: UserData,
               public navCtrl: NavController, public navParams: NavParams) {
     // get the params from the caller page
     this.passedParam = navParams.data;
     console.log('data lemparan', this.passedParam);
+    //listening for update data
+    this.event.subscribe('artikel:view:refresh', ()=>{
+      this.getArtikelbyId();
+    })
   }
 
   ionViewDidLoad() {
@@ -44,9 +49,10 @@ export class ArtikelPreviewPage {
  * Req api
  */
   getArtikelbyId(){
-    this.authHttp.get(this.userData.Base_URL_KMS + 'api/artikel/post/'+ this.passedParam._id)
+    this.rest.get(this.userData.Base_URL_KMS + 'api/artikel/post/'+ this.passedParam._id, this.userData.token)
     .subscribe(response =>{
-      this.artikel = response.json().data;
+      console.log('responseny', response)
+      this.artikel = response;
       console.log('get artikkel by id', this.artikel)
     }, err =>{
       alert(err)
@@ -63,11 +69,13 @@ export class ArtikelPreviewPage {
     loader.present();    
 
 
-    this.rest.post(this.userData.Base_URL_KMS+'api/artikel/post/hapus', this.userData.token, claims)
+    this.rest.delete(this.userData.Base_URL_KMS+'api/artikel/post/hapus', this.userData.token, claims)
     .subscribe(res =>{
       loader.dismiss();
-      console.log('balikannya 200', res)
-      console.log('akses status body ', JSON.parse(JSON.stringify(res)).status)
+      console.log('balikannya res ', res)
+      this.shared.toast.showToast('Berhasil menghapus artikel');
+      this.navCtrl.pop();
+      this.event.publish('artikel:refresh');
     }, err=>{
       loader.dismiss();
       this.rest.showError(err);
@@ -85,7 +93,7 @@ export class ArtikelPreviewPage {
 
   }
   pushKomentarPage(){
-    this.navCtrl.push('KomentarPage', {type: 'artikel'});
+    this.navCtrl.push('KomentarPage', {type: 'artikel', id: this.artikel._id, typeComment: 'komentar'});
   }
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
@@ -101,13 +109,11 @@ export class ArtikelPreviewPage {
             }, err=>{
               console.log('ga jadi dah cuy');
             })
-            console.log('Hapus clicked');
           }
         },{
           text: 'Edit',
           icon: 'create',
           handler: () => {
-            // this.app.getRootNav().push('ArtikelPreviewPage')
             this.navCtrl.push('ArtikelEditTambahPage', {page: "Edit", data: this.artikel});
             console.log('Destructive clicked');
           }
