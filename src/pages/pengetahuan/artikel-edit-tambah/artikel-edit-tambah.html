@@ -7,20 +7,12 @@
 <ion-header no-border>
 
   <ion-navbar>
-    <ion-title>{{pageType}} artikel</ion-title>
+    <ion-title>{{pageType}} Artikel</ion-title>
     <ion-buttons end>
-      <div *ngIf="pageType=='Edit'; else submit ">
-        <button [disabled]="!form.valid" (click)="submitEdit()" ion-button icon-only>
-          <ion-icon color="primary" name="send"></ion-icon>
-        </button>
-      </div>
-
-      <ng-template #submit>
-        <button [disabled]="!form.valid" (click)="submit()" ion-button icon-only>
-          <ion-icon color="primary" name="send"></ion-icon>
-        </button>
-      </ng-template>      
-    </ion-buttons>      
+      <button [disabled]="!form.valid" (click)="submit()" ion-button icon-only>
+        <ion-icon color="primary" name="send"></ion-icon>
+      </button>
+    </ion-buttons>    
   </ion-navbar>
 
 </ion-header>
@@ -54,18 +46,28 @@
 
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Status</ion-label>    
-        <ion-select formControlName="status" class="custom-select" interface="popover">
+        <ion-select formControlName="status" class="custom-select" [selectOptions]="{mode: 'ios'}">
           <ion-option value="terbit">Terbit</ion-option>
           <ion-option value="draf">Draf</ion-option>        
         </ion-select>
     </ion-item>
-
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Kategori</ion-label>    
+        <ion-select formControlName="kategori" [selectOptions]="{mode: 'ios'}" placeholder="Pilih kategori">
+          <ng-container *ngFor="let kategori of kategoris">
+            <ion-option disabled>{{kategori.nama}}: </ion-option>
+            <ng-container *ngFor="let subkategori of kategori.subkategori">
+              <ion-option [value]="subkategori._id">&nbsp;&nbsp;&nbsp;{{subkategori.nama}}</ion-option>              
+            </ng-container>
+          </ng-container>
+        </ion-select>
+    </ion-item>     
     <!-- tag input -->
     <ion-item id='tagFocus' no-padding no-lines>
       <ion-label color="primary" stacked>Tag</ion-label>    
     </ion-item>
     <div style="margin-top: -10px;"> 
-      <tag-input #tagFocus [placeholder]="'tambah tag'"  (onFocus)="setFocus($event, 'tagFocus')" [secondaryPlaceholder]="'Silahkan masukan tag'" [theme]="'foundation-theme'"formControlName='tag'></tag-input> 
+      <tag-input #tagFocus [placeholder]="'tambah tag'"  (onFocus)="setFocus($event, 'tagFocus')" [secondaryPlaceholder]="'Silahkan masukan tag'" [theme]="'foundation-theme'" formControlName='tag'></tag-input> 
     </div>
         
     <ion-item id='editorFocus' no-padding>
@@ -73,12 +75,12 @@
     </ion-item>  
     <!-- html editor ckeditor -->
     <div *ngIf="pageType== 'Tambah'; else editorEdit ">
-      <html-editor (focus)="setFocus($event, 'editorFocus')" (contentChanged)="htmlChanged($event)"></html-editor>
+      <html-editor #ckeditor (focus)="setFocus($event, 'editorFocus')" (contentChanged)="htmlChanged($event)"></html-editor>
     </div>
     <ng-template #editorEdit>
       <html-editor (focus)="setFocus($event, 'editorFocus')" [content]="contentEditor" (contentChanged)="htmlChanged($event)"></html-editor>
     </ng-template>  
   </form>     
 
-  <button ion-button (click)="cek()"> cek form type</button>
+   <!-- <button ion-button (click)="cek()"> cek form type</button>  -->
 </ion-content>

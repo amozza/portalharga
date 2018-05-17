@@ -8,7 +8,7 @@ page-artikel-edit-tambah {
         margin-left: auto;
         margin-right: auto;        
     }
-
+    
     //new theme ngx chips
     @import "node_modules/ngx-chips/core/styles/core/_core.scss";
 
@@ -52,6 +52,5 @@ page-artikel-edit-tambah {
     // apply theme to the delete icon
     /deep/ .ng2-tag-input.foundation-theme tag delete-icon {
         @include icon-theme($foundation-icon-theme);
-    }
-    
+    }    
 }

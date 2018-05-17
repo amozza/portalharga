@@ -22,12 +22,13 @@ import { Camera } from 'ionic-native';
 })
 export class ArtikelEditTambahPage {
   @ViewChild(Content) content: Content;
-
+  @ViewChild('ckeditor') ckeditor: any;
   private pageType      : string;
   private artikelStatus : string;
   private token         : string;
-  private dataEdit      : any;
+  private dataEdit      : any; // for edit only
   private form          : FormGroup;
+  private kategoris     : any = [];
   
   // form atribut
   private judul         : string;
@@ -71,39 +72,13 @@ export class ArtikelEditTambahPage {
     }
   }
 
-  setEditForm(){
-    this.contentEditor = this.dataEdit.isi;
-    this.picture = this.dataEdit.meta.thumbnail;
-    
-    this.form = this.formBuilder.group({
-      judul: [this.dataEdit.judul, [Validators.required]],
-      isi: [this.contentEditor, [Validators.required]],
-      status: [this.dataEdit.status, [Validators.required]],
-      gambarSampul : [this.dataEdit.meta.thumbnail ,[Validators.required]],
-      tag: [this.dataEdit.tag],
-    })
-
-  }
-  setForm(){
-    this.form = this.formBuilder.group({
-      judul: ['', [Validators.required]],
-      isi: ['', [Validators.required]],
-      status: ['terbit', [Validators.required]],
-      gambarSampul : ['',[Validators.required]],
-      tag: [[]],
-
-    })
-  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ArtikelEditTambahPage');
+    this.getCategory();
   }
-/**
- * Tambah
- */
   submit(){
-    console.log('form value ', this.form.value);
-
-    let claims = JSON.stringify({
+    console.log('submitted form value ', this.form.value);
+    let claims = {
       meta: {
         thumbnail: this.form.get('gambarSampul').value
       },
@@ -112,24 +87,45 @@ export class ArtikelEditTambahPage {
         ubah: new Date
       },
       judul: this.form.get('judul').value,
-      ringkasan: this.contentEditor.slice(0, 200), //get some char of string 
+      ringkasan: this.contentEditor.replace(/<img[^>]*>/g,"").slice(0, 100), //get some char of string except img tag 
       isi: this.contentEditor,
+      subkategori: this.form.get('kategori').value,
       tag: this.form.get('tag').value.map(function(a) {return a.value}), // extract spesific value of property from array of object
       status: this.form.get('status').value
-    });
+    }
+    console.log('claims', claims)
 
+    if(this.pageType == 'Tambah')
+      this.submitPost(claims);
+    else
+      this.submitEdit(claims);
+  }  
+/**
+ * Tambah
+ */
+  setForm(){
+    this.form = this.formBuilder.group({
+      judul: ['', [Validators.required]],
+      isi: ['', [Validators.required]],
+      status: ['terbit', [Validators.required]],
+      gambarSampul : ['', [Validators.required]],
+      tag: [[]],
+      kategori: ['', [Validators.required]]
+    })
+  }
+  submitPost(claims){
     let loader = this.loadingCtrl.create({
       content: "Harap tunggu..."
     });
-    loader.present();    
+    loader.present();
 
-    this.rest.post(this.userData.Base_URL_KMS+'api/artikel/post/tulis', this.userData.token, claims)
+    this.rest.post(this.userData.Base_URL_KMS+'api/artikel/post/tulis', this.userData.token, JSON.stringify(claims))
     .subscribe(
       response =>{
         loader.dismiss();
         this.navCtrl.pop();
         let data = response;
-        this.shared.toast.showToast('berhasil Tambah Artikel');
+        this.shared.toast.showToast('Berhasil tambah artikel');
         this.event.publish('artikel:refresh');
       },
       err =>{
@@ -140,28 +136,54 @@ export class ArtikelEditTambahPage {
     )
   }
 
-
 /**
  * Edit
  */
-  submitEdit(){
-    console.log('submit edit ', this.form.value);
+  setEditForm(){
+    this.contentEditor = this.dataEdit.isi;
+    this.picture = this.dataEdit.meta.thumbnail;
+    // set tag input form
+    let tag = [];
+    for (var i =0 ; i < this.dataEdit.tag.length; i++){
+      tag[i] = {'value': this.dataEdit.tag[i], 'display': this.dataEdit.tag[i] };
+    }
+    console.log('tag input edit jadi gini ', tag);
+    //set form edit
+    this.form = this.formBuilder.group({
+      judul: [this.dataEdit.judul, [Validators.required]],
+      isi: [this.contentEditor, [Validators.required]],
+      status: [this.dataEdit.status, [Validators.required]],
+      gambarSampul : [this.dataEdit.meta.thumbnail ,[Validators.required]],
+      tag: [tag],
+      kategori: [this.dataEdit.subkategori._id, [Validators.required]]
+    })
 
-    let claims = JSON.stringify({
-      meta: {
-        thumbnail: this.form.get('gambarSampul').value
+  }
+  submitEdit(claims){
+    //add id artikel to claims
+    claims['id'] = this.dataEdit._id
+    console.log('id added ', claims);
+    let loader = this.loadingCtrl.create({
+      content: "Harap tunggu..."
+    });
+    loader.present();
+
+    this.rest.patch(this.userData.Base_URL_KMS+'api/artikel/post/ubah', this.userData.token, JSON.stringify(claims))
+    .subscribe(
+      response =>{
+        loader.dismiss();
+        this.navCtrl.pop();
+        let data = response;
+        this.shared.toast.showToast('Berhasil edit artikel');
+        this.event.publish('artikel:refresh');
+        this.event.publish('artikel:view:refresh');
       },
-      tanggal: {
-        terbit: new Date,
-        ubah: new Date
-      },
-      judul: this.form.get('judul').value,
-      ringkasan: this.contentEditor.slice(0, 200), //get some char of string 
-      isi: this.contentEditor,
-      tag: this.form.get('tag').value,
-      status: this.form.get('status').value
-    }); 
-    console.log('claims edit ', claims)
+      err =>{
+        loader.dismiss();
+        alert(JSON.stringify(err))
+      }
+      
+    )
   }
   tesPop(){
     console.log('execute pop')
@@ -174,7 +196,9 @@ export class ArtikelEditTambahPage {
   }
   cek(){
     console.log('form value ', this.form.value)
+    console.log('form type ', this.pageType)
   }
+
   // method for listen the change of html editor
   htmlChanged(e){
     this.contentEditor = e;
@@ -199,7 +223,7 @@ export class ArtikelEditTambahPage {
         this.uploadImage(data.imageUri);
       }
       else{
-        this.picture = this.userData.Base_URL_KMS+'api/artikel/gambar/'+data.imageUri;
+        this.picture = this.userData.Base_URL_KMS+'api/lampiran/file/'+data.imageUri;
         this.form.get('gambarSampul').setValue(this.picture);    
       }
     })
@@ -211,21 +235,41 @@ export class ArtikelEditTambahPage {
   uploadImage(imageUri){
     let params = {
       "fileName": this.fileName || 'gambar.jpg',
-      "mimeType": 'image/jpeg'
+      "mimeType": 'image/jpeg',
+      "token": this.userData.token
     }
     
-    this.rest.upload.fileUpload(this.userData.Base_URL_KMS+'api/artikel/gambar/upload', imageUri, params)
+    this.rest.upload.fileUpload(this.userData.Base_URL_KMS+'api/lampiran/file/upload', imageUri, params)
     .then(JSON.parse)
     .then(res=>{
-      // alert(res);
       this.shared.toast.showToast('Unggah gambar berhasil');
-      // console.log('namaya file balikannya coy', data.nama)
+      console.log('nama balikan file upload ',res.data.nama.sistem)
       //view to picture;
-      // this.picture=this.userData.Base_URL_KMS+'api/artikel/gambar/'+data.nama.sistem;
+      this.picture=this.userData.Base_URL_KMS+'api/lampiran/file/'+res.data.nama.sistem;
       this.form.get('gambarSampul').setValue(this.picture);
     })
   }
 
+  getCategory(){
+    let uri = this.userData.Base_URL_KMS+'api/kategorisasi/kategori/all/{"skip":0,"limit":null,"subkategori":1}/{"terbaru":1}'
+    this.rest.get(uri, this.userData.token)
+    .subscribe(
+      res =>{
+        console.log('berhasil get kategori ', res)
+        this.kategoris = res;
+      },
+      err =>{
+        alert('gagal get category')
+      }
+    )
+  }  
+    
+
+/**
+ * 
+ * page function
+ *  
+ */
   setFocus(e, id){ // set focus input to ng 2 tag input. it is used because ng2 tag input was a component
     let yOffset = document.getElementById(id).offsetTop;
     console.log('offfsetnya', yOffset)
