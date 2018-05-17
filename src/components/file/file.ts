@@ -14,7 +14,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: 'file.html'
 })
 export class FileComponent {
-  @Input('name') componentName: String;
+  @Input('name') passedData: String;
   @Input('data') datagan: Array<any>;
 
   private data      : any = [];

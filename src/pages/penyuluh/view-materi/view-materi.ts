@@ -29,6 +29,7 @@ export class ViewMateriPage {
   }
 
   unduhMateri(){
+    console.log('url ', this.url)
     window.open(this.url);
   }
 }

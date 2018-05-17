@@ -48,7 +48,6 @@ export class ArtikelSayaComponent {
 
   ngOnInit() {
     console.log('datagan ', this.datagan);
-    this.data = this.datagan;
     console.log('data hasil lemparan', this.passedData);
   }
 

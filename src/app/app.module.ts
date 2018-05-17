@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicStorageModule } from '@ionic/storage';
 import { Transfer } from '@ionic-native/transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
+import { FileOpener } from '@ionic-native/file-opener';
 import { MyApp } from './app.component';
 
 // Petani
@@ -203,6 +204,7 @@ export function getAuthHttp(http, Storage) {
   RestProvider,
   Transfer,
   FileChooser,
+  FileOpener,  
   File,
     {
       provide: AuthHttp,

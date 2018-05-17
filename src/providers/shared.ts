@@ -3,22 +3,27 @@ import { Injectable } from '@angular/core';
 import { AlertController, ToastController, Nav, LoadingController, ActionSheetController, ModalController, Modal } from 'ionic-angular';
 import { File, FileEntry, IFile } from '@ionic-native/file';
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
+import { FileChooser } from '@ionic-native/file-chooser';
 
 
 
 @Injectable()
 
 export class SharedProvider { 
+  
+  //Mime type
+  public fileAllow = ['application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.ms-powerpoint']
+  public _maxSizeMateri: number = 10 * Math.pow(1024, 2);
+  public streamLampiran = 'api/lampiran/file/';    
+  
   constructor(private _alert: AlertController, 
               private actionSheetCtrl: ActionSheetController,
               private toastCtrl: ToastController,
               private loadingCtrl: LoadingController,
               private transfer: Transfer,
               private myModal: ModalController,
+              private fileChooser: FileChooser,
               private file: File) { }
-  
-  //Mime type
-  public fileAllow = ['application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.ms-powerpoint']
   
   public isInArray(array, value): Boolean{
     return array.indexOf(value) > -1;
@@ -60,7 +65,6 @@ export class SharedProvider {
       alert.present();
     }
   }
-
   public Camera = {
     takePicture: (option?)=>{
       return new Promise((resolve, reject)=>{
@@ -78,7 +82,6 @@ export class SharedProvider {
       })
     }
   }
-  
   public toast = {
     showToast: (message?) =>{
       return new Promise((resolve, reject)=>{
@@ -91,7 +94,6 @@ export class SharedProvider {
       })
     }
   }
-
   public readFile =  {
     getMetaFile: (uri?) =>{
       return new Promise((resolve, reject)=>{
@@ -192,5 +194,62 @@ export class SharedProvider {
         })
     }
   }
+  public ActionSheetTakeFile = {
+    takeFrom: ()=>{
+      return new Promise((resolve, reject)=>{
+        let actionSheet = this.actionSheetCtrl.create({
+          title: 'Ambil file dari:',
+          buttons: [
+            {
+              text: 'File explorer',
+              icon: 'document',
+              handler: () => {
+                this.fileChooser.open()
+                .then(uri=>{
+                  let claims = JSON.stringify({
+                    statusUpload: 1,
+                    fileUri: uri
+                  })                  
+                  resolve(claims)
+                }).catch(err=>{
+                  reject(err)
+                })
+              }
+            },
+            {
+              text: 'Digital Tani',
+              icon: 'apps',
+              handler: () => {
+                const fileKeep: Modal = this.myModal.create('FileKeepPage')
+                fileKeep.present()
+
+                fileKeep.onDidDismiss((data, error)=>{
+                  //if the data choosed and submitted
+                  if(data){
+                    let claims = JSON.stringify({
+                      statusUpload: 0,
+                      data: data
+                    });
+                    resolve(claims)
+                  }
+                    
+                })
+              }
+            },            
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              icon: 'close',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            }
+          ]
+        });
+
+        actionSheet.present()        
+        })
+    }
+  }  
 
 }

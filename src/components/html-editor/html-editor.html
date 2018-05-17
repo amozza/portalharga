@@ -2,12 +2,14 @@
     [(ngModel)]="content"
     (change)="onChange($event)"
     (ready)="onReady($event)"
-      [config]="{
-        toolbar: [
-          [ 'Format', 'Bold', 'Italic', 'Underline', 'BulletedList', 'NumberedList', 'Image', 'Link', 'Unlink', '-', 'Undo', 'Redo']
-        ],
-        extraPlugins: 'divarea'
-      }"
+      [config]="ckeConfig"
     (focus)="onFocus($event)"
     debounce="500">
+    <ckbutton [name]="'imageExplorer'"
+      [command]="'openImageExplorer'"
+      (click)="takePicture($event)"
+      [icon]="'https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png'"
+      [label]="'Open image explorer'"
+      [toolbar]="'insert,1'">
+    </ckbutton>    
 </ckeditor>

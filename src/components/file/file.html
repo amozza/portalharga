@@ -1,20 +1,38 @@
 <ion-card *ngFor="let item of data">
   <!-- clickable area -->
   <div tappable (click)="pushBerbagiFilePreviewPage(item)">
-    <img class="image-center" [src]="item?.meta.thumbnail"/>
+    <img class="image-center" [src]="item?.meta?.thumbnail"/>
     <ion-card-content>
       <ion-card-title style="font-size:2.0rem">
-        {{item?.nama.asli}}
-        </ion-card-title>
+        {{item?.judul}}
+      </ion-card-title>
+
     </ion-card-content>
+
+    <ion-row padding-left padding-right padding-bottom>
+      <ion-col no-padding col--8 style="font-size: 1.2rem" float-left> 
+        <span *ngIf="passedData == 'saya' ">Terakhir
+          {{item?.tanggal.ubah | date: 'dd MMMM yyyy, h:mm:ss a' }}
+        </span>
+
+        <span *ngIf="passedData == 'explore' ">
+          {{item?.tanggal.terbit | date: 'dd MMMM yyyy'}}
+        </span>
+
+      </ion-col>
+
+      <ion-col no-padding  col-4>
+        <ion-note *ngIf="passedData == 'saya' " style="float:right" class="status-artikel"><i>{{item?.status}}</i></ion-note>        
+      </ion-col>
+    </ion-row>    
   </div>
   <!-- end of clickable area-->
-  <ion-row>
+  <!-- <ion-row>
     <ion-col>
       <button style="text-transform: none;" tappable ion-button icon-only clear small>
         <ion-icon name="download"></ion-icon>
         <div style="font-size:1.2rem">Unduh</div>
       </button>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
 </ion-card>
