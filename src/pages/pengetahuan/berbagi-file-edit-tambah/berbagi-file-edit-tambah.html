@@ -7,7 +7,7 @@
 <ion-header no-border>
 
   <ion-navbar>
-    <ion-title>{{pageType}} File</ion-title>
+    <ion-title>{{pageType}} Materi</ion-title>
     <ion-buttons end>
       <button [disabled]="!form.valid" (click)="submit()" ion-button icon-only>
         <ion-icon color="primary" name="send"></ion-icon>
@@ -19,6 +19,9 @@
 
 
 <ion-content padding>
+  <!-- <button ion-button (click)="cek()">
+    cek file
+  </button> -->
   <!-- form add artikel -->
   <form [formGroup]= "form">
     <ion-item no-padding no-lines>
@@ -26,15 +29,22 @@
     </ion-item>
     <ion-row no-padding style="padding-top:4px"> 
       <ion-col col-4 no-padding>
-        <button color="dark" ion-button small outline tappable icon-start (click)="chooseFile()">
+        <button color="dark" ion-button small outline tappable icon-start (click)="takeFileFrom()">
           <ion-icon name='document'></ion-icon>
-            <span *ngIf="pageType == 'Tambah'; else edit">Pilih </span><ng-template #edit>Ganti</ng-template> file
+            <span>Tambah file</span>
         </button>
       </ion-col>
-      <ion-col col-8 padding-left>
-        {{fileName}}
-      </ion-col>
     </ion-row>  
+    <ion-row *ngFor="let item of fileName; let i = index">
+      <ion-col col-10 padding-left>
+        <ng-container>
+        {{item?.nama?.asli}}
+        </ng-container>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button icon-only (click)="popFile(i)" ><ion-icon name="close"></ion-icon></button>
+      </ion-col>
+    </ion-row>
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Judul</ion-label>    
       <ion-input formControlName="judul" type="text" placeholder="Judul File"></ion-input>
@@ -42,15 +52,34 @@
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Deskripsi</ion-label>    
       <ion-textarea formControlName="deskripsi" placeholder="Berikan deskripsi file anda"></ion-textarea>
-    </ion-item>  
+    </ion-item> 
+    <ion-item no-padding no-lines>
+      <ion-label color="primary" stacked>Kategori</ion-label>    
+        <ion-select formControlName="subKategori" [selectOptions]="{mode: 'ios'}" placeholder="Pilih kategori">
+          <ng-container *ngFor="let kategori of kategoris">
+            <ion-option disabled>{{kategori.nama}}: </ion-option>
+            <ng-container *ngFor="let subkategori of kategori.subkategori">
+              <ion-option [value]="subkategori._id">&nbsp;&nbsp;&nbsp;{{subkategori.nama}}</ion-option>              
+            </ng-container>
+          </ng-container>
+        </ion-select>
+    </ion-item>     
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Status</ion-label>    
-        <ion-select formControlName="status" class="custom-select" interface="popover">
+        <ion-select formControlName="status" [selectOptions]="{mode: 'ios'}">
           <ion-option value="terbit">Terbit</ion-option>
           <ion-option value="draf">Draf</ion-option>        
         </ion-select>
     </ion-item>    
-    
+
+    <!-- tag input -->
+    <ion-item id='tagFocus' no-padding no-lines>
+      <ion-label color="primary" stacked>Tag</ion-label>    
+    </ion-item>
+    <div style="margin-top: -10px;"> 
+      <tag-input #tagFocus [placeholder]="'tambah tag'"  (onFocus)="setFocus($event, 'tagFocus')" [secondaryPlaceholder]="'Silahkan masukan tag'" [theme]="'foundation-theme'" formControlName='tag'></tag-input> 
+    </div>
+        
   </form>
 
 </ion-content>

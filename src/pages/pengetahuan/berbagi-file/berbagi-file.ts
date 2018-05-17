@@ -50,7 +50,7 @@ export class BerbagiFilePage {
     this.params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1});    
     
     //listen the change event
-    this.event.subscribe('file:refresh', ()=>{
+    this.event.subscribe('materi:refresh', ()=>{
       if(this.userRole === 3)
         this.getFileSaya();
       this.getFile();
@@ -63,7 +63,7 @@ export class BerbagiFilePage {
   }
   ionViewDidLoad() { //fire once
     console.log('ionViewDidLoad BerbagiFilePage');
-    this.getFile(); // defauult segment is esplore, then we need to supla explore data first
+    this.getFile(); // defauult segment is esplore, then we need to suplay explore data first
   }
   selectedSegment(value){
     console.log('segment yang dipilih ', value)
@@ -81,7 +81,7 @@ export class BerbagiFilePage {
    * req API
    */
   getFile(){
-    this.rest.get(this.userData.Base_URL_KMS+'api/materi/file/all/'+this.params1+'/'+this.params2, this.userData.token)
+    this.rest.get(this.userData.Base_URL_KMS+'api/materi/topik/all/'+this.params1+'/'+this.params2, this.userData.token)
     .subscribe( response =>{
       this.dataExplore = response;
       console.log('berhasil get file explore ', this.dataExplore);
@@ -91,7 +91,7 @@ export class BerbagiFilePage {
     })
   }
   getFileSaya(){
-    this.rest.get(this.userData.Base_URL_KMS+'api/materi/file/saya/'+this.params1+'/'+this.params2, this.userData.token)
+    this.rest.get(this.userData.Base_URL_KMS+'api/materi/topik/saya/'+this.params1+'/'+this.params2, this.userData.token)
     .subscribe( response =>{
       this.dataSaya = response;
       console.log('berhasil get file saya ', this.dataSaya);
@@ -116,7 +116,7 @@ export class BerbagiFilePage {
   doRefresh(refresher){
       setTimeout(() => {
         refresher.complete();
-        this.event.publish('file:refresh');
+        this.event.publish('materi:refresh');
       }, 1000);
   }  
 }
