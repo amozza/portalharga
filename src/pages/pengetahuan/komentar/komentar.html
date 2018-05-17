@@ -7,11 +7,12 @@
 <ion-header no-border>
 
   <ion-navbar>
-    <ion-title>Lihat Komentar</ion-title>
+    <ion-title>Lihat {{typeComment | titlecase}} </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+ <ion-content> 
   <!-- komentarcomponent -->
-  <komentar></komentar>
-</ion-content>
+  <!-- <button ion-button (click)="scrollToBottom()" > scroll to bottom </button> -->
+  <komentar [data]="data" [type]="typeComment" (idKomentar)="openBalasan($event)" (message)="submitMessage($event)"></komentar>
+ </ion-content> 
