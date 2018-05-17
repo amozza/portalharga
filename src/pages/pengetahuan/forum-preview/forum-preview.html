@@ -26,34 +26,28 @@
       <ion-avatar item-start>
         <img src="assets/icon/user.png">
       </ion-avatar>
-      <h2>Judul Forum atau pertanyaan</h2>
+      <h2 text-wrap>{{pertanyaan?.judul}}</h2>
       <ion-note float-left style="font-size:1.2rem">
-        Oleh: reza_bagusp
+        Oleh: {{pertanyaan?.penulis}}
       </ion-note>
       <ion-note float-right style="font-size:1.2rem">
-        4 bulan yang lalu
+          {{pertanyaan?.tanggal?.ubah | date: 'dd MMMM yyyy, h:mm:ss a' }}
       </ion-note>
     </ion-item>
   </ion-list>
   
-  <!-- Isi Pertanyaan --> 
-  <ion-row>
-    <h4> Kenapa Mangga manis lebih manis dari eneng-eneng yang manis ? ada yang pernah mengalami hal yang sama ?</h4>
-  </ion-row>
-
-  <!-- categorize -->
+  <!-- tag -->
   <ion-row>
     <ion-note style="font-size: 1.2rem">
-      Mangga manis, mangga di coba
+       <ng-container *ngFor="let tag of pertanyaan?.tag">
+        {{tag}}&nbsp;&nbsp;
+      </ng-container> 
     </ion-note>
   </ion-row>
   
   <!-- content pertanyaan -->
   <ion-row text-wrap>
-    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham </p>   
-    <img src="assets/icon/pedagang.png" height="250px" style="margin-left: auto; margin-right: auto; display:blok">
+    <p [innerHTML]="pertanyaan?.isi"> </p>   
   </ion-row>
 </ion-content>
 
@@ -64,18 +58,18 @@
     <ion-row float-right>
 
       <ion-col col-6>
-        <ion-buttons >
-          <button ion-button>
-            <ion-icon name="chatboxes"></ion-icon>&nbsp;&nbsp; 5 
+         <ion-buttons > 
+          <button ion-button icon-only (click)="pushKomentarPage()">
+            <ion-icon name="chatboxes"></ion-icon>&nbsp;{{pertanyaan?.meta?.jumlah.komentar}}
           </button>
-        </ion-buttons>
+         </ion-buttons> 
       </ion-col> 
       <ion-col col-6>
-        <ion-buttons >
-          <button ion-button>
+         <ion-buttons > 
+          <button ion-button icon-only>
             <ion-icon name="thumbs-up"></ion-icon> 
           </button>
-        </ion-buttons>
+         </ion-buttons> 
       </ion-col>       
   
     </ion-row>  

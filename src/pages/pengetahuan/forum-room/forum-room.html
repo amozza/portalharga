@@ -7,48 +7,63 @@
 <ion-header no-border>
 
   <ion-navbar>
-    <ion-title>Nama Topik Forum
+    <ion-title>{{namaSubKategori}}
     </ion-title>    
   </ion-navbar>
   <ion-row no-border style="border-bottom-style: inset">
-    <ion-col col-8 no-padding >
+    <ion-col col-12 no-padding >
       <ion-searchbar no-padding placeholder="Cari"></ion-searchbar>
     </ion-col>
-    <ion-col col-4 style="float:right">
+    <!-- <ion-col col-4 style="float:right">
       <ion-select class="custom-select" interface="popover" [(ngModel)]="gender">
         <ion-option selected value="f">Aktif</ion-option>
         <ion-option value="m">Terbaru</ion-option>
         <ion-option value="v">Voting</ion-option>        
       </ion-select>
-    </ion-col>
+    </ion-col> -->
   </ion-row>
 </ion-header>
 
 
 <ion-content>
+
+  <!-- refresher -->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>  
+
   <ion-list>
-      <div tappable (click)="pushForumPreviewPage()" ion-item *ngFor="let item of [1,2,3,4,5]">  
+      <ng-container *ngIf="pertanyaans.length; else elseContent">
+      <div tappable ion-item *ngFor="let item of pertanyaans" (click)="pushForumPreviewPage(item._id)">  
         <ion-row>
           <ion-col col-12>
             <ion-row text-wrap>
-              Isi ringkasan dari pertanyaan yang bersangkutan. ya bisa di potong lah jadi kelbihan ....
+              {{item?.judul}}
+            </ion-row>
+            <ion-row text-wrap>
+              <p [innerHTML]="item.isi.slice(0, 50)" >  </p>
             </ion-row>
             <ion-row text-wrap>
               <ion-col col-6 style="padding-left:0">
                 <ion-note style="font-size: 1.2rem">
-                  Mangga, Mangga manis, mangga lepok
+                  <ng-container *ngFor="let tag of item.tag">
+                    {{tag}}&nbsp;&nbsp;
+                  </ng-container>
                 </ion-note><br>
               </ion-col>              
               <ion-col col-6>
-                <ion-note style="float:right;font-size: 1.2rem">
-                  23 Maret 2017
-                </ion-note><br>
-                <span style="float:right; font-size:1.2rem">200 Voting / Tutup</span>
+                <span style="float:right;font-size: 1.2rem">
+                    {{item?.tanggal?.ubah | date: 'dd MMMM yyyy, h:mm:ss a' }}
+                </span><br>
+                <span style="float:right; font-size:1.2rem">{{item?.meta?.jumlah?.suka}} Suka / <ion-note> <i> {{item?.status}} </i> </ion-note> </span>
               </ion-col>
             </ion-row>
           </ion-col>        
         </ion-row>
-      </div>    
+      </div>
+      </ng-container>
+      <ng-template #elseContent>
+      </ng-template>
   </ion-list>
 
   <ion-fab bottom right>

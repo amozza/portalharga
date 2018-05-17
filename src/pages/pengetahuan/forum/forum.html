@@ -10,34 +10,36 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-     <ion-title>Pengetahuan </ion-title> 
+     <ion-title>Pengetahuan </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="pushPageForumSaya()">
+        <ion-icon name="options"></ion-icon>
+      </button>
+    </ion-buttons>     
   </ion-navbar>
 
 </ion-header>
 
- <ion-content class="card-background-page">  
-   <!-- <button ion-button (click)="switch()">
-    switch tab
-   </button> -->
-    <div *ngFor="let item of [1,2,3,4,5]">
-      <ion-card tappable (click)="pushForumRoomPage()">
-        <img src="https://3.bp.blogspot.com/-iYCVCRhdvAc/WRxZ2nNFsAI/AAAAAAAAAMI/HfFw4vZSYXw1pwbXD7X1B_tnZvw3JPzwwCLcB/s1600/hama%2Btrooong.jpg"/>
+<ion-content class="card-background-page"> 
+    <!-- <ion-spinner *ngIf="!kategoris.length" style="left:50%"></ion-spinner> -->
+    <div *ngFor="let kategori of kategoris">
+      <ion-card tappable (click)="pushForumSubPage(kategori._id)">
+        <img [src]="kategori.meta.thumbnail"/>
         <ion-card-content>
           <ion-card-title>
-            Hama Tanaman
+            {{kategori.nama}}
             </ion-card-title>
           <p text-left>
-            The most popular industrial group ever, and largely
-            responsible for bringing the music to a mass audience.
+            {{kategori.deskripsi}}
           </p>
-          <ion-row>
+          <!-- <ion-row>
             <ion-col col-6 push-6>
               <ion-note style="float:right">
                 400 Forum
               </ion-note>
             </ion-col>
-          </ion-row>
+          </ion-row> -->
         </ion-card-content>
       </ion-card>
     </div>
- </ion-content> 
+</ion-content> 
