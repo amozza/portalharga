@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <ion-fab bottom right tappable>
+  <ion-fab *ngIf="userRole == 3" bottom right tappable>
     <button ion-fab (click)="pushArtikelTambahPage()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
   

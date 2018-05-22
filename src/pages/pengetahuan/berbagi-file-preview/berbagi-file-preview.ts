@@ -23,6 +23,7 @@ export class BerbagiFilePreviewPage {
 
   private passedParam     : any;
   private materi          : any;
+  private userRole        : number;
 
   constructor(public app: App, 
               public shared: SharedProvider,
@@ -41,6 +42,13 @@ export class BerbagiFilePreviewPage {
     console.log('lemparan datanya ', this.passedParam)
   }
 
+  ionViewWillEnter(){
+    //get role
+    this.userData.getRole()
+    .then(val =>{
+      this.userRole = val;
+    })     
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad BerbagiFilePreviewPage');
     this.getMateriById();    
@@ -164,4 +172,8 @@ export class BerbagiFilePreviewPage {
   pushKomentarPage(){
     this.navCtrl.push('KomentarPage', {type: 'materi', id: this.passedParam._id, typeComment: 'komentar'});
   }  
+
+  share(file){
+    this.shared.ActionSheetShare.shareTo(file);
+  }
 }

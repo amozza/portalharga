@@ -72,4 +72,6 @@
     <plugin name="cordova-plugin-file-opener2" spec="~2.0.19" />
     <engine name="android" spec="~6.1.2" />
     <allow-navigation href="http://192.168.137.1:8100" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="~5.4.0" />
+    <allow-navigation href="http://192.168.0.13:8100" />
 </widget>

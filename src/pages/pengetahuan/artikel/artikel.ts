@@ -70,7 +70,7 @@ export class ArtikelPage {
       this.userRole = val;
       console.log('get role penyuluh 3 ? ', this.userRole);
       console.log('typopf ', typeof(this.userRole));
-    })     
+    })  
     console.log('will enter artikel')
   }
   ionViewDidEnter(){

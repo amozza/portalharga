@@ -72,15 +72,12 @@ export class ForumRoomPage {
  * page funciton
  */
   pushForumPreviewPage(id){
-    this.app.getRootNav().push('ForumPreviewPage', {idPertanyaan: id});
+    this.navCtrl.push('ForumPreviewPage', {idPertanyaan: id});
   }  
   pushForumTambahPage(){
     this.app.getRootNav(). push('ForumEditTambahPage', {pageType: 'Tambah', idSubKategori: this.idSubKategori});
   }
-  simply(isi){
-    console.log('fungsinya kepanggil ', isi)
-    return isi.replace(/<img[^>]*>/g,"").slice(0, 50);
-  }
+
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
 

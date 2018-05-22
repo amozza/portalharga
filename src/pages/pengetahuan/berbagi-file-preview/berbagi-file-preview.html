@@ -2,7 +2,7 @@
 
   <ion-navbar>
     <ion-title>Lihat Materi</ion-title>
-    <ion-buttons end>
+    <ion-buttons *ngIf="userRole ==3" end>
       <button ion-button icon-only tappable (click)="presentActionSheet()">
         <ion-icon name="more"></ion-icon>
       </button>
@@ -41,14 +41,17 @@
   <h4 text-wrap>File :</h4>
 
   <ion-row *ngFor="let item of materi?.materi; let i = index">
-    <ion-col text-wrap col-10 padding-right>
+    <ion-col text-wrap col-8 padding-right>
       <ng-container>
       {{item?.nama?.asli}}
       </ng-container>
     </ion-col>
     <ion-col col-2>
+      <button ion-button icon-only (click)="share(item)"><ion-icon name="share"></ion-icon></button>
+    </ion-col>    
+    <ion-col col-2>
       <button ion-button icon-only (click)="retrieveFile(item)"><ion-icon name="open"></ion-icon></button>
-    </ion-col>
+    </ion-col>    
   </ion-row>    
 
 </ion-content>

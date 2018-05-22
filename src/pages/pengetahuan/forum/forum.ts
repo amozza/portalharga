@@ -22,6 +22,7 @@ export class ForumPage {
 
   constructor(public navCtrl: NavController,
               public rest: RestProvider,
+              public app: App,
               public userData: UserData,
               public event: Events,
               public navParams: NavParams) {
@@ -32,11 +33,11 @@ export class ForumPage {
     this.getCategory();
   }
   pushForumSubPage(id){
-    this.navCtrl.push('ForumSubPage', {idKategori: id});
+    this.app.getRootNav().push('ForumSubPage', {idKategori: id});
     console.log('id kategori yang dikirim ', id);
   }
   pushPageForumSaya(){
-    this.navCtrl.push('ForumSayaPage');
+    this.app.getRootNav().push('ForumSayaPage');
   }  
 
   switch(){

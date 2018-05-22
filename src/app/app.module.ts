@@ -66,7 +66,7 @@ import { VerifikasiAkunPage } from "../pages/verifikasi-akun/verifikasi-akun";
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
 import { RestProvider } from './../providers/rest';
-
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { Http } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -202,6 +202,7 @@ export function getAuthHttp(http, Storage) {
   ConferenceData,
   UserData,
   RestProvider,
+  SocialSharing,  
   Transfer,
   FileChooser,
   FileOpener,  

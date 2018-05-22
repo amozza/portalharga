@@ -8,7 +8,7 @@
 
   <ion-navbar>
     <ion-title>Lihat Artikel</ion-title>
-    <ion-buttons end>
+    <ion-buttons *ngIf="userRole == 3" end>
       <button ion-button icon-only (click)="presentActionSheet()">
         <ion-icon name="more"></ion-icon>
       </button>

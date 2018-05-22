@@ -1,9 +1,11 @@
+import { UserData } from './user-data';
 import { Camera } from 'ionic-native';
 import { Injectable } from '@angular/core';
 import { AlertController, ToastController, Nav, LoadingController, ActionSheetController, ModalController, Modal } from 'ionic-angular';
 import { File, FileEntry, IFile } from '@ionic-native/file';
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 
@@ -19,8 +21,10 @@ export class SharedProvider {
   constructor(private _alert: AlertController, 
               private actionSheetCtrl: ActionSheetController,
               private toastCtrl: ToastController,
+              private userData: UserData,
               private loadingCtrl: LoadingController,
               private transfer: Transfer,
+              private socialSharing: SocialSharing,
               private myModal: ModalController,
               private fileChooser: FileChooser,
               private file: File) { }
@@ -251,5 +255,70 @@ export class SharedProvider {
         })
     }
   }  
+  public ActionSheetShare = {
+    shareTo: (file, title?)=>{
+      return new Promise((resolve, reject)=>{
+        let actionSheet = this.actionSheetCtrl.create({
+          title: 'Share file' || title ,
+          buttons: [
+            {
+              text: 'Facebook',
+              icon: 'logo-facebook',
+              handler: () => {
+                this.socialSharing.shareViaFacebook('', '', this.userData.Base_URL_KMS+ this.streamLampiran+file.nama.sistem)
+                .then(res =>{
+                  console.log('berhasil share via facebook')
+                })
+                .catch( err =>{
+                  alert(JSON.stringify(err));
+                })
+
+              }
+            },
+            {
+              text: 'WhatsApp',
+              icon: 'logo-whatsapp',
+              handler: () => {
+
+                let url = this.userData.Base_URL_KMS+this.streamLampiran;
+                // this.socialSharing.shareWithOptions({message: 'hallo', files: url+file.nama.sistem, url: url+file.nama.sistem })
+                // .then(res =>{
+                //   console.log('berhasil')
+                // })
+                // .catch(err =>{
+                //   alert(JSON.stringify(err))
+                // })
+
+                this.socialSharing.share('', file.nama.asli, [this.userData.Base_URL_KMS+this.streamLampiran+file.nama.sistem, this.userData.Base_URL_KMS+this.streamLampiran+file.nama.sistem], this.userData.Base_URL_KMS+this.streamLampiran+file.nama.sistem)
+                .then(res =>{
+                  console.log('ggwp')
+                })
+                .catch( err =>{
+                  JSON.stringify(err);
+                })
+                // this.socialSharing.shareViaWhatsApp(file.nama.asli, 'http://mongoosejs.com/docs/images/mongoose5_62x30_transparent.png', url+file.nama.sistem)
+                // .then( res =>{
+                //   console.log('Berhasil share via whatsapp')
+                // })
+                // .catch( err =>{
+                //   alert(JSON.stringify(err))
+                // })
+              }
+            },            
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              icon: 'close',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            }
+          ]
+        });
+
+        actionSheet.present()        
+        })
+    }
+  }    
 
 }

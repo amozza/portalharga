@@ -23,6 +23,7 @@ export class ArtikelPreviewPage {
   private passedParam       : any;
   private artikel           : any;
   private isSecondary       : boolean =  false;
+  private userRole          : string;
 
   constructor(private authHttp: AuthHttp, 
               private loadingCtrl: LoadingController, 
@@ -41,6 +42,14 @@ export class ArtikelPreviewPage {
     })
   }
 
+  ionViewWillEnter(){
+    //get role
+    this.userData.getRole()
+    .then(val =>{
+      this.userRole = val;
+    })  
+    console.log('will enter artikel')
+  }  
   ionViewDidLoad() {
     this.getArtikelbyId();
     console.log('ionViewDidLoad ArtikelPreviewPage');
