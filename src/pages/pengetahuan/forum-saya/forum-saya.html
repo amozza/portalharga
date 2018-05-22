@@ -10,16 +10,25 @@
     <ion-title>Forum Saya</ion-title>
   </ion-navbar>
 
+  <ion-searchbar no-padding placeholder="Cari berdasarkan judul" (ionInput)="onSearchInput($event)"></ion-searchbar>
 </ion-header>
 
 
 <ion-content>
+  <!-- refresher -->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>  
+  
   <ion-list>
-      <div tappable ion-item *ngFor="let item of forumSaya" (click)="pushForumPreviewPage(item._id)">  
+      <div tappable ion-item *ngFor="let item of forumSayaTemp" (click)="pushForumPreviewPage(item._id)">  
         <ion-row>
           <ion-col col-12>
             <ion-row text-wrap>
-              {{item.judul}}
+              <h4 style="font-size: 1.7rem">{{item?.judul}}</h4>
+            </ion-row>
+            <ion-row text-wrap>
+              <p [innerHTML]="item.isi.slice(0, 50)" >  </p>
             </ion-row>
             <ion-row text-wrap>
               <ion-col col-6 style="padding-left:0">

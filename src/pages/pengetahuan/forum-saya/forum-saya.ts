@@ -19,7 +19,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ForumSayaPage {
 
-  private forumSaya         : any = [];
+  private forumSaya         : any = []; 
+  private forumSayaTemp     : any = [];
 
   constructor(public navCtrl: NavController,
               public rest: RestProvider,
@@ -34,12 +35,12 @@ export class ForumSayaPage {
   }
 
   getForumSaya(){
-    let uri = this.userData.Base_URL_KMS+'api/diskusi/tanya/saya/{"skip": 0, "limit": null, "status": null}/{"terbaru": 1}'
+    let uri = this.userData.Base_URL_KMS+'api/diskusi/tanya/saya/{"skip": 0, "limit": null, "status": "terbit"}/{"terbaru": 1}'
     this.rest.get(uri, this.userData.token)
     .subscribe(
       data =>{
         this.forumSaya = data;
-        console.log('berhasil get forum saya', this.forumSaya);
+        this.forumSayaTemp = data;
       }, err =>{
         alert(JSON.stringify(err));
       }
@@ -48,4 +49,28 @@ export class ForumSayaPage {
   pushForumPreviewPage(id){
     this.navCtrl.push('ForumPreviewPage', {idPertanyaan:id});
   }
+
+/**
+ * page function
+ */
+  onSearchInput(ev){
+    let val = ev.target.value;
+
+    //check if string ''
+    if(val && val.trim() != ''){
+      this.forumSayaTemp = this.forumSaya.filter((item)=>{
+        return (item.judul.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+    else
+      this.forumSayaTemp = this.forumSaya;
+  }
+
+  doRefresh(refresher) {
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      this.getForumSaya();
+      refresher.complete();
+    }, 1000);
+  }    
 }
