@@ -1,7 +1,6 @@
 <ckeditor #ckeditor
     [(ngModel)]="content"
     (change)="onChange($event)"
-    (ready)="onReady($event)"
       [config]="ckeConfig"
     (focus)="onFocus($event)"
     debounce="500">

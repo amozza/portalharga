@@ -40,14 +40,11 @@ export class HtmlEditorComponent {
     this.contentChanged = new EventEmitter<string>();   
     this.focus = new EventEmitter<string>(); 
   }
+
   onChange(e) {
     this.contentChanged.emit(e);
-
   }
 
-  onReady(e) {// this.contentChanged.emit(e);
-    
-  }  
   onFocus(e){
     this.focus.emit(e);
   }
@@ -101,12 +98,13 @@ export class HtmlEditorComponent {
             link.setAttribute("alt", "Image");
             link.setAttribute("src", picture);
             link.setAttribute("width", this.platform.width());
-
+            link.setAttribute("style", "margin-left: auto; margin-right auto");
             this.ckeditor.instance.insertElement(link);
         }
         catch(error)
         {
             console.log((<Error>error).message);
+            alert(JSON.stringify(error))
         }    
   }
         
