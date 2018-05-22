@@ -39,12 +39,7 @@ export class BerbagiFilePage {
               public event: Events,
               public rest: RestProvider,
               public navParams: NavParams) {
-    //get role
-    this.userData.getRole()
-    .then(val =>{
-      this.userRole = val;
-      console.log('get role penyuluh 3 ? ', this.userRole);
-    }) 
+
     //set the params of lazy load
     this.params1 = JSON.stringify({"skip": this.skipData, "limit": this.limitData });
     this.params2 = JSON.stringify({"terbaru": -1, "terpopuler": 1});    
@@ -59,6 +54,12 @@ export class BerbagiFilePage {
   }
 
   ionViewWillEnter(){
+    //get role
+    this.userData.getRole()
+    .then(val =>{
+      this.userRole = val;
+      console.log('get role penyuluh 3 ? ', this.userRole);
+    })     
     console.log('masuk ke berbagi file')
   }
   ionViewDidLoad() { //fire once
