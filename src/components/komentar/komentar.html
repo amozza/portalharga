@@ -1,25 +1,23 @@
 <ion-content padding>
   <div *ngFor="let item of data">  
     <ion-row >
-      <ion-col no-padding col-2>
+      <div style="left: 0px">
         <img src="assets/icon/user.png" height="45px" width="45px">
-      </ion-col>
-      <ion-col col-10 no-padding>
+      </div>
+      <div style="margin-left: 15px">
         <ion-row style="font-weight: bold">
         {{item?.penulis}}
         </ion-row>
         <ion-row no-padding text-wrap>
-          {{item.isi}} 
+          {{item?.isi}} 
         </ion-row>
-      </ion-col>
+      </div>
     </ion-row>
 
-    <ion-row style="margin-bottom:5px">
-      <ion-col col-10 push-2 no-padding padding-bottom>
-        <ion-note style="font-size: 1.2rem">
-          <span>{{item?.tanggal?.terbit | date: 'dd MMMM yyyy, h:mm:ss a' }}</span> &nbsp; &nbsp; <span tappable [hidden]="type == 'balasan' " style="color: green" (click)="openBalasan(item?._id)"> Balas</span>
-        </ion-note>
-      </ion-col>
+    <ion-row style="margin-bottom:15px; margin-left: 60px;">
+      <ion-note style="font-size: 1.2rem">
+        <span>{{item?.tanggal?.terbit | date: 'dd MMMM yyyy, h:mm:ss a' }}</span> &nbsp; &nbsp; <span tappable [hidden]="type == 'balasan' " style="color: green" (click)="openBalasan(item?._id)"> Balas</span>
+      </ion-note>
     </ion-row>
 
     <!-- replies -->
