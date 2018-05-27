@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController, NavParams, ToastController,LoadingController} from 'ionic-angular';
-import { TambahAspirasiPage } from '../tambah-aspirasi/tambah-aspirasi';
-import { PendukungPage } from '../pendukung/pendukung';
-import { TanggapanAspirasiPage } from "../tanggapan-aspirasi/tanggapan-aspirasi";
-import { EditAspirasiPage } from '../edit-aspirasi/edit-aspirasi';
+import { NavController, ActionSheetController, NavParams, ToastController, LoadingController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { AuthHttp } from 'angular2-jwt';
 /*
@@ -12,6 +8,7 @@ import { AuthHttp } from 'angular2-jwt';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-aspirasi',
   templateUrl: 'aspirasi.html'
@@ -107,7 +104,7 @@ export class AspirasiPage {
     });
   }
   editAspirasi(dataAspirasi){
-    this.navCtrl.push(EditAspirasiPage,dataAspirasi);
+    this.navCtrl.push('EditAspirasiPage',dataAspirasi);
   }
   presentActionSheet(dataAspirasi) {
     let actionSheet = this.actionSheetCtrl.create({
@@ -137,13 +134,13 @@ export class AspirasiPage {
     this.showAlert("Tidak dapat menyambungkan ke server. Mohon muat kembali halaman ini");
   }
   tambahAspirasi() {
-    this.navCtrl.push(TambahAspirasiPage);
+    this.navCtrl.push('TambahAspirasiPage');
   }
   lihatPendukung(aspirasi_id) {
-     this.navCtrl.push(PendukungPage,aspirasi_id);
+     this.navCtrl.push('PendukungPage',aspirasi_id);
   }
   lihatTanggapan(aspirasi_id) {
-     this.navCtrl.push(TanggapanAspirasiPage,aspirasi_id);
+     this.navCtrl.push('TanggapanAspirasiPage',aspirasi_id);
   }
 
   showAlert(message: string){

@@ -14,9 +14,9 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 export class SharedProvider { 
   
   //Mime type
-  public fileAllow = ['application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.ms-powerpoint']
-  public _maxSizeMateri: number = 10 * Math.pow(1024, 2);
-  public streamLampiran = 'api/lampiran/file/';    
+  public fileAllow      : any= ['application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.ms-powerpoint']
+  public _maxSizeMateri : number = 10 * Math.pow(1024, 2);
+  public streamLampiran : string = 'api/lampiran/file/';    
   
   constructor(private _alert: AlertController, 
               private actionSheetCtrl: ActionSheetController,
@@ -76,7 +76,8 @@ export class SharedProvider {
             destinationType: Camera.DestinationType.FILE_URI,
             sourceType: option,
             targetWidth: 600,
-            targetHeight: 600
+            targetHeight: 600,
+            allowEdit: true
         }).then((imageData) => {
             resolve(imageData)
           })
@@ -256,16 +257,31 @@ export class SharedProvider {
     }
   }  
   public ActionSheetShare = {
-    shareTo: (file, title?)=>{
+    shareFile: (file) =>{
+      return new Promise ((resolve, reject)=>{
+        let url = this.userData.Base_URL_KMS+this.streamLampiran;
+        // this.socialSharing.share('FIle materi', 'File', [url+file.nama.sistem], url+file.nama.sistem)
+        this.socialSharing.shareWithOptions({message: 'File', subject: 'File materi', files: url+file.nama.sistem})
+        .then(res=>{
+          resolve(true)
+        })
+        .catch(err =>{
+          alert(JSON.stringify(err))
+        })
+      })
+    },
+    shareTo: (link, title?)=>{
       return new Promise((resolve, reject)=>{
+        let url = this.userData.Base_URL_KMS+this.streamLampiran;
+        
         let actionSheet = this.actionSheetCtrl.create({
-          title: 'Share file' || title ,
+          title: title || 'Share' ,
           buttons: [
             {
               text: 'Facebook',
               icon: 'logo-facebook',
               handler: () => {
-                this.socialSharing.shareViaFacebook('', '', this.userData.Base_URL_KMS+ this.streamLampiran+file.nama.sistem)
+                this.socialSharing.shareViaFacebook('Link', '' , link)
                 .then(res =>{
                   console.log('berhasil share via facebook')
                 })
@@ -279,30 +295,13 @@ export class SharedProvider {
               text: 'WhatsApp',
               icon: 'logo-whatsapp',
               handler: () => {
-
-                let url = this.userData.Base_URL_KMS+this.streamLampiran;
-                // this.socialSharing.shareWithOptions({message: 'hallo', files: url+file.nama.sistem, url: url+file.nama.sistem })
-                // .then(res =>{
-                //   console.log('berhasil')
-                // })
-                // .catch(err =>{
-                //   alert(JSON.stringify(err))
-                // })
-
-                this.socialSharing.share('', file.nama.asli, [this.userData.Base_URL_KMS+this.streamLampiran+file.nama.sistem, this.userData.Base_URL_KMS+this.streamLampiran+file.nama.sistem], this.userData.Base_URL_KMS+this.streamLampiran+file.nama.sistem)
-                .then(res =>{
-                  console.log('ggwp')
+                this.socialSharing.shareViaWhatsApp('link', 'http://mongoosejs.com/docs/images/mongoose5_62x30_transparent.png', link)
+                .then( res =>{
+                  console.log('Berhasil share via whatsapp')
                 })
                 .catch( err =>{
-                  JSON.stringify(err);
+                  alert(JSON.stringify(err))
                 })
-                // this.socialSharing.shareViaWhatsApp(file.nama.asli, 'http://mongoosejs.com/docs/images/mongoose5_62x30_transparent.png', url+file.nama.sistem)
-                // .then( res =>{
-                //   console.log('Berhasil share via whatsapp')
-                // })
-                // .catch( err =>{
-                //   alert(JSON.stringify(err))
-                // })
               }
             },            
             {

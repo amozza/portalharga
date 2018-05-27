@@ -2,8 +2,6 @@ import { Component, ViewChild, ElementRef} from '@angular/core';
 import { NavController, App, NavParams, ToastController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { GoogleMap, Geolocation} from 'ionic-native';
 import { UserData } from '../../providers/user-data';
-import { TambahInfoHargaPage } from '../masyarakat/tambah-info-harga/tambah-info-harga';
-import { EditInfoHargaPage } from '../masyarakat/edit-info-harga/edit-info-harga';
 import { AuthHttp } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
@@ -206,7 +204,7 @@ export class InfoHargaPage {
   }
   // pindah ke halaman edit laporan harga
   editLaporanHarga(dataLaporanHarga){
-    this.navCtrl.push(EditInfoHargaPage,dataLaporanHarga);
+    this.navCtrl.push('EditInfoHargaPage',dataLaporanHarga);
   }
   // hapus laporan harga
   hapusLaporanHarga(idLaporanHarga){
@@ -288,7 +286,7 @@ export class InfoHargaPage {
 
   // pindah halaman tambah laporan harga
   postHargaKomoditas(){
-    this.navCtrl.push(TambahInfoHargaPage);
+    this.navCtrl.push('TambahInfoHargaPage');
   }
   //format uang (pemisah ribuan dengan koma)
   formatCurrency(n, currency):string {

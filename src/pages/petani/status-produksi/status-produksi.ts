@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ActionSheetController} from 'ionic-angular';
-import { KirimStatusProduksiPage } from '../kirim-status-produksi/kirim-status-produksi';
-import { EditStatusProduksiPage } from '../edit-status-produksi/edit-status-produksi';
+import { NavController, NavParams, ToastController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
 
@@ -11,6 +9,7 @@ import { UserData } from '../../../providers/user-data';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-status-produksi',
   templateUrl: 'status-produksi.html'
@@ -51,11 +50,11 @@ export class StatusProduksiPage {
   }
   
   tambahProduksi(){
-    this.navCtrl.push(KirimStatusProduksiPage);
+    this.navCtrl.push('KirimStatusProduksiPage');
   }
 
   editProduksi(dataProduksi){
-    this.navCtrl.push(EditStatusProduksiPage,dataProduksi);
+    this.navCtrl.push('EditStatusProduksiPage',dataProduksi);
   }
 
   hapusProduksi(dataProduksi){

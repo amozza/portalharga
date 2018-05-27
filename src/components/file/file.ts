@@ -37,7 +37,7 @@ export class FileComponent {
     this.data = this.datagan;
   }  
   pushBerbagiFilePreviewPage(data){
-    this.app.getRootNav().push('BerbagiFilePreviewPage', data);
+    this.app.getRootNav().push('BerbagiFilePreviewPage', {id:data._id});
   }
   
 }

@@ -2,11 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, App, PopoverController, ToastController, LoadingController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
-import { ProfileEditPage } from '../../profile-edit/profile-edit';
 import { PopoverPage } from '../../popover/popover';
 import { AuthHttp } from 'angular2-jwt';
-// import { EditMateriPage } from "../edit-materi/edit-materi";
-// import { ViewMateriPage } from "../view-materi/view-materi";
+
 /*
   Generated class for the ProfilePenyuluh page.
 
@@ -120,7 +118,7 @@ export class ProfilePenyuluhPage {
     });
   }
   editProfile(){
-    this.navCtrl.push(ProfileEditPage);
+    this.navCtrl.push('ProfileEditPage');
   }
 
   logout() {

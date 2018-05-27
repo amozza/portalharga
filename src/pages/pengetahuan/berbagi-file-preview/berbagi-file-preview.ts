@@ -14,7 +14,9 @@ import { File, FileEntry, IFile } from '@ionic-native/file';
  */
 
 
-@IonicPage()
+@IonicPage({
+  segment: 'berbagi-file-preview/:id'
+})
 @Component({
   selector: 'page-berbagi-file-preview',
   templateUrl: 'berbagi-file-preview.html',
@@ -38,7 +40,7 @@ export class BerbagiFilePreviewPage {
               public navCtrl: NavController, 
               public navParams: NavParams) {
     // get the params from the caller page
-    this.passedParam = navParams.data;
+    this.passedParam = navParams.data.id;
     console.log('lemparan datanya ', this.passedParam)
   }
 
@@ -91,7 +93,7 @@ export class BerbagiFilePreviewPage {
   }
   deleteFile(){
     let claims = JSON.stringify({
-      id: this.passedParam._id
+      id: this.materi._id
     })
 
     let loader = this.loadingCtrl.create({
@@ -114,7 +116,7 @@ export class BerbagiFilePreviewPage {
     )
   }
   getMateriById(){
-    let uri = this.userData.Base_URL_KMS+'api/materi/topik/'+this.passedParam._id;
+    let uri = this.userData.Base_URL_KMS+'api/materi/topik/'+this.passedParam;
     this.rest.get(uri, this.userData.token)
     .subscribe( res =>{
       console.log('berhasil get materi by id ', res)
@@ -152,12 +154,6 @@ export class BerbagiFilePreviewPage {
             this.navCtrl.push('BerbagiFileEditTambahPage', {page:"Edit", data: this.materi});
           }
         },{
-          text: 'Share',
-          icon: 'share',
-          handler: () => {
-            console.log('Share clicked');
-          }
-        },{
           text: 'Cancel',
           role: 'cancel',
           icon: 'close',
@@ -170,10 +166,14 @@ export class BerbagiFilePreviewPage {
     actionSheet.present();
   }    
   pushKomentarPage(){
-    this.navCtrl.push('KomentarPage', {type: 'materi', id: this.passedParam._id, typeComment: 'komentar'});
+    this.navCtrl.push('KomentarPage', {type: 'materi', id: this.materi._id, typeComment: 'komentar'});
   }  
 
-  share(file){
-    this.shared.ActionSheetShare.shareTo(file);
+  share(){ // share link
+    let link = this.userData.Base_URL_KMS+'api/materi/topik/'+this.passedParam;
+    this.shared.ActionSheetShare.shareTo(link, 'Share link to :');
   }
+  shareFile(file){
+    this.shared.ActionSheetShare.shareFile(file);
+  }  
 }

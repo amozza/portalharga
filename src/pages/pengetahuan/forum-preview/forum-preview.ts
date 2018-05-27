@@ -11,7 +11,9 @@ import { IonicPage, NavController, NavParams, ActionSheetController, LoadingCont
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+@IonicPage({
+  segment: 'forum-preview/:idPertanyaan'
+})
 @Component({
   selector: 'page-forum-preview',
   templateUrl: 'forum-preview.html',
@@ -65,6 +67,18 @@ export class ForumPreviewPage {
     })
   }  
 
+  getPertanyaan(){
+    let uri = this.userData.Base_URL_KMS+'api/diskusi/tanya/'+this.idPertanyaan;
+    this.rest.get(uri, this.userData.token)
+    .subscribe(
+      data =>{
+        this.pertanyaan = data;
+        console.log('berhasil get pertanyaaan ', this.pertanyaan)
+      }, err =>{
+        alert(JSON.stringify(err))
+      }
+    )
+  }  
 /**
  * page function
  */
@@ -93,12 +107,6 @@ export class ForumPreviewPage {
             this.pushForumTambahPage();
           }
         },{
-          text: 'Share',
-          icon: 'share',
-          handler: () => {
-            console.log('Share clicked');
-          }
-        },{
           text: 'Cancel',
           role: 'cancel',
           icon: 'close',
@@ -110,19 +118,11 @@ export class ForumPreviewPage {
     });
     actionSheet.present();
   }  
-
-  getPertanyaan(){
-    let uri = this.userData.Base_URL_KMS+'api/diskusi/tanya/'+this.idPertanyaan;
-    this.rest.get(uri, this.userData.token)
-    .subscribe(
-      data =>{
-        this.pertanyaan = data;
-        console.log('berhasil get pertanyaaan ', this.pertanyaan)
-      }, err =>{
-        alert(JSON.stringify(err))
-      }
-    )
+  share(){
+    let link = this.userData.Base_URL_KMS+'api/diskusi/tanya/'+this.idPertanyaan;
+    this.shared.ActionSheetShare.shareTo(link, "Share link to :")
   }
+
   pushKomentarPage(){
     this.navCtrl.push('KomentarPage', {type: 'diskusi', id: this.idPertanyaan, typeComment: 'komentar'});
   }

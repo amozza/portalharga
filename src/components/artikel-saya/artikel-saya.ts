@@ -70,48 +70,6 @@ export class ArtikelSayaComponent {
           console.log('user cancelled');
       })
   }  
-  presentActionSheet() {
-    let actionSheet = this.actionSheetCtrl.create({
-      buttons: [
-        {
-          text: 'Hapus',
-          role: 'destructive',          
-          icon: 'trash',
-          handler: () => {
-            this.shared.Alert.confirm().then((res) => {
-                console.log('confirmed');
-                console.log('minta di delete beneran')
-            }, err => {
-                console.log('user cancelled');
-            })            
-            console.log('Hapus clicked');
-          }
-        },{
-          text: 'Edit',
-          icon: 'create',
-          handler: () => {
-            // this.app.getRootNav().push('ArtikelEditTambahPage', {page:'Edit'})
-            console.log('Destructive clicked');
-            this.shared.Alert.alert('pesan');
-          }
-        },{
-          text: 'Share',
-          icon: 'share',
-          handler: () => {
-            console.log('Share clicked');
-          }
-        },{
-          text: 'Cancel',
-          role: 'cancel',
-          icon: 'close',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    actionSheet.present();
-  }      
   showConfirm(){
     let confirm = this.alertCtrl.create({
       title: 'Apakah anda yakin?',
@@ -135,6 +93,6 @@ export class ArtikelSayaComponent {
   } 
   pushArtikelPreviewPage(params){
     let objectArtikel = params;
-    this.app.getRootNav().push('ArtikelPreviewPage', objectArtikel)
+    this.app.getRootNav().push('ArtikelPreviewPage', {id:objectArtikel._id})
   }  
 }

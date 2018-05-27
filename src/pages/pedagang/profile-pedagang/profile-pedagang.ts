@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, App, PopoverController, ToastController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
-import { ProfileEditPage } from '../../profile-edit/profile-edit';
 import { PopoverPage } from '../../popover/popover';
 import { AuthHttp } from 'angular2-jwt';
-import { EditJualKomoditasPage } from '../../petani/edit-jual-komoditas/edit-jual-komoditas';
 /*
   Generated class for the ProfilePedagang page.
 
@@ -55,7 +53,7 @@ export class ProfilePedagangPage {
     });
   }
   editProfile(){
-    this.navCtrl.push(ProfileEditPage);
+    this.navCtrl.push('ProfileEditPage');
   }
   //Dagangan
   getJualan() {
@@ -72,7 +70,7 @@ export class ProfilePedagangPage {
     });
   }
   editJualan(dataDagangan){
-    this.navCtrl.push(EditJualKomoditasPage,dataDagangan);
+    this.navCtrl.push('EditJualKomoditasPage',dataDagangan);
   }
   hapusJualan(dataDagangan){
     let param = JSON.stringify({

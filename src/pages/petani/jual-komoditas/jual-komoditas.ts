@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
-import { TambahJualKomoditasPage } from '../tambah-jual-komoditas/tambah-jual-komoditas';
-import { EditJualKomoditasPage } from '../edit-jual-komoditas/edit-jual-komoditas';
 import { AuthHttp } from 'angular2-jwt';
 
 /*
@@ -56,10 +54,10 @@ export class JualKomoditasPage {
     });
   }
   tambahJualan(){
-  	this.navCtrl.push(TambahJualKomoditasPage);
+  	this.navCtrl.push('TambahJualKomoditasPage');
   }
   editJualan(dataDagangan){
-    this.navCtrl.push(EditJualKomoditasPage,dataDagangan);
+    this.navCtrl.push('EditJualKomoditasPage',dataDagangan);
   }
   hapusJualan(dataDagangan){
     let param = JSON.stringify({

@@ -13,7 +13,9 @@ import { IonicPage, NavController, NavParams, App, ActionSheetController, , Load
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+@IonicPage({
+  segment: 'artikel-preview/:id',
+})
 @Component({
   selector: 'page-artikel-preview',
   templateUrl: 'artikel-preview.html',
@@ -34,7 +36,7 @@ export class ArtikelPreviewPage {
               public app : App, private userData: UserData,
               public navCtrl: NavController, public navParams: NavParams) {
     // get the params from the caller page
-    this.passedParam = navParams.data;
+    this.passedParam = navParams.data.id;
     console.log('data lemparan', this.passedParam);
     //listening for update data
     this.event.subscribe('artikel:view:refresh', ()=>{
@@ -58,7 +60,7 @@ export class ArtikelPreviewPage {
  * Req api
  */
   getArtikelbyId(){
-    this.rest.get(this.userData.Base_URL_KMS + 'api/artikel/post/'+ this.passedParam._id, this.userData.token)
+    this.rest.get(this.userData.Base_URL_KMS + 'api/artikel/post/'+ this.passedParam, this.userData.token)
     .subscribe(response =>{
       console.log('responseny', response)
       this.artikel = response;
@@ -143,6 +145,10 @@ export class ArtikelPreviewPage {
       ]
     });
     actionSheet.present();
+  }
+  share(){
+    let link = this.userData.Base_URL_KMS + 'api/artikel/post/'+ this.passedParam
+    this.shared.ActionSheetShare.shareTo(link, "Share link to :")
   }
 
 }

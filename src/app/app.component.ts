@@ -5,11 +5,8 @@ import { Platform, Nav, App } from 'ionic-angular';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { TabsPage } from '../pages/petani/tabs-petani/tabs';
-import { TabsMasyarakatPage } from '../pages/masyarakat/tabs-masyarakat/tabs-masyarakat';
-import { TabsPedagangPage } from '../pages/pedagang/tabs-pedagang/tabs-pedagang';
-import { TabsPenyuluhPage } from '../pages/penyuluh/tabs-penyuluh/tabs-penyuluh';
+import { Deeplinks } from '@ionic-native/deeplinks';
+import { Keyboard } from '@ionic-native/keyboard';
 import { UserData } from '../providers/user-data';
 import { LoginPage } from '../pages/login/login';
 
@@ -63,6 +60,7 @@ export class MyApp {
     platform: Platform,
     statusBar: StatusBar, 
     splashScreen: SplashScreen,
+    public deeplinks: Deeplinks,
     public app: App,
     public userData: UserData) {
     platform.ready().then(() => {
@@ -77,6 +75,20 @@ export class MyApp {
         this.userData.getKomoditasFromServer();
         this.userData.getRole().then((value)=>{
         this.navChild.setRoot('PortalHargaPage')
+
+        // deeeplinking for link to page from external URI. put it here to make sure user has already login
+        this.deeplinks.routeWithNavController(this.navChild, {
+          ':3000/': 'PengetahuanPage',
+          ':3000/api/artikel/post/:id' :  'ArtikelPreviewPage',
+          ':3000/api/materi/topik/:id': 'BerbagiFilePreviewPage',
+          ':3000/api/diskusi/tanya/:idPertanyaan': 'ForumPreviewPage'
+        }).subscribe( match =>{
+          console.log('match bro')
+          // alert(JSON.stringify(match))
+        }, nomatch =>{
+          alert(JSON.stringify(nomatch));
+        })
+
         });
       } else {
         this.rootPage = LoginPage;
@@ -103,7 +115,6 @@ export class MyApp {
     }
     return;
   }
-
   logout() {
     this.userData.logout();
     this.app.getRootNav()[0].setRoot(LoginPage);

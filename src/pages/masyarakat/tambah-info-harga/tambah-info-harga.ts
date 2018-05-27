@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, IonicPage } from 'ionic-angular';
 import { Geolocation} from 'ionic-native';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
   Ionic pages and navigation.
 */
 declare var google: any;
+@IonicPage()
 @Component({
   selector: 'page-tambah-info-harga',
   templateUrl: 'tambah-info-harga.html'

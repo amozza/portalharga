@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, App, PopoverController, ToastController, ActionSheetController} from 'ionic-angular';
+import { NavController, AlertController, App, PopoverController, ToastController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
-import { ProfileEditPage } from '../../profile-edit/profile-edit';
-
 import { PopoverPage } from '../../popover/popover';
 import { AuthHttp } from 'angular2-jwt';
-import { EditOperasiPasarPage } from '../edit-operasi-pasar/edit-operasi-pasar';
-import { PendukungOperasiPasarPage } from '../pendukung-operasi-pasar/pendukung-operasi-pasar';
-import { TanggapanOperasiPasarPage } from "../tanggapan-operasi-pasar/tanggapan-operasi-pasar";
 
 /*
   Generated class for the ProfileMasyarakat page.
@@ -16,6 +11,7 @@ import { TanggapanOperasiPasarPage } from "../tanggapan-operasi-pasar/tanggapan-
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-profile-masyarakat',
   templateUrl: 'profile-masyarakat.html'
@@ -83,7 +79,7 @@ export class ProfileMasyarakatPage {
           text: 'Edit operasi pasar',
           role: 'editOperasiPasar',
           handler: () => {
-            this.navCtrl.push(EditOperasiPasarPage,data);
+            this.navCtrl.push('EditOperasiPasarPage',data);
           }
         },
         {
@@ -113,13 +109,13 @@ export class ProfileMasyarakatPage {
     });
   }
   editProfile(){
-    this.navCtrl.push(ProfileEditPage);
+    this.navCtrl.push('ProfileEditPage');
   }
   lihatPendukung(idOperasi){
-     this.navCtrl.push(PendukungOperasiPasarPage,idOperasi);
+     this.navCtrl.push('PendukungOperasiPasarPage',idOperasi);
   }
   lihatTanggapan(idOperasi){
-     this.navCtrl.push(TanggapanOperasiPasarPage,idOperasi);
+     this.navCtrl.push('TanggapanOperasiPasarPage',idOperasi);
   }
 
   logout() {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NavController, NavParams, ToastController, LoadingController, ActionSheetController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
 import {Camera} from 'ionic-native';
 import { AuthHttp } from 'angular2-jwt';
@@ -11,6 +11,7 @@ import { AuthHttp } from 'angular2-jwt';
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-profile-edit',
   templateUrl: 'profile-edit.html'

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController} from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, IonicPage } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
@@ -12,6 +12,7 @@ declare var google: any;
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-kirim-operasi-pasar',
   templateUrl: 'kirim-operasi-pasar.html'

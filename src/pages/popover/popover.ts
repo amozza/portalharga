@@ -3,9 +3,6 @@ import { Component } from '@angular/core';
 import { ViewController, NavController, App, ModalController } from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
 import { LoginPage } from '../login/login';
-import { GantiPasswordPage } from '../ganti-password/ganti-password';
-import { EditAlamatPage } from '../edit-alamat/edit-alamat';
-
 
 @Component({
   template: `
@@ -39,11 +36,11 @@ export class PopoverPage {
     this.viewCtrl.dismiss();
   }
   gantiPassword(){
-    this.navCtrl.push(GantiPasswordPage);
+    this.navCtrl.push('GantiPasswordPage');
     this.viewCtrl.dismiss();
   }
   ubahAlamat(){
-    this.navCtrl.push(EditAlamatPage);
+    this.navCtrl.push('EditAlamatPage');
     this.viewCtrl.dismiss();
   }
 

@@ -8,10 +8,13 @@
 
   <ion-navbar>
     <ion-title>Lihat Artikel</ion-title>
-    <ion-buttons *ngIf="userRole == 3" end>
-      <button ion-button icon-only (click)="presentActionSheet()">
-        <ion-icon name="more"></ion-icon>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="share()">
+        <ion-icon name="share-alt"></ion-icon>
       </button>
+      <button *ngIf="userRole == 3" ion-button icon-only (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </button>      
     </ion-buttons>    
   </ion-navbar>
 

@@ -17,15 +17,7 @@
 </ion-row>
 <!-- /end of template for artikel saya only -->
 
-<ion-card *ngFor="let item of data; let i = index">   
-    <!-- for artikel saya only -->
-    <ion-card-header *ngIf="passedData == 'saya' ">
-      <span style="float: right">
-        <ion-icon tappable (click)="presentActionSheet()" name="more"></ion-icon>
-      </span>
-    </ion-card-header>
-    <!-- end of aritikel saya only -->
-
+<ion-card *ngFor="let item of data; let i = index">
     <div (click)="pushArtikelPreviewPage(item)">
           
           <div>

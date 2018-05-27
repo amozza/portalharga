@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, App ,ToastController, ActionSheetController, PopoverController, LoadingController} from 'ionic-angular';
+import { NavController, AlertController, App, ToastController, ActionSheetController, PopoverController, LoadingController, IonicPage } from 'ionic-angular';
 import { UserData } from '../../../providers/user-data';
 import { LoginPage } from '../../login/login';
-import { ProfileEditPage } from '../../profile-edit/profile-edit';
 import { AuthHttp } from 'angular2-jwt';
-import { PendukungPage } from '../pendukung/pendukung';
 import { PopoverPage } from '../../popover/popover';
-import { EditAspirasiPage } from '../edit-aspirasi/edit-aspirasi';
-import { EditJualKomoditasPage } from '../edit-jual-komoditas/edit-jual-komoditas';
-import { TanggapanAspirasiPage } from "../tanggapan-aspirasi/tanggapan-aspirasi";
 
 
 /*
@@ -17,6 +12,9 @@ import { TanggapanAspirasiPage } from "../tanggapan-aspirasi/tanggapan-aspirasi"
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage({
+  segment: 'profile-petani'
+})
 @Component({
   selector: 'page-profile-petani',
   templateUrl: 'profile.html'
@@ -70,7 +68,7 @@ export class ProfilePetaniPage {
   }
 
   editProfile(){
-    this.nav.push(ProfileEditPage);
+    this.nav.push('ProfileEditPage');
   }
 
   logout() {
@@ -103,10 +101,10 @@ export class ProfilePetaniPage {
     });
   }
   lihatPendukung(idAspirasi) {
-     this.nav.push(PendukungPage,idAspirasi);
+     this.nav.push('PendukungPage',idAspirasi);
   }
   lihatTanggapan(aspirasi_id) {
-     this.nav.push(TanggapanAspirasiPage,aspirasi_id);
+     this.nav.push('TanggapanAspirasiPage',aspirasi_id);
   }
   hapusAspirasi(aspirasi_id){
     this.loading.present();
@@ -126,7 +124,7 @@ export class ProfilePetaniPage {
     });
   }
   editAspirasi(dataAspirasi){
-    this.nav.push(EditAspirasiPage,dataAspirasi);
+    this.nav.push('EditAspirasiPage',dataAspirasi);
   }
   presentActionSheetAspirasi(dataAspirasi) {
     let actionSheet = this.actionSheetCtrl.create({
@@ -167,7 +165,7 @@ export class ProfilePetaniPage {
     });
   }
   editJualan(dataDagangan){
-    this.nav.push(EditJualKomoditasPage,dataDagangan);
+    this.nav.push('EditJualKomoditasPage',dataDagangan);
   }
   hapusJualan(dataDagangan){
     let param = JSON.stringify({

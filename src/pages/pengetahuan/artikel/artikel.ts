@@ -1,7 +1,7 @@
 import { UserData } from './../../../providers/user-data';
 import { RestProvider } from './../../../providers/rest';
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content, Events, App } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, Events, App, Platform } from 'ionic-angular';
 
 
 /**
@@ -40,6 +40,7 @@ export class ArtikelPage {
 
   constructor(public navCtrl: NavController, 
               public app: App,
+              public platform: Platform,
               public event: Events,
               public userData: UserData,
               public rest: RestProvider,

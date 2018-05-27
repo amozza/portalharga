@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ActionSheetController, App } from 'ionic-angular';
+import { NavController, NavParams, ToastController, ActionSheetController, App, IonicPage } from 'ionic-angular';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
-import { KirimOperasiPasarPage } from '../kirim-operasi-pasar/kirim-operasi-pasar';
-import { EditOperasiPasarPage } from '../edit-operasi-pasar/edit-operasi-pasar';
-import { PendukungOperasiPasarPage } from '../pendukung-operasi-pasar/pendukung-operasi-pasar';
-import { TanggapanOperasiPasarPage } from "../tanggapan-operasi-pasar/tanggapan-operasi-pasar";
 /*
   Generated class for the OperasiPasar page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-operasi-pasar',
   templateUrl: 'operasi-pasar.html'
@@ -52,10 +49,10 @@ export class OperasiPasarPage {
       });
   }
   lihatPendukung(idOperasi){
-     this.navCtrl.push(PendukungOperasiPasarPage,idOperasi);
+     this.navCtrl.push('PendukungOperasiPasarPage',idOperasi);
   }
   lihatTanggapan(idOperasi){
-     this.navCtrl.push(TanggapanOperasiPasarPage,idOperasi);
+     this.navCtrl.push('TanggapanOperasiPasarPage',idOperasi);
   }
   dukungOperasi(idOperasi){
     let param = JSON.stringify({
@@ -111,7 +108,7 @@ export class OperasiPasarPage {
           text: 'Edit operasi pasar',
           role: 'editOperasiPasar',
           handler: () => {
-            this.navCtrl.push(EditOperasiPasarPage,data);
+            this.navCtrl.push('EditOperasiPasarPage',data);
           }
         },
         {
@@ -140,6 +137,6 @@ export class OperasiPasarPage {
   }
 
   kirimOperasiPasar() {
-    this.navCtrl.push(KirimOperasiPasarPage);
+    this.navCtrl.push('KirimOperasiPasarPage');
   }
 }

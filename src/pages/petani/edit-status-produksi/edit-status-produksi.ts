@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, IonicPage } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { AuthHttp } from 'angular2-jwt';
 import { UserData } from '../../../providers/user-data';
@@ -13,6 +13,7 @@ import 'moment/locale/pt-br';
   Ionic pages and navigation.
 */
 declare var google: any;
+@IonicPage()
 @Component({
   selector: 'page-edit-status-produksi',
   templateUrl: 'edit-status-produksi.html'
