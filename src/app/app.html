@@ -21,7 +21,10 @@
       </ion-list-header>
       <button ion-item menuClose *ngFor="let item of menuAccount" (click)= "openPage(item)">
           <ion-icon item-start name="{{item.icon}}" [color]="isActive(item)"></ion-icon>{{ item.name }}
-      </button>                   
+      </button>
+      <button ion-item menuClose (click)= "logout()">
+          <ion-icon item-start name="log-out"></ion-icon>Keluar
+      </button>        
     </ion-list>
   </ion-content>
 </ion-menu>

@@ -63,7 +63,7 @@ export class ForumRoomPage {
         this.pertanyaans = data;
         console.log('berhasil get pertanyaans ', this.pertanyaans);
       }, err =>{
-        alert(JSON.stringify(err));
+        this.rest.showError(err)
       }
     )
   }

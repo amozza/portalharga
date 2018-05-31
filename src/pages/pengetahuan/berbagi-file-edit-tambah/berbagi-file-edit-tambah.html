@@ -49,10 +49,14 @@
       <ion-label color="primary" stacked>Judul</ion-label>    
       <ion-input formControlName="judul" type="text" placeholder="Judul File"></ion-input>
     </ion-item>
+    <p ion-text *ngIf="form.controls.judul._touched && !form.controls.judul.valid" color="danger">Judul harus diisi</p>   
+
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Deskripsi</ion-label>    
       <ion-textarea formControlName="deskripsi" placeholder="Berikan deskripsi file anda"></ion-textarea>
     </ion-item> 
+    <p ion-text *ngIf="form.controls.deskripsi._touched && !form.controls.deskripsi.valid" color="danger">Deskripsi harus diisi</p>         
+
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Kategori</ion-label>    
         <ion-select formControlName="subKategori" [selectOptions]="{mode: 'ios'}" placeholder="Pilih kategori">
@@ -64,6 +68,9 @@
           </ng-container>
         </ion-select>
     </ion-item>     
+    <p ion-text *ngIf="form.controls.subKategori._touched && !form.controls.subKategori.valid" color="danger">Kategori harus dipilih</p>         
+
+
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Status</ion-label>    
         <ion-select formControlName="status" [selectOptions]="{mode: 'ios'}">

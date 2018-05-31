@@ -15,7 +15,9 @@ import { Camera } from 'ionic-native';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+@IonicPage({
+  defaultHistory: ['PengetahuanPage']
+})
 @Component({
   selector: 'page-artikel-edit-tambah',
   templateUrl: 'artikel-edit-tambah.html',
@@ -77,7 +79,7 @@ export class ArtikelEditTambahPage {
     this.getCategory();
   }
   submit(){
-    console.log('submitted form value ', this.form.value);
+    console.log('submitted form value ', this.form);
     let claims = {
       meta: {
         thumbnail: this.form.get('gambarSampul').value
@@ -95,10 +97,12 @@ export class ArtikelEditTambahPage {
     }
     console.log('claims', claims)
 
+    if(this.form.valid){
     if(this.pageType == 'Tambah')
       this.submitPost(claims);
     else
       this.submitEdit(claims);
+    }
   }  
 /**
  * Tambah
@@ -239,15 +243,29 @@ export class ArtikelEditTambahPage {
       "token": this.userData.token
     }
     
-    this.rest.upload.fileUpload(this.userData.Base_URL_KMS+'api/lampiran/file/upload', imageUri, params)
+    this.shared.readFile.getMetaFile(imageUri)
     .then(JSON.parse)
-    .then(res=>{
-      this.shared.toast.showToast('Unggah gambar berhasil');
-      console.log('nama balikan file upload ',res.data.nama.sistem)
-      //view to picture;
-      this.picture=this.userData.Base_URL_KMS+'api/lampiran/file/'+res.data.nama.sistem;
-      this.form.get('gambarSampul').setValue(this.picture);
+    .then(info =>{
+      alert(JSON.stringify(info))
+      this.shared.resizeImage(imageUri, 50)
+      .then(newUri =>{
+        this.shared.readFile.getMetaFile(newUri)
+        .then(JSON.parse)
+        .then(info2 =>{
+          alert(JSON.stringify(info2))
+        })
+      })
     })
+
+    // this.rest.upload.fileUpload(this.userData.Base_URL_KMS+'api/lampiran/file/upload', imageUri, params)
+    // .then(JSON.parse)
+    // .then(res=>{
+    //   this.shared.toast.showToast('Unggah gambar berhasil');
+    //   console.log('nama balikan file upload ',res.data.nama.sistem)
+    //   //view to picture;
+    //   this.picture=this.userData.Base_URL_KMS+'api/lampiran/file/'+res.data.nama.sistem;
+    //   this.form.get('gambarSampul').setValue(this.picture);
+    // })
   }
 
   getCategory(){

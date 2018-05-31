@@ -1,4 +1,3 @@
-import { RestProvider } from './../providers/rest';
 import { SharedProvider } from './../providers/shared';
 import { Component,ViewChild } from '@angular/core';
 import { Platform, Nav, App } from 'ionic-angular';
@@ -8,7 +7,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { Keyboard } from '@ionic-native/keyboard';
 import { UserData } from '../providers/user-data';
-import { LoginPage } from '../pages/login/login';
 
 @Component({
   templateUrl: 'app.html',
@@ -47,13 +45,7 @@ export class MyApp {
       page: 'PengumumanPage',
       icon: 'information-circle',      
       params: { type: 'all', name: 'Pengumuman'}
-    },    
-    {
-      name: 'Keluar',
-      page: LoginPage,
-      icon: 'log-out',      
-      params: { type: 'all', name: 'Keluar'}
-    }
+    },
   ];
   
   constructor(
@@ -75,23 +67,10 @@ export class MyApp {
         this.userData.getKomoditasFromServer();
         this.userData.getRole().then((value)=>{
         this.navChild.setRoot('PortalHargaPage')
-
-        // deeeplinking for link to page from external URI. put it here to make sure user has already login
-        this.deeplinks.routeWithNavController(this.navChild, {
-          ':3000/': 'PengetahuanPage',
-          ':3000/api/artikel/post/:id' :  'ArtikelPreviewPage',
-          ':3000/api/materi/topik/:id': 'BerbagiFilePreviewPage',
-          ':3000/api/diskusi/tanya/:idPertanyaan': 'ForumPreviewPage'
-        }).subscribe( match =>{
-          console.log('match bro')
-          // alert(JSON.stringify(match))
-        }, nomatch =>{
-          alert(JSON.stringify(nomatch));
-        })
-
+        this.deeplink();
         });
       } else {
-        this.rootPage = LoginPage;
+        this.rootPage = 'LoginPage';
       }
     });
   }
@@ -117,6 +96,20 @@ export class MyApp {
   }
   logout() {
     this.userData.logout();
-    this.app.getRootNav()[0].setRoot(LoginPage);
+    this.app.getRootNav().setRoot('LoginPage');
+  }
+  deeplink(){
+    // deeeplinking for link to page from external URI. put it here to make sure user has already login
+    this.deeplinks.routeWithNavController(this.navChild, {
+      ':3000/': 'PengetahuanPage',
+      ':3000/api/artikel/post/:id' :  'ArtikelPreviewPage',
+      ':3000/api/materi/topik/:id': 'BerbagiFilePreviewPage',
+      ':3000/api/diskusi/tanya/:idPertanyaan': 'ForumPreviewPage'
+    }).subscribe( match =>{
+      console.log('match bro')
+      // alert(JSON.stringify(match))
+    }, nomatch =>{
+      alert(JSON.stringify(nomatch));
+    })
   }
 }

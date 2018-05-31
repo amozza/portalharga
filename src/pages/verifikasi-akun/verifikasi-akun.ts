@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, App, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, App, NavParams, LoadingController, ToastController, IonicPage } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
 import { UserData } from '../../providers/user-data';
-import { LoginPage } from "../login/login";
+
 /*
   Generated class for the VerifikasiAkun page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
+@IonicPage()
 @Component({
   selector: 'page-verifikasi-akun',
   templateUrl: 'verifikasi-akun.html'
@@ -32,7 +33,7 @@ export class VerifikasiAkunPage {
       this.email = data.email;
     }
   login(){
-    this.app.getRootNav().setRoot(LoginPage);
+    this.app.getRootNav().setRoot('LoginPage');
   }
   reSendVerification(){
     let loading = this.loadCtrl.create({

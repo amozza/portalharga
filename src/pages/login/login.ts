@@ -1,18 +1,11 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { NavController,ToastController,LoadingController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController, IonicPage } from 'ionic-angular';
 import { Http,Headers,RequestOptions } from '@angular/http';
-
-import { SignupPilihanPage } from '../signup-pilihan/signup-pilihan';
-import { TabsPage } from '../petani/tabs-petani/tabs';
-import { TabsMasyarakatPage } from '../masyarakat/tabs-masyarakat/tabs-masyarakat';
-import { TabsPedagangPage } from '../pedagang/tabs-pedagang/tabs-pedagang';
-// import { TabsPenyuluhPage } from '../penyuluh/tabs-penyuluh/tabs-penyuluh';
 import { UserData } from '../../providers/user-data';
-import { ForgetPasswordPage } from '../forget-password/forget-password';
-import { VerifikasiAkunPage } from "../verifikasi-akun/verifikasi-akun";
 
+@IonicPage()
 @Component({
   selector: 'page-user',
   templateUrl: 'login.html'
@@ -20,8 +13,7 @@ import { VerifikasiAkunPage } from "../verifikasi-akun/verifikasi-akun";
 export class LoginPage {
   login: {username?: string, password?: string} = {};
   submitted = false;
-  headers = new Headers({ 
-                'Content-Type': 'application/json'});
+  headers = new Headers({ 'Content-Type': 'application/json'});
   options = new RequestOptions({ headers: this.headers});
 
   constructor(
@@ -54,40 +46,40 @@ export class LoginPage {
             // this.navCtrl.setRoot('PengetahuanPage');
       // end of data dummy
 
-          this.http.post(this.userData.BASE_URL+"user/auth",input,this.options).subscribe(data => {
-           let response = data.json();
-           loading.dismiss();
-           if(response.status == 200) {
-            if(response.data.isValidate){
-              this.userData.login(response.data);
-              this.userData.setToken(response.token);
-              setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
-              this.navCtrl.setRoot('PortalHargaPage');
+      this.http.post(this.userData.BASE_URL+"user/auth",input,this.options).subscribe(data => {
+        let response = data.json();
+        loading.dismiss();
+        if(response.status == 200) {
+        if(response.data.isValidate){
+          this.userData.login(response.data);
+          this.userData.setToken(response.token);
+          setTimeout(() => { this.userData.getKomoditasFromServer(); }, 100);
+          this.navCtrl.setRoot('PortalHargaPage');
 
-            } else{
-              this.navCtrl.setRoot(VerifikasiAkunPage,response.data);
-            }
-           } else {
-             this.showAlert(response.message);
-           }
-        }, err => { 
-          console.log('errornya',err)
-            loading.dismiss();
-            let data = err.json();
-            if(err.status == 400){
-              this.showAlert(data.message);
-            } else{
-              this.showError(err);
-            }
-        });
+        } else{
+          this.navCtrl.setRoot('VerifikasiAkunPage',response.data);
+        }
+        } else {
+          this.showAlert(response.message);
+        }
+      }, err => { 
+        console.log('errornya',err)
+          loading.dismiss();
+          let data = err.json();
+          if(err.status == 400){
+            this.showAlert(data.message);
+          } else{
+            this.showError(err);
+          }
+      });
       
     }
   }
   onSignup() {
-    this.navCtrl.push(SignupPilihanPage);
+    this.navCtrl.push('SignupPilihanPage');
   }
   onForgotPassword(){
-    this.navCtrl.push(ForgetPasswordPage);
+    this.navCtrl.push('ForgetPasswordPage');
   }
   showError(err: any){  
     err.status==0? 

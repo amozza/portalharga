@@ -6,6 +6,7 @@ import { File, FileEntry, IFile } from '@ionic-native/file';
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { ImageResizer } from '@ionic-native/image-resizer';
 
 
 
@@ -25,6 +26,7 @@ export class SharedProvider {
               private loadingCtrl: LoadingController,
               private transfer: Transfer,
               private socialSharing: SocialSharing,
+              private imageResizer: ImageResizer,
               private myModal: ModalController,
               private fileChooser: FileChooser,
               private file: File) { }
@@ -75,9 +77,7 @@ export class SharedProvider {
         Camera.getPicture({
             destinationType: Camera.DestinationType.FILE_URI,
             sourceType: option,
-            targetWidth: 600,
-            targetHeight: 600,
-            allowEdit: true
+            quality: 100
         }).then((imageData) => {
             resolve(imageData)
           })
@@ -319,5 +319,17 @@ export class SharedProvider {
         })
     }
   }    
+  public resizeImage(imageUri, quality) {
+    return new Promise ((resolve, reject)=>{
+      this.imageResizer.resize({uri: imageUri, quality: quality, width: 600, height: 600})
+      .then(newUri =>{
+        // alert(JSON.stringify(newUri))
+        resolve(newUri)
+      })
+      .catch(err =>{
+        alert(JSON.stringify(err))
+      })
+    })
+  }
 
 }

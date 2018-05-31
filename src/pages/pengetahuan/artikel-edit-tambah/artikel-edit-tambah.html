@@ -25,7 +25,7 @@
       <ion-label color="primary" stacked>Judul</ion-label>    
       <ion-input type="text" formControlName="judul" placeholder="Judul Artikel"></ion-input>
     </ion-item>
-
+       <p ion-text *ngIf="form.controls.judul._touched && !form.controls.judul.valid" color="danger">Judul harus diisi</p>   
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Gambar sampul</ion-label>    
     </ion-item>
@@ -41,7 +41,7 @@
 
     <!-- preview gambar sampul -->
     <div class="image-block" *ngIf=picture>
-      <img class="image-cover" [src]="picture" height="250">
+      <img class="image-cover" [src]="picture" height="250" >
     </div>
 
     <ion-item no-padding no-lines>
@@ -61,7 +61,8 @@
             </ng-container>
           </ng-container>
         </ion-select>
-    </ion-item>     
+    </ion-item> 
+      <p ion-text *ngIf="form.controls.kategori._touched && !form.controls.kategori.valid" color="danger">Kategori harus dipilih</p>          
     <!-- tag input -->
     <ion-item id='tagFocus' no-padding no-lines>
       <ion-label color="primary" stacked>Tag</ion-label>    

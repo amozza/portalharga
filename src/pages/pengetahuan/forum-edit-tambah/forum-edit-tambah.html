@@ -23,6 +23,8 @@
       <ion-label color="primary" stacked>Judul</ion-label>    
       <ion-input type="text" formControlName="judul" placeholder="Judul Forum"></ion-input>
     </ion-item>
+    <p ion-text *ngIf="form.controls.judul._touched && !form.controls.judul.valid" color="danger">Judul harus diisi</p>         
+
     
     <ion-item no-padding no-lines>
       <ion-label color="primary" stacked>Status</ion-label>    

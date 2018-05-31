@@ -2,7 +2,7 @@ import { SharedProvider } from './../../../providers/shared';
 import { UserData } from './../../../providers/user-data';
 import { RestProvider } from './../../../providers/rest';
 import { Component, LOCALE_ID } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the ForumSayaPage page.
@@ -42,7 +42,7 @@ export class ForumSayaPage {
         this.forumSaya = data;
         this.forumSayaTemp = data;
       }, err =>{
-        alert(JSON.stringify(err));
+        this.rest.showError(err)
       }
     )
   }

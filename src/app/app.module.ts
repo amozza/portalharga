@@ -14,17 +14,13 @@ import { MyApp } from './app.component';
 
 //General
 import { PopoverPage } from '../pages/popover/popover';
-import { SignupPage } from '../pages/signup/signup';
-import { SignupPilihanPage } from '../pages/signup-pilihan/signup-pilihan';
-import { LoginPage } from '../pages/login/login';
-import { ForgetPasswordPage } from '../pages/forget-password/forget-password';
-import { VerifikasiAkunPage } from "../pages/verifikasi-akun/verifikasi-akun";
 
 //providers
 import { UserData } from '../providers/user-data';
 import { RestProvider } from './../providers/rest';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Deeplinks } from '@ionic-native/deeplinks';
+import { ImageResizer } from '@ionic-native/image-resizer';
 
 import { Http } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -48,12 +44,7 @@ export function getAuthHttp(http, Storage) {
 @NgModule({
   declarations: [
     MyApp,
-    SignupPage,
-    SignupPilihanPage,
-    LoginPage,
     PopoverPage,
-    ForgetPasswordPage,
-    VerifikasiAkunPage,
   ],
   imports: [
     BrowserModule,
@@ -63,22 +54,17 @@ export function getAuthHttp(http, Storage) {
     IonicStorageModule.forRoot(),
     ComponentsModule,
     FormsModule
-
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    SignupPage,
-    SignupPilihanPage,
-    LoginPage,
     PopoverPage,
-    ForgetPasswordPage,
-    VerifikasiAkunPage,
   ],
   providers: [
   StatusBar,
   SplashScreen,
   Deeplinks,  
+  ImageResizer,
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   UserData,
   RestProvider,
